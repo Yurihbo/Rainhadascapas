@@ -197,7 +197,7 @@ export default function Home() {
   const [sellerList, setSellerList] = useState<Seller[]>(sellers); const [catalogStores, setCatalogStores] = useState<CatalogStore[]>(catalogSeed);
   const [selectedSeller, setSelectedSeller] = useState<Seller | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [profileName, setProfileName] = useState("Yuri Oliveira");
+  const [profileName, setProfileName] = useState("Yuri");
   const [profilePhoto, setProfilePhoto] = useState<string | undefined>();
   const [darkMode, setDarkMode] = useState(false);
   const navigate = (id: string) => { setSelectedSeller(null); setActive(id); };
