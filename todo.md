@@ -2,6 +2,15 @@
 
 ## Nova rodada
 
+- [x] Validar e ajustar o shell em celular e tablet.
+- [x] Melhorar navegação lateral e cabeçalho em telas menores.
+- [x] Reorganizar cards, gráficos e métricas para mobile/tablet.
+- [x] Tornar tabelas, formulários e catálogo confortáveis em telas estreitas.
+- [x] Validar PC, tablet e celular sem alterar o layout desktop.
+
+
+## Nova rodada
+
 - [x] Criar popup discreto para adicionar categoria.
 - [x] Criar popup discreto para adicionar subcategoria vinculada à categoria.
 - [x] Adicionar botão para imprimir/salvar lista compacta da loja selecionada.

@@ -77,3 +77,78 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
 
 /* Editor visual: títulos de páginas e painéis usam dourado no modo escuro. */
 .theme-dark .page-title-row h1, .theme-dark .detail-header h1, .theme-dark .panel h2, .theme-dark .panel h3 { color: #e8c76a; }
+
+/* Responsive pass: preserve the Black Label ERP desktop composition while making touch layouts fluid. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .sidebar { width: 220px; flex-basis: 220px; }
+  .content-area { padding-left: 26px; padding-right: 26px; }
+  .topbar { padding-left: 26px; padding-right: 26px; }
+  .hero-panel { min-height: 270px; }
+  .hero-panel h1 { font-size: 45px; max-width: 600px; }
+  .settings-grid { grid-template-columns: 1fr; }
+  .module-layout { grid-template-columns: 1fr 1fr; }
+  .weeks-layout { grid-template-columns: 1fr; }
+  .subcategories-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .app-shell { min-width: 0; overflow-x: hidden; }
+  .main-area { width: 100%; min-width: 0; }
+  .sidebar-open::after { content: ""; position: fixed; inset: 0; z-index: 9; background: #0b0b0b99; pointer-events: none; }
+  .sidebar { box-shadow: 18px 0 45px #0008; }
+  .topbar-left, .topbar-right { min-width: 0; }
+  .breadcrumb { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .breadcrumb strong { overflow: hidden; text-overflow: ellipsis; }
+  .content-area { min-width: 0; }
+  .hero-panel { min-height: 300px; background-position: 63% center !important; }
+  .hero-copy { max-width: 100%; }
+  .hero-panel h1 { max-width: 100%; }
+  .metrics-grid, .payment-summary { gap: 9px; }
+  .metric-card { min-width: 0; }
+  .metric-value { font-size: 21px; }
+  .chart-wrap { height: 160px; }
+  .weekly-panel, .finance-panel, .seller-panel, .catalog-panel, .weeks-list, .week-report, .settings-card { min-width: 0; }
+  .table-panel { max-width: 100%; }
+  .table-scroll { -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .detail-actions { flex-wrap: wrap; }
+  .detail-actions button { min-width: 0; }
+  .report-type { grid-template-columns: 1fr 1fr; row-gap: 8px; }
+  .report-type strong { font-size: 13px; }
+  .report-actions { justify-content: stretch; }
+  .report-actions button { flex: 1 1 140px; justify-content: center; }
+  .catalog-head, .catalog-category-head, .subcategory-head { align-items: flex-start; flex-direction: column; }
+  .catalog-head { gap: 8px; }
+  .catalog-actions { width: 100%; flex-wrap: wrap; }
+  .catalog-actions .small-button { margin-left: auto; }
+  .subcategories-grid { grid-template-columns: 1fr; }
+  .subcategory-card { min-width: 0; }
+  .store-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 3px; }
+  .store-tabs button { flex: 0 0 auto; }
+  .modal-card { max-height: calc(100dvh - 32px); overflow-y: auto; }
+  .form-row { grid-template-columns: 1fr; }
+  .modal-actions { flex-wrap: wrap; }
+  .modal-actions button { flex: 1 1 120px; justify-content: center; }
+  .page-title-row > .gold-button { width: 100%; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .topbar { padding: 0 13px; }
+  .content-area { padding: 18px 12px; }
+  .hero-panel { min-height: 275px; padding: 22px 17px; }
+  .hero-panel h1 { font-size: 32px; }
+  .hero-panel p { max-width: 290px; font-size: 11px; }
+  .metrics-grid, .payment-summary { gap: 8px; }
+  .metric-card { padding: 14px; }
+  .metric-value { font-size: 20px; }
+  .metric-detail { white-space: normal; }
+  .chart-wrap { height: 145px; gap: 7px; }
+  .chart-y { font-size: 8px; }
+  .chart-x { font-size: 8px; }
+  .page-title-row h1, .detail-header h1 { font-size: 32px; }
+  .panel-header { gap: 9px; }
+  .panel-header h2 { font-size: 16px; }
+  .catalog-category { padding: 13px; }
+  .catalog-actions .small-button { margin-left: 0; }
+  .week-card { padding: 12px 9px; }
+  .week-report, .report-preview { padding: 19px 15px; }
+  .report-header h2 { font-size: 24px; }
+  .app-footer { font-size: 8px; }
+}

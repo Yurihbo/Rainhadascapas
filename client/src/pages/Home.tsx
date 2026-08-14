@@ -196,7 +196,7 @@ export default function Home() {
   const [active, setActive] = useState("dashboard");
   const [sellerList, setSellerList] = useState<Seller[]>(sellers); const [catalogStores, setCatalogStores] = useState<CatalogStore[]>(catalogSeed);
   const [selectedSeller, setSelectedSeller] = useState<Seller | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => typeof window === "undefined" || window.innerWidth > 760);
   const [profileName, setProfileName] = useState("Yuri");
   const [profilePhoto, setProfilePhoto] = useState<string | undefined>();
   const [darkMode, setDarkMode] = useState(false);
