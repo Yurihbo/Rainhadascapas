@@ -2,6 +2,17 @@
 
 ## Nova rodada
 
+- [x] Habilitar backend, banco e autenticação do projeto.
+- [x] Integrar login OAuth com conta Google pelo portal de autenticação.
+- [x] Definir a conta proprietária como administradora geral.
+- [x] Proteger o dashboard para usuários autenticados.
+- [x] Criar aba Usuários visível para administradores.
+- [x] Permitir cargos, permissões, ativação e remoção de usuários.
+- [x] Validar login, logout e controle de acesso.
+
+
+## Nova rodada
+
 - [x] Usar LogoTemaescuro.png como nova logo do site.
 - [x] Usar a mesma marca como favicon.
 - [x] Ajustar o enquadramento da logo no desktop e no mobile.
@@ -97,5 +108,12 @@
 - [x] Persistir revendedores adicionados no estado da aplicação e atualizar contagens/listas.
 - [x] Implementar cadastro de item dentro da página individual do revendedor.
 - [x] Recalcular valor total do revendedor após adicionar item.
-- [ ] Aguardar arquivo do usuário para adaptar ícone e favicon.
+- [x] Aguardar arquivo do usuário para adaptar ícone e favicon.
 - [x] Validar fluxos desktop e mobile e gerar novo checkpoint.
+
+## Fechamento da autenticação
+
+- [x] Adicionar status ativo/inativo no schema, banco, procedures e UI.
+- [x] Impedir acesso de contas desativadas aos procedimentos protegidos.
+- [x] Cobrir bloqueios administrativos com testes Vitest.
+- [ ] Confirmar o primeiro login real com a conta Google proprietária no ambiente publicado.
