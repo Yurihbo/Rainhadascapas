@@ -2,6 +2,15 @@
 
 ## Nova rodada
 
+- [x] Manter apenas João Carlos como exemplo em todas as abas.
+- [x] Remover os demais revendedores e exemplos demonstrativos.
+- [x] Tornar o status de pagamento editável e persistido no estado da interface.
+- [x] Exibir data e horário atuais automaticamente.
+- [x] Numerar a semana administrativa pelo mês, como MÊS 08 · SEMANA 02.
+
+
+## Nova rodada
+
 - [x] Adicionar exclusão de revendedor com confirmação.
 - [x] Adicionar exclusão de item com confirmação.
 - [x] Criar relatório semanal simples ou detalhado.
