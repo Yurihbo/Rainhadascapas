@@ -2,6 +2,14 @@
 
 ## Nova rodada
 
+- [x] Fechar a sidebar mobile ao clicar fora dela.
+- [x] Fechar a sidebar mobile ao arrastar para a esquerda.
+- [x] Manter o fechamento pelo botão do menu.
+- [x] Validar o gesto e o clique externo em celular.
+
+
+## Nova rodada
+
 - [x] Validar e ajustar o shell em celular e tablet.
 - [x] Melhorar navegação lateral e cabeçalho em telas menores.
 - [x] Reorganizar cards, gráficos e métricas para mobile/tablet.

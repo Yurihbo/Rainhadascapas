@@ -152,3 +152,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
   .report-header h2 { font-size: 24px; }
   .app-footer { font-size: 8px; }
 }
+
+.mobile-overlay { display: none; }
+@media (max-width: 760px) {
+  .mobile-overlay { display: block; position: fixed; inset: 0; z-index: 9; width: 100%; height: 100%; padding: 0; border: 0; background: #0b0b0b99; cursor: pointer; }
+  .sidebar { touch-action: pan-y; }
+}
