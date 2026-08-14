@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from "@shared/const";
 import { ENV } from "./_core/env";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
-import { deleteUserById, listUserActivities, listUsers, logUserActivity, updateUserActive, updateUserRole } from "./db";
+import { deleteUserById, listUserActivities, listUsers, logUserActivity, updateUserActive, updateUserProfile, updateUserRole } from "./db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -17,6 +17,14 @@ export const appRouter = router({
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return { success: true } as const;
+    }),
+  }),
+
+  profile: router({
+    update: protectedProcedure.input(z.object({ name: z.string().trim().min(1).max(120), profilePhoto: z.string().max(2_000_000).nullable().optional() })).mutation(async ({ ctx, input }) => {
+      const user = await updateUserProfile(ctx.user.id, input);
+      await logUserActivity({ userId: ctx.user.id, action: "Perfil atualizado", description: "Nome ou foto de perfil atualizados" });
+      return user;
     }),
   }),
 

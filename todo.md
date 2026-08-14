@@ -132,3 +132,18 @@
 
 - [x] Adicionar atalho Meu perfil ao menu da conta junto com Sair da conta.
 - [x] Registrar criação e remoção de revendedores, criação e remoção de itens e alterações de pagamentos.
+
+## Perfil editável e PWA
+
+- [x] Permitir editar nome diretamente em Meu perfil.
+- [x] Permitir selecionar e atualizar foto diretamente em Meu perfil.
+- [x] Persistir alterações de perfil na conta autenticada.
+- [x] Criar manifesto PWA com nome, cores, ícones e modo standalone.
+- [x] Adicionar service worker e registro no frontend.
+- [x] Validar instalação e funcionamento responsivo do PWA.
+
+## Validação final do perfil e PWA
+
+- [x] Hidratar nome e foto persistidos na sessão autenticada.
+- [x] Exibir botão Instalar quando o navegador oferecer instalação PWA.
+- [x] Confirmar manifesto, service worker e layout mobile do aplicativo.

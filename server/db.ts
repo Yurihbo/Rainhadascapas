@@ -111,6 +111,14 @@ export async function updateUserActive(id: number, active: boolean) {
   return result[0];
 }
 
+export async function updateUserProfile(id: number, profile: { name?: string; profilePhoto?: string | null }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(users).set(profile).where(eq(users.id, id));
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result[0];
+}
+
 export async function logUserActivity(activity: InsertUserActivity): Promise<void> {
   const db = await getDb();
   if (!db) return;
