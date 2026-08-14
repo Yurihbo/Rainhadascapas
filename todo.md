@@ -185,3 +185,11 @@
 - [x] Validar o fluxo ponta a ponta sem inserir dados artificiais no banco.
 - [x] Corrigir a reidratação canônica para também tratar estado vazio e seleção removida.
 - [x] Validar o fluxo offline, sincronização e leitura reconciliada com teste de integração controlado.
+
+## GitHub e publicação
+
+- [ ] Auditar o repositório Yurihbo/Rainhadascapas e o estado local.
+- [ ] Remover menções de IA do código e da documentação sem quebrar funcionalidades.
+- [ ] Validar typecheck, testes e build após a limpeza.
+- [ ] Enviar o código completo ao repositório GitHub.
+- [ ] Orientar a publicação compatível, deixando claro que GitHub Pages não executa o backend full-stack.
