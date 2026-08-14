@@ -1,5 +1,6 @@
-const CACHE_NAME = "rainha-das-capas-v1";
-const APP_SHELL = ["/", "/manifest.json"];
+const BASE_PATH = new URL(".", self.location).pathname;
+const CACHE_NAME = "rainha-das-capas-v2";
+const APP_SHELL = [BASE_PATH, `${BASE_PATH}manifest.json`];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
@@ -7,7 +8,9 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))).then(() => self.clients.claim()),
+  );
 });
 
 self.addEventListener("fetch", (event) => {
@@ -20,7 +23,7 @@ self.addEventListener("fetch", (event) => {
         caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         return response;
       })
-      .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
+      .catch(() => caches.match(request).then((cached) => cached || caches.match(BASE_PATH)))
   );
 });
 

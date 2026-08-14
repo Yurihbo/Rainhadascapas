@@ -3,18 +3,11 @@
   "short_name": "Rainha das Capas",
   "description": "Painel comercial da Rainha das Capas para revendedores, pagamentos e mercadorias.",
   "lang": "pt-BR",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0d0d0d",
   "theme_color": "#0d0d0d",
   "orientation": "any",
-  "icons": [
-    {
-      "src": "/manus-storage/LogoTemaescuro_8c9fab9b.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "icons": []
 }

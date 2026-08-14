@@ -245,16 +245,21 @@
 
 ## Sincronização GitHub
 
-- [ ] Auditar o repositório `Yurihbo/Rainhadascapas` e a branch principal.
-- [ ] Confirmar que segredos e arquivos `.env` não serão enviados.
-- [ ] Enviar o projeto completo e as alterações atuais ao GitHub.
-- [ ] Confirmar o commit remoto e restabelecer a conexão do projeto.
+- [x] Auditar o repositório `Yurihbo/Rainhadascapas` e a branch principal.
+- [x] Confirmar que segredos e arquivos `.env` não serão enviados.
+- [x] Enviar o projeto completo e as alterações atuais ao GitHub.
+- [x] Confirmar o commit remoto no GitHub.
+- [x] Confirmar que o alvo correto é `Yurihbo/Rainhadascapas`.
+- [ ] Reautorizar a conexão do projeto com o GitHub em Connectors apontando para `Yurihbo/Rainhadascapas`.
+- [ ] Repetir uma operação dependente para confirmar a reconexão do projeto.
 
 ## Firebase compartilhado
 
-- [ ] Configurar o projeto Firebase `rainhadascapas-5a49a` via variáveis públicas do frontend.
-- [ ] Habilitar e integrar autenticação anônima sem tela de login.
-- [ ] Criar modelo Firestore para dados operacionais compartilhados.
-- [ ] Aplicar regras Firestore de leitura/escrita e validação.
-- [ ] Remover dependência visual do login OAuth atual.
-- [ ] Validar sincronização em múltiplos clientes e build para GitHub Pages.
+- [x] Configurar o projeto Firebase `rainhadascapas-5a49a` via variáveis públicas do frontend.
+- [x] Habilitar e integrar autenticação anônima sem tela de login.
+- [x] Criar modelo Firestore para dados operacionais compartilhados.
+- [x] Criar regras Firestore de leitura/escrita e validação para publicação no console.
+- [x] Remover dependência visual do login OAuth atual.
+- [x] Validar autenticação anônima, sincronização do listener e build para GitHub Pages.
+- [ ] Validar em dois clientes que uma alteração compartilhada aparece sem recarregar.
+- [ ] Publicar `firestore.rules` no Firebase Console e validar as permissões reais.

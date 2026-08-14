@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sharedWorkspaces/main {
+      allow read, write: if request.auth != null
+        && request.resource.data.keys().hasOnly(['sellers', 'catalog', 'updatedAt'])
+        && request.resource.data.sellers is list
+        && request.resource.data.catalog is list;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
