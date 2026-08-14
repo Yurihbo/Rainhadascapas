@@ -2,6 +2,14 @@
 
 ## Nova rodada
 
+- [x] Ajustar o layout de Semanas para largura estreita.
+- [x] Evitar overflow no cabeçalho e nos cards de semana.
+- [x] Reorganizar o relatório selecionado e suas ações no celular.
+- [x] Validar Semanas em celular sem alterar tablet e PC.
+
+
+## Nova rodada
+
 - [x] Fechar a sidebar mobile ao clicar fora dela.
 - [x] Fechar a sidebar mobile ao arrastar para a esquerda.
 - [x] Manter o fechamento pelo botão do menu.
