@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, InsertUserActivity, UserActivity, userActivities, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -109,6 +109,18 @@ export async function updateUserActive(id: number, active: boolean) {
   await db.update(users).set({ active }).where(eq(users.id, id));
   const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
   return result[0];
+}
+
+export async function logUserActivity(activity: InsertUserActivity): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(userActivities).values(activity);
+}
+
+export async function listUserActivities(userId: number, limit = 50): Promise<UserActivity[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(userActivities).where(eq(userActivities.userId, userId)).orderBy(desc(userActivities.createdAt)).limit(limit);
 }
 
 export async function deleteUserById(id: number) {

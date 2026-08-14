@@ -117,3 +117,18 @@
 - [x] Impedir acesso de contas desativadas aos procedimentos protegidos.
 - [x] Cobrir bloqueios administrativos com testes Vitest.
 - [x] Confirmar o primeiro login real com a conta Google proprietária no ambiente de preview.
+
+## Perfil individual
+
+- [x] Criar tabela persistida de atividades vinculada ao usuário autenticado.
+- [x] Criar procedures para consultar e registrar apenas as próprias atividades.
+- [x] Adicionar página Perfil ao menu e ao menu da conta.
+- [x] Exibir dados próprios da conta, cargo, login e datas importantes.
+- [x] Exibir histórico de atividades em ordem cronológica.
+- [x] Registrar login e ações operacionais relevantes.
+- [x] Validar privacidade, typecheck, testes e build.
+
+## Refinamento do perfil
+
+- [x] Adicionar atalho Meu perfil ao menu da conta junto com Sair da conta.
+- [x] Registrar criação e remoção de revendedores, criação e remoção de itens e alterações de pagamentos.

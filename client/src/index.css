@@ -207,3 +207,29 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
 .status-toggle.active { border-color: #4d8b61; background: #4d8b6118; color: #9ed0ab; }
 .status-toggle.inactive { border-color: #8d4d47; background: #8d4d4718; color: #e3a39d; }
 .status-toggle:disabled { cursor: not-allowed; opacity: .5; }
+
+.profile-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); gap: 16px; }
+.profile-card, .activity-panel { padding: 25px; }
+.profile-card { background: linear-gradient(145deg, #22211e, #171716); }
+.profile-avatar-large { width: 76px; height: 76px; display: grid; place-items: center; margin-bottom: 22px; border: 1px solid #8e711d; border-radius: 20px; background: #080808; color: #e8c76a; font-family: "Playfair Display", serif; font-size: 28px; }
+.profile-card h2 { margin: 8px 0 4px; color: #e8c76a; font-family: "Playfair Display", serif; font-size: 28px; }
+.profile-email { margin: 0 0 24px; color: #aaa399; overflow-wrap: anywhere; }
+.profile-facts { display: grid; gap: 0; border-top: 1px solid #36332d; }
+.profile-facts div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid #302e2a; }
+.profile-facts span { color: #89847b; font-size: 12px; }
+.profile-facts strong { color: #f0ece3; font-size: 12px; text-align: right; }
+.activity-list { display: grid; }
+.activity-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: start; gap: 11px; padding: 16px 0; border-bottom: 1px solid #302e2a; }
+.activity-row:last-child { border-bottom: 0; }
+.activity-icon { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid #5a4818; border-radius: 9px; color: #e8c76a; background: #e8c76a12; }
+.activity-row strong { color: #eee9df; font-size: 13px; }
+.activity-row p { margin: 4px 0 0; color: #99938a; font-size: 12px; }
+.activity-row time { color: #8d887f; font-size: 11px; white-space: nowrap; }
+.activity-empty { min-height: 180px; display: grid; place-items: center; align-content: center; gap: 8px; color: #9e988d; text-align: center; }
+@media (max-width: 900px) { .profile-layout { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .profile-card, .activity-panel { padding: 18px 15px; } .activity-row { grid-template-columns: 30px minmax(0, 1fr); } .activity-row time { grid-column: 2; } }
+
+.sidebar-bottom { position: relative; }
+.account-menu { position: absolute; right: 10px; bottom: 70px; z-index: 20; width: 180px; padding: 6px; border: 1px solid #4b4027; border-radius: 12px; background: #211f1c; box-shadow: 0 16px 34px #00000055; }
+.account-menu button { display: flex; align-items: center; gap: 9px; width: 100%; padding: 10px 11px; border: 0; border-radius: 8px; background: transparent; color: #ddd6cb; font: inherit; font-size: 12px; text-align: left; cursor: pointer; }
+.account-menu button:hover { background: #e8c76a14; color: #e8c76a; }

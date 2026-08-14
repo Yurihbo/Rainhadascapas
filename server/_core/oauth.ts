@@ -47,6 +47,8 @@ export function registerOAuthRoutes(app: Express) {
         loginMethod: userInfo.loginMethod ?? userInfo.platform ?? null,
         lastSignedIn: new Date(),
       });
+      const dbUser = await db.getUserByOpenId(userInfo.openId);
+      if (dbUser) await db.logUserActivity({ userId: dbUser.id, action: "Login", description: "Login realizado com sucesso" });
 
       const sessionToken = await sdk.createSessionToken(userInfo.openId, {
         name: userInfo.name || "",

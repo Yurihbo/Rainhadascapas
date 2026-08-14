@@ -15,6 +15,13 @@
       "when": 1786689923922,
       "tag": "0001_bizarre_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1786691129191,
+      "tag": "0002_dark_blizzard",
+      "breakpoints": true
     }
   ]
 }
