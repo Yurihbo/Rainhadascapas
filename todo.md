@@ -2,6 +2,15 @@
 
 ## Nova rodada
 
+- [x] Calcular a semana atual por blocos de 7 dias dentro do mês.
+- [x] Usar a mesma semana automática ao gerar relatórios.
+- [x] Exibir semanas anteriores do mês na aba Semanas.
+- [x] Permitir consultar detalhes de uma semana passada.
+- [x] Permitir imprimir o relatório da semana consultada.
+
+
+## Nova rodada
+
 - [x] Derivar valor total da semana a partir dos itens dos revendedores.
 - [x] Derivar número de revendedores e pedidos a partir do estado atual.
 - [x] Derivar recebimentos pagos, pendentes e em acordo por status.
