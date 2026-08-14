@@ -2,6 +2,17 @@
 
 ## Nova rodada
 
+- [x] Remover o contador numérico ao lado de Pagamentos.
+- [x] Manter somente Loja 01 (Yuri) e Loja 02 (Amanda).
+- [x] Criar categorias ilimitadas por loja.
+- [x] Criar subcategorias ilimitadas dentro de categorias.
+- [x] Criar itens dentro das subcategorias.
+- [x] Editar e remover categorias, subcategorias e itens.
+- [x] Atualizar a navegação do catálogo sem módulos fictícios.
+
+
+## Nova rodada
+
 - [x] Calcular a semana atual por blocos de 7 dias dentro do mês.
 - [x] Usar a mesma semana automática ao gerar relatórios.
 - [x] Exibir semanas anteriores do mês na aba Semanas.
