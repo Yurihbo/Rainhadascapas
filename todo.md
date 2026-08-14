@@ -116,4 +116,4 @@
 - [x] Adicionar status ativo/inativo no schema, banco, procedures e UI.
 - [x] Impedir acesso de contas desativadas aos procedimentos protegidos.
 - [x] Cobrir bloqueios administrativos com testes Vitest.
-- [ ] Confirmar o primeiro login real com a conta Google proprietária no ambiente publicado.
+- [x] Confirmar o primeiro login real com a conta Google proprietária no ambiente de preview.
