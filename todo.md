@@ -2,6 +2,15 @@
 
 ## Nova rodada
 
+- [x] Derivar valor total da semana a partir dos itens dos revendedores.
+- [x] Derivar número de revendedores e pedidos a partir do estado atual.
+- [x] Derivar recebimentos pagos, pendentes e em acordo por status.
+- [x] Atualizar gráfico semanal conforme a quantidade real de itens/pedidos.
+- [x] Reutilizar os mesmos cálculos na aba de Pagamentos.
+
+
+## Nova rodada
+
 - [x] Manter apenas João Carlos como exemplo em todas as abas.
 - [x] Remover os demais revendedores e exemplos demonstrativos.
 - [x] Tornar o status de pagamento editável e persistido no estado da interface.
