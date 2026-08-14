@@ -196,3 +196,65 @@
 - [x] Documentar no README a diferença entre Pages estático e hospedagem full-stack.
 - [x] Documentar variáveis OAuth, banco, build e host compatível para a versão funcional.
 - [x] Explicar a alternativa de publicar no Pages somente uma versão estática limitada.
+
+## Publicação e domínio
+
+- [ ] Solicitar os segredos obrigatórios de produção com segurança.
+- [ ] Validar a configuração de ambiente após o preenchimento dos segredos.
+- [ ] Orientar apontamento DNS e domínio próprio no hosting.
+- [ ] Atualizar as URLs de retorno OAuth para o domínio final.
+
+## Google OAuth com backend próprio
+
+- [ ] Mapear projeto Google Cloud, consentimento OAuth e credenciais web.
+- [ ] Definir URI de callback e origens autorizadas para o domínio de produção.
+- [ ] Gerar e configurar JWT_SECRET com segurança.
+- [ ] Identificar OWNER_OPEN_ID e OWNER_NAME após o primeiro login.
+- [ ] Validar login, logout e sessão no backend publicado.
+
+## Oracle Cloud Always Free
+
+- [ ] Definir VM, banco, domínio, HTTPS e estratégia de deploy.
+- [ ] Preparar configuração de produção para execução em VM.
+- [ ] Obter acesso seguro à conta Oracle sem compartilhar senha ou chave privada.
+- [ ] Publicar a aplicação e configurar variáveis de ambiente.
+- [ ] Validar login, banco, PWA, domínio e reinicialização do serviço.
+
+## Hospedagem simples sem cartão
+
+- [ ] Comparar opções gratuitas sem cartão para até cinco usuários.
+- [ ] Escolher a opção com menor alteração no código atual.
+- [ ] Preparar proteção de acesso privado e segredos sem cobrança automática.
+- [ ] Validar login e acesso das pessoas autorizadas.
+
+## Render com MySQL/TiDB
+
+- [ ] Auditar scripts de build e start do projeto atual.
+- [ ] Definir configuração do Web Service no Render.
+- [ ] Documentar `DATABASE_URL` TLS do TiDB e variáveis de produção.
+- [ ] Documentar callback OAuth e domínio `onrender.com`.
+- [ ] Entregar checklist de deploy e validação sem migração de banco.
+
+## Modo compartilhado sem login
+
+- [ ] Remover login e sessão visíveis da interface.
+- [ ] Definir banco externo compatível com frontend estático do GitHub Pages.
+- [ ] Implementar acesso anônimo com regras de segurança e identificação de dispositivo.
+- [ ] Sincronizar alterações compartilhadas entre usuários.
+- [ ] Validar publicação estática e colaboração sem login.
+
+## Sincronização GitHub
+
+- [ ] Auditar o repositório `Yurihbo/Rainhadascapas` e a branch principal.
+- [ ] Confirmar que segredos e arquivos `.env` não serão enviados.
+- [ ] Enviar o projeto completo e as alterações atuais ao GitHub.
+- [ ] Confirmar o commit remoto e restabelecer a conexão do projeto.
+
+## Firebase compartilhado
+
+- [ ] Configurar o projeto Firebase `rainhadascapas-5a49a` via variáveis públicas do frontend.
+- [ ] Habilitar e integrar autenticação anônima sem tela de login.
+- [ ] Criar modelo Firestore para dados operacionais compartilhados.
+- [ ] Aplicar regras Firestore de leitura/escrita e validação.
+- [ ] Remover dependência visual do login OAuth atual.
+- [ ] Validar sincronização em múltiplos clientes e build para GitHub Pages.
