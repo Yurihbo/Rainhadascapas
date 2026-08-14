@@ -44,7 +44,7 @@ import {
   Edit3,
 } from "lucide-react";
 
-const logo = "/manus-storage/rainha-crown-mark_45f7ac7c.png";
+const logo = "/manus-storage/LogoTemaescuro_8c9fab9b.png";
 const texture = "/manus-storage/rainha-dashboard-texture_f5713e94.png";
 const productStill = "/manus-storage/rainha-product-still-life_09453806.png";
 

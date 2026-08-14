@@ -46,8 +46,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
 .sidebar-collapsed .workspace-switcher { padding: 10px; justify-content: center; }
 .sidebar-collapsed .main-nav button { padding: 12px; }
 .brand { display: flex; align-items: center; gap: 11px; padding: 0 9px 24px; white-space: nowrap; }
-.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; background: var(--gold); border-radius: 10px; box-shadow: 0 4px 18px #c9a22730; }
-.brand-mark img { width: 25px; height: 25px; object-fit: contain; }
+.brand-mark { width: 42px; height: 42px; display: grid; place-items: center; background: #080808; border: 1px solid #6f5717; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 18px #c9a22730; }
+.brand-mark img { width: 42px; height: 42px; object-fit: cover; }
 .brand strong { display: block; font-size: 16px; line-height: 1.05; letter-spacing: .17em; font-weight: 800; }
 .brand span { color: var(--gold-light); display: block; font-size: 8px; letter-spacing: .33em; margin-top: 4px; }
 .workspace-switcher { display: flex; align-items: center; gap: 10px; padding: 10px 11px; background: #1c1c1c; border: 1px solid #303030; border-radius: 12px; margin-bottom: 27px; white-space: nowrap; }

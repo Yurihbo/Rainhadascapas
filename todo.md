@@ -2,6 +2,14 @@
 
 ## Nova rodada
 
+- [x] Usar LogoTemaescuro.png como nova logo do site.
+- [x] Usar a mesma marca como favicon.
+- [x] Ajustar o enquadramento da logo no desktop e no mobile.
+- [x] Validar carregamento e build após substituir os ativos.
+
+
+## Nova rodada
+
 - [x] Ajustar o layout de Semanas para largura estreita.
 - [x] Evitar overflow no cabeçalho e nos cards de semana.
 - [x] Reorganizar o relatório selecionado e suas ações no celular.
