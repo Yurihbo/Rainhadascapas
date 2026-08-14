@@ -2,6 +2,15 @@
 
 ## Nova rodada
 
+- [x] Criar popup discreto para adicionar categoria.
+- [x] Criar popup discreto para adicionar subcategoria vinculada à categoria.
+- [x] Adicionar botão para imprimir/salvar lista compacta da loja selecionada.
+- [x] Formatar lista com loja, categoria, subcategoria e itens, economizando espaço.
+- [x] Ocultar navegação e controles na impressão.
+
+
+## Nova rodada
+
 - [x] Remover o contador numérico ao lado de Pagamentos.
 - [x] Manter somente Loja 01 (Yuri) e Loja 02 (Amanda).
 - [x] Criar categorias ilimitadas por loja.
