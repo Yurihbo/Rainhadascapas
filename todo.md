@@ -1,5 +1,14 @@
 # Atualização solicitada
 
+## Nova rodada
+
+- [x] Adicionar exclusão de revendedor com confirmação.
+- [x] Adicionar exclusão de item com confirmação.
+- [x] Criar relatório semanal simples ou detalhado.
+- [x] Permitir visualizar o relatório criado.
+- [x] Permitir imprimir/salvar o relatório como PDF.
+- [x] Permitir compartilhar o relatório via Web Share ou área de transferência.
+
 - [x] Trocar “Distribuidora · SP” por “Anápolis-GO” em toda a interface.
 - [x] Substituir o cartão de sincronização da sidebar por controle de tema claro/escuro.
 - [x] Criar perfil simples em Configurações com seleção de foto e edição de nome.
