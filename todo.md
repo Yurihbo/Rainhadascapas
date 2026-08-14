@@ -188,8 +188,11 @@
 
 ## GitHub e publicação
 
-- [ ] Auditar o repositório Yurihbo/Rainhadascapas e o estado local.
-- [ ] Remover menções de IA do código e da documentação sem quebrar funcionalidades.
-- [ ] Validar typecheck, testes e build após a limpeza.
-- [ ] Enviar o código completo ao repositório GitHub.
-- [ ] Orientar a publicação compatível, deixando claro que GitHub Pages não executa o backend full-stack.
+- [x] Auditar o repositório Yurihbo/Rainhadascapas e o estado local.
+- [x] Remover menções de IA do código e da documentação sem quebrar funcionalidades.
+- [x] Validar typecheck, testes e build após a limpeza.
+- [x] Enviar o código completo ao repositório GitHub.
+- [x] Orientar a publicação compatível, deixando claro que GitHub Pages não executa o backend full-stack.
+- [x] Documentar no README a diferença entre Pages estático e hospedagem full-stack.
+- [x] Documentar variáveis OAuth, banco, build e host compatível para a versão funcional.
+- [x] Explicar a alternativa de publicar no Pages somente uma versão estática limitada.
