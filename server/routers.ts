@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from "@shared/const";
 import { ENV } from "./_core/env";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
-import { deleteUserById, listUserActivities, listUsers, logUserActivity, updateUserActive, updateUserProfile, updateUserRole } from "./db";
+import { applyOfflineOperation, deleteUserById, getOperationalState, insertOfflineOperations, listUserActivities, listUsers, logUserActivity, updateUserActive, updateUserProfile, updateUserRole } from "./db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -31,6 +31,22 @@ export const appRouter = router({
   activity: router({
     list: protectedProcedure.query(({ ctx }) => listUserActivities(ctx.user.id)),
     record: protectedProcedure.input(z.object({ action: z.string().min(1).max(80), description: z.string().min(1).max(500) })).mutation(async ({ ctx, input }) => { await logUserActivity({ userId: ctx.user.id, action: input.action, description: input.description }); return { success: true } as const; }),
+  }),
+
+  offline: router({
+    sync: protectedProcedure.input(z.object({ operations: z.array(z.object({ id: z.string().min(1).max(64), operationType: z.string().min(1).max(80), payload: z.record(z.string(), z.unknown()), action: z.string().min(1).max(80), description: z.string().min(1).max(500), createdAt: z.number().int().positive() })).max(50) })).mutation(async ({ ctx, input }) => {
+      for (const operation of input.operations) await applyOfflineOperation(ctx.user.id, operation.operationType, operation.payload);
+      const result = await insertOfflineOperations(input.operations.map((operation) => ({ userId: ctx.user.id, operationId: operation.id, operationType: operation.operationType, payload: JSON.stringify(operation.payload), createdAt: new Date(operation.createdAt) })));
+      const freshIds = new Set(result.inserted.map((operation) => operation.operationId));
+      for (const operation of input.operations) {
+        if (freshIds.has(operation.id)) await logUserActivity({ userId: ctx.user.id, action: operation.action, description: `Sincronizado offline: ${operation.description}` });
+      }
+      return { acceptedIds: result.acknowledgedIds, state: await getOperationalState(ctx.user.id) } as const;
+    }),
+  }),
+
+  operational: router({
+    state: protectedProcedure.query(({ ctx }) => getOperationalState(ctx.user.id)),
   }),
 
   users: router({

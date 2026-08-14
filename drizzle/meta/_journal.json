@@ -29,6 +29,20 @@
       "when": 1786691656738,
       "tag": "0003_high_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1786692473360,
+      "tag": "0004_thin_earthquake",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1786692836119,
+      "tag": "0005_amazing_katie_power",
+      "breakpoints": true
     }
   ]
 }

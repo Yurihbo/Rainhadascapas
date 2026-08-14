@@ -1,6 +1,6 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, InsertUserActivity, UserActivity, userActivities, users } from "../drizzle/schema";
+import { InsertOfflineOperation, InsertSeller, InsertSellerItem, InsertUser, InsertUserActivity, OfflineOperation, Seller, SellerItem, UserActivity, offlineOperations, sellerItems, sellers, userActivities, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -129,6 +129,55 @@ export async function listUserActivities(userId: number, limit = 50): Promise<Us
   const db = await getDb();
   if (!db) return [];
   return db.select().from(userActivities).where(eq(userActivities.userId, userId)).orderBy(desc(userActivities.createdAt)).limit(limit);
+}
+
+export async function insertOfflineOperations(operations: InsertOfflineOperation[]): Promise<{ inserted: OfflineOperation[]; acknowledgedIds: string[] }> {
+  const db = await getDb();
+  if (!db || operations.length === 0) return { inserted: [], acknowledgedIds: [] };
+  const userId = operations[0]!.userId;
+  const ids = operations.map((operation) => operation.operationId);
+  const existing = await db.select({ operationId: offlineOperations.operationId }).from(offlineOperations).where(and(eq(offlineOperations.userId, userId), inArray(offlineOperations.operationId, ids)));
+  const existingIds = new Set(existing.map((item) => item.operationId));
+  const fresh = operations.filter((operation) => !existingIds.has(operation.operationId));
+  if (fresh.length > 0) await db.insert(offlineOperations).values(fresh);
+  const inserted = fresh.length > 0 ? await db.select().from(offlineOperations).where(inArray(offlineOperations.operationId, fresh.map((operation) => operation.operationId))) : [];
+  return { inserted, acknowledgedIds: ids };
+}
+
+export async function applyOfflineOperation(userId: number, operationType: string, payload: Record<string, unknown>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const sellerPayload = payload as Partial<InsertSeller> & { sellerName?: string; item?: Partial<InsertSellerItem> };
+  if (operationType === "seller.create") {
+    const clientId = String(payload.clientId ?? `seller-${String(payload.name ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
+    const values: InsertSeller = { userId, clientId, name: String(payload.name ?? ""), initials: String(payload.initials ?? ""), phone: String(payload.phone ?? ""), total: String(payload.total ?? "R$ 0,00"), status: String(payload.status ?? "Pendente"), updatedLabel: String(payload.updatedLabel ?? payload.updated ?? "Agora"), tone: String(payload.tone ?? "danger"), avatar: payload.avatar ? String(payload.avatar) : null };
+    await db.insert(sellers).values(values).onDuplicateKeyUpdate({ set: { ...values, userId } });
+  } else if (operationType === "seller.delete") {
+    const clientId = String(payload.clientId ?? `seller-${String(payload.sellerName ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
+    await db.delete(sellerItems).where(and(eq(sellerItems.userId, userId), eq(sellerItems.sellerClientId, clientId)));
+    await db.delete(sellers).where(and(eq(sellers.userId, userId), eq(sellers.clientId, clientId)));
+  } else if (operationType === "item.create") {
+    const item = (payload.item ?? {}) as Partial<InsertSellerItem> & { date?: string };
+    const sellerClientId = String(payload.sellerClientId ?? `seller-${String(payload.sellerName ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
+    const values: InsertSellerItem = { userId, sellerClientId, clientId: String(item.clientId ?? `item-${sellerClientId}-${String(item.item ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${String(item.dateLabel ?? item.date ?? "")}`), item: String(item.item ?? ""), quantity: Number(item.quantity ?? 0), unit: String(item.unit ?? ""), total: String(item.total ?? "R$ 0,00"), dateLabel: String(item.dateLabel ?? item.date ?? ""), note: String(item.note ?? "") };
+    await db.insert(sellerItems).values(values).onDuplicateKeyUpdate({ set: { ...values, userId } });
+  } else if (operationType === "item.delete") {
+    const item = (payload.item ?? {}) as Partial<InsertSellerItem> & { date?: string };
+    const sellerClientId = String(payload.sellerClientId ?? `seller-${String(payload.sellerName ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
+    const clientId = String(item.clientId ?? `item-${sellerClientId}-${String(item.item ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${String(item.dateLabel ?? item.date ?? "")}`);
+    await db.delete(sellerItems).where(and(eq(sellerItems.userId, userId), eq(sellerItems.clientId, clientId)));
+  } else if (operationType === "payment.update") {
+    const clientId = String(payload.clientId ?? `seller-${String(payload.sellerName ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
+    await db.update(sellers).set({ status: String(payload.status ?? "Pendente"), tone: String(payload.tone ?? "danger"), updatedLabel: String(payload.updatedLabel ?? payload.updated ?? "Agora") }).where(and(eq(sellers.userId, userId), eq(sellers.clientId, clientId)));
+  }
+}
+
+export async function getOperationalState(userId: number): Promise<{ sellers: Seller[]; items: SellerItem[] }> {
+  const db = await getDb();
+  if (!db) return { sellers: [], items: [] };
+  const sellerRows = await db.select().from(sellers).where(eq(sellers.userId, userId)).orderBy(desc(sellers.createdAt));
+  const itemRows = sellerRows.length === 0 ? [] : await db.select().from(sellerItems).where(and(eq(sellerItems.userId, userId), inArray(sellerItems.sellerClientId, sellerRows.map((seller) => seller.clientId))));
+  return { sellers: sellerRows, items: itemRows };
 }
 
 export async function deleteUserById(id: number) {

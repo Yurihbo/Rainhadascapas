@@ -38,4 +38,51 @@ export const userActivities = mysqlTable("userActivities", {
 export type UserActivity = typeof userActivities.$inferSelect;
 export type InsertUserActivity = typeof userActivities.$inferInsert;
 
-// TODO: Add your tables here
+export const offlineOperations = mysqlTable("offlineOperations", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  operationId: varchar("operationId", { length: 64 }).notNull().unique(),
+  operationType: varchar("operationType", { length: 80 }).notNull(),
+  payload: text("payload").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type OfflineOperation = typeof offlineOperations.$inferSelect;
+export type InsertOfflineOperation = typeof offlineOperations.$inferInsert;
+
+export const sellers = mysqlTable("sellers", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  clientId: varchar("clientId", { length: 160 }).notNull().unique(),
+  name: varchar("name", { length: 160 }).notNull(),
+  initials: varchar("initials", { length: 8 }).notNull(),
+  phone: varchar("phone", { length: 40 }).notNull(),
+  total: varchar("total", { length: 40 }).notNull(),
+  status: varchar("status", { length: 40 }).notNull(),
+  updatedLabel: varchar("updatedLabel", { length: 80 }).notNull(),
+  tone: varchar("tone", { length: 40 }).notNull(),
+  avatar: text("avatar"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Seller = typeof sellers.$inferSelect;
+export type InsertSeller = typeof sellers.$inferInsert;
+
+export const sellerItems = mysqlTable("sellerItems", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  sellerClientId: varchar("sellerClientId", { length: 160 }).notNull(),
+  clientId: varchar("clientId", { length: 200 }).notNull().unique(),
+  item: varchar("item", { length: 200 }).notNull(),
+  quantity: int("quantity").notNull(),
+  unit: varchar("unit", { length: 40 }).notNull(),
+  total: varchar("total", { length: 40 }).notNull(),
+  dateLabel: varchar("dateLabel", { length: 80 }).notNull(),
+  note: text("note").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SellerItem = typeof sellerItems.$inferSelect;
+export type InsertSellerItem = typeof sellerItems.$inferInsert;

@@ -242,3 +242,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
 .profile-name-field input { width: 100%; padding: 11px 12px; border: 1px solid #514a3d; border-radius: 8px; outline: none; color: #f1ece2; background: #141413; font: inherit; font-size: 14px; text-transform: none; letter-spacing: normal; }
 .profile-name-field input:focus { border-color: #e8c76a; box-shadow: 0 0 0 3px #e8c76a18; }
 .profile-save-button { width: 100%; justify-content: center; margin-top: 18px; }
+
+.connection-status { position: relative; display: inline-flex; align-items: center; gap: 4px; color: #6e8f73; font-size: 12px; }
+.connection-status.offline { color: #b76e63; }
+.connection-status b { position: absolute; top: -8px; right: -9px; min-width: 15px; height: 15px; display: grid; place-items: center; border-radius: 99px; color: #171513; background: #e8c76a; font-size: 9px; }
+.install-pwa-button { display: inline-flex; align-items: center; gap: 7px; padding: 8px 10px; border: 1px solid #c7a84e; border-radius: 8px; color: #8d6e1e; background: #e8c76a14; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+.install-pwa-button:hover { background: #e8c76a28; }
+.preference-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 17px 0; border-top: 1px solid #302e2a; border-bottom: 1px solid #302e2a; }
+.preference-row div { display: grid; gap: 4px; }
+.preference-row strong { color: #eee9df; font-size: 13px; }
+.preference-row small { color: #99938a; font-size: 11px; }
+.settings-wide-action { width: 100%; justify-content: center; margin-top: 16px; }
+@media (max-width: 760px) { .install-pwa-button span { display: none; } .install-pwa-button { padding: 8px; } .connection-status { margin-right: 2px; } }

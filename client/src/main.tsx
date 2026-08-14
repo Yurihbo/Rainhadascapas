@@ -74,7 +74,7 @@ const trpcClient = trpc.createClient({
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    void navigator.serviceWorker.register("/sw.js");
+    void navigator.serviceWorker.register("/sw.js").then((registration) => { void registration.update(); window.setInterval(() => { void registration.update(); }, 30 * 60 * 1000); });
   });
 }
 

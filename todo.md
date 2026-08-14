@@ -147,3 +147,41 @@
 - [x] Hidratar nome e foto persistidos na sessão autenticada.
 - [x] Exibir botão Instalar quando o navegador oferecer instalação PWA.
 - [x] Confirmar manifesto, service worker e layout mobile do aplicativo.
+
+## Offline, notificações e fotos
+
+- [x] Criar fila local persistente para registros feitos sem conexão.
+- [x] Sincronizar automaticamente a fila quando a conexão voltar.
+- [x] Exibir estado online/offline e quantidade de itens pendentes.
+- [x] Evitar duplicidade durante novas tentativas de sincronização.
+- [x] Criar configurações PWA para notificações e permissões.
+- [x] Permitir solicitar, ativar e desativar notificações.
+- [x] Permitir verificar e aplicar atualização do aplicativo em segundo plano.
+- [x] Criar recorte quadrado da foto antes do salvamento.
+- [x] Comprimir a foto para reduzir tamanho e manter qualidade.
+- [x] Validar os fluxos em desktop, tablet e celular.
+
+## Correção da sincronização offline
+
+- [x] Enfileirar operações reais de revendedor, item e pagamento com payload.
+- [x] Persistir operações offline no backend com chave idempotente.
+- [x] Sincronizar operações reais ao reconectar, não apenas atividades.
+- [x] Adicionar trava de sincronização e deduplicação por operação.
+- [x] Validar os novos fluxos em desktop, tablet e celular.
+
+## Fechamento da sincronização real
+
+- [x] Enfileirar operações reais de revendedor, item e pagamento com payload.
+- [x] Persistir operações offline no backend com chave idempotente.
+- [x] Sincronizar operações reais ao reconectar, não apenas atividades.
+- [x] Adicionar trava de sincronização e deduplicação por operação.
+- [x] Validar os novos fluxos em desktop, tablet e celular.
+
+## Reconciliação canônica
+
+- [x] Criar persistência backend canônica para revendedores, itens e status de pagamento.
+- [x] Aplicar operações offline sincronizadas nessas tabelas com idempotência.
+- [x] Baixar o estado reconciliado após a reconexão e reidratar a interface.
+- [x] Validar o fluxo ponta a ponta sem inserir dados artificiais no banco.
+- [x] Corrigir a reidratação canônica para também tratar estado vazio e seleção removida.
+- [x] Validar o fluxo offline, sincronização e leitura reconciliada com teste de integração controlado.
