@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { ADMIN_EMAIL, ALLOWED_EMAILS, isAllowedSession } from "../client/src/lib/sharedWorkspace";
+import { ADMIN_EMAIL, ALLOWED_EMAILS, isAllowedSession, reconcileWorkspaceData } from "../client/src/lib/sharedWorkspace";
 
 describe("workspace access policy", () => {
   it("keeps the private allowlist and administrator aligned", () => {
@@ -26,5 +26,13 @@ describe("workspace access policy", () => {
   it("keeps the Firestore rule explicit about Anonymous Auth", () => {
     const rules = readFileSync(resolve(process.cwd(), "firestore.rules"), "utf8");
     expect(rules).toContain("request.auth.token.firebase.sign_in_provider != 'anonymous'");
+  });
+
+  it("reconciles a remote snapshot without falling back to local seed data", () => {
+    const current = { sellers: [{ name: "Local", initials: "L", phone: "", total: "R$ 0,00", status: "Pendente", updated: "", tone: "danger" }], catalog: [{ id: "local", name: "Local", categories: [] }] };
+    const remote = { sellers: [{ name: "Remoto", initials: "R", phone: "", total: "R$ 10,00", status: "Pago", updated: "Agora", tone: "success" }] };
+    const result = reconcileWorkspaceData(remote, current);
+    expect(result.sellers?.[0]?.name).toBe("Remoto");
+    expect(result.catalog).toEqual(current.catalog);
   });
 });

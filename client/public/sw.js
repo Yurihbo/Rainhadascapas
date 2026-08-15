@@ -1,5 +1,5 @@
 const BASE_PATH = new URL(".", self.location).pathname;
-const CACHE_NAME = "rainha-das-capas-v2";
+const CACHE_NAME = "rainha-das-capas-v3";
 const APP_SHELL = [BASE_PATH, `${BASE_PATH}manifest.json`];
 
 self.addEventListener("install", (event) => {
