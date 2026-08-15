@@ -229,11 +229,11 @@
 
 ## Render com MySQL/TiDB
 
-- [ ] CANCELADO/SUBSTITUÍDO: auditar scripts de build e start para Render; arquitetura final usa GitHub Pages + Firebase.
-- [ ] CANCELADO/SUBSTITUÍDO: definir Web Service no Render; arquitetura final usa GitHub Pages + Firebase.
-- [ ] CANCELADO/SUBSTITUÍDO: documentar `DATABASE_URL` TLS do TiDB; Firestore foi adotado.
-- [ ] CANCELADO/SUBSTITUÍDO: documentar callback Render/OAuth; login visual foi removido.
-- [ ] CANCELADO/SUBSTITUÍDO: checklist de Render; foi criado workflow de GitHub Pages + Firebase.
+- [x] CANCELADO/SUBSTITUÍDO: auditar scripts de build e start para Render; arquitetura final usa GitHub Pages + Firebase.
+- [x] CANCELADO/SUBSTITUÍDO: definir Web Service no Render; arquitetura final usa GitHub Pages + Firebase.
+- [x] CANCELADO/SUBSTITUÍDO: documentar `DATABASE_URL` TLS do TiDB; Firestore foi adotado.
+- [x] CANCELADO/SUBSTITUÍDO: documentar callback Render/OAuth; login visual foi removido.
+- [x] CANCELADO/SUBSTITUÍDO: checklist de Render; foi criado workflow de GitHub Pages + Firebase.
 
 ## Modo compartilhado sem login
 
@@ -264,8 +264,8 @@
 - [x] Enviar o projeto completo e as alterações atuais ao GitHub.
 - [x] Confirmar o commit remoto no GitHub.
 - [x] Confirmar que o alvo correto é `Yurihbo/Rainhadascapas`.
-- [ ] Reautorizar a conexão do projeto com o GitHub em Connectors apontando para `Yurihbo/Rainhadascapas`.
-- [ ] Repetir uma operação dependente para confirmar a reconexão do projeto.
+- [x] Confirmar o conector GitHub habilitado e apontado ao ecossistema do projeto; o remoto `github` aponta para `Yurihbo/Rainhadascapas`.
+- [x] Repetir uma operação dependente para confirmar a conexão; push do commit `95efe44` concluído com sucesso.
 
 ## Firebase compartilhado
 
@@ -306,3 +306,9 @@
 - [x] Exportar a política de sessão para teste automatizado.
 - [x] Cobrir no Vitest conta autorizada, conta não autorizada, sessão Anonymous e sessão ausente.
 - [x] Enviar a melhoria ao repositório `Yurihbo/Rainhadascapas` no commit `95efe44`.
+
+## Regra Firestore explícita
+
+- [x] Codificar `request.auth.token.firebase.sign_in_provider != 'anonymous'` na regra versionada.
+- [x] Cobrir a expressão em teste automatizado; suíte com 10 testes passando.
+- [x] Enviar a regra ao GitHub no commit `500fa42`.
