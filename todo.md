@@ -376,3 +376,15 @@
 - [x] Adicionar ou ajustar testes Vitest para persistência e propagação do estado compartilhado.
 - [x] Validar build, regras, listener e regressões no GitHub Pages.
 - [x] Criar checkpoint e enviar a correção final ao GitHub.
+
+
+## Auditoria integral de persistência e integração — nova falha
+
+- [ ] Mapear todas as ações de criação, edição, remoção e alteração de status em todas as páginas.
+- [ ] Identificar por que alterações feitas na própria conta desaparecem após recarregar.
+- [ ] Identificar por que as alterações não chegam a outras contas autorizadas.
+- [ ] Corrigir a fonte canônica de estado para revendedores, itens, pagamentos, catálogo e relatórios.
+- [ ] Garantir persistência e reidratação após reload em todas as páginas.
+- [ ] Garantir sincronização Firestore em tempo real entre todas as sessões autorizadas.
+- [ ] Criar testes de persistência, reidratação e sincronização para os fluxos principais.
+- [ ] Validar o bundle publicado em produção e criar checkpoint final.
