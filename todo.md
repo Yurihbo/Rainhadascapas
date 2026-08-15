@@ -300,3 +300,9 @@
 - [ ] Testar uma conta Google não autorizada e uma sessão anônima no aplicativo para confirmar o bloqueio real do Firestore.
 - [ ] Validar em duas sessões Google autorizadas que as alterações em sharedWorkspaces/main propagam sem recarregar.
 - [ ] Republicar a variante das regras com rejeição explícita de sign_in_provider anônimo, caso o Console permita após nova autenticação.
+
+## Endurecimento da política de acesso
+
+- [x] Exportar a política de sessão para teste automatizado.
+- [x] Cobrir no Vitest conta autorizada, conta não autorizada, sessão Anonymous e sessão ausente.
+- [x] Enviar a melhoria ao repositório `Yurihbo/Rainhadascapas` no commit `95efe44`.
