@@ -320,10 +320,10 @@
 - [x] Validar testes (10), typecheck, build estático, manifesto, service worker e workflow do GitHub Pages.
 - [x] Enviar a limpeza ao branch `main` de `Yurihbo/Rainhadascapas` no commit `9e96dd6`.
 - [x] Habilitar GitHub Pages em Settings → Pages com fonte GitHub Actions; a API agora confirma `build_type: workflow` e `status: built`.
-- [ ] Reexecutar o workflow `Deploy GitHub Pages` para publicar o commit `9e96dd6`; as execuções anteriores foram feitas antes da habilitação e permanecem falhas.
+- [x] Reexecutar o workflow `Deploy GitHub Pages`; a execução corrigida foi concluída com sucesso no commit `29990b4` (run `31858875904`).
 
 ## Correção do workflow Pages
 
 - [x] Remover a duplicidade de versões do pnpm no workflow `deploy-pages.yml`; a Action agora usa somente `packageManager` do projeto.
 - [x] Validar YAML, instalação congelada, 10 testes Vitest, typecheck e build do workflow após a correção.
-- [ ] Enviar a correção ao branch `main` e confirmar uma execução Pages bem-sucedida.
+- [x] Enviar a correção ao branch `main` e confirmar uma execução Pages bem-sucedida; commit `29990b4`, run `31858875904`.
