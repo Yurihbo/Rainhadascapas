@@ -318,4 +318,5 @@
 - [x] Auditar código, documentação e configuração em busca de referências de IA.
 - [x] Remover referências de IA sem quebrar autenticação, Firebase, PWA ou gestão comercial.
 - [x] Validar testes (10), typecheck, build estático, manifesto, service worker e workflow do GitHub Pages.
-- [ ] Enviar a limpeza ao repositório `Yurihbo/Rainhadascapas` e habilitar/publicar o workflow no Pages; a API atual retorna 404, indicando que Pages ainda não está habilitado.
+- [x] Enviar a limpeza ao branch `main` de `Yurihbo/Rainhadascapas` no commit `9e96dd6`.
+- [ ] Habilitar GitHub Pages em Settings → Pages com fonte GitHub Actions; a execução `31857905728` falhou porque a API retornou 404 para um site Pages inexistente.
