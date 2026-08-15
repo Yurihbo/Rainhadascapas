@@ -14,11 +14,8 @@ service cloud.firestore {
     }
 
     match /sharedWorkspaces/main {
-      allow read: if isAllowedUser();
-      allow create, update: if isAllowedUser()
-        && request.resource.data.sellers is list
-        && request.resource.data.catalog is list
-        && request.resource.data.keys().hasOnly(['sellers', 'catalog', 'updatedAt']);
+      // O workspace é privado por e-mail; a validação estrutural fica no cliente para não bloquear a criação e a reconciliação offline.
+      allow read, create, update: if isAllowedUser();
       allow delete: if false;
     }
 

@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, type User } from "firebase/auth";
-import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { firebaseAuth, firestore } from "./firebase";
 
@@ -62,7 +62,8 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
     setReady(false);
     setSyncError(null);
     if (!session.user) return;
-    return onSnapshot(ref, (snapshot) => {
+    let active = true;
+    const applySnapshot = (snapshot: { exists: () => boolean; data: () => Record<string, unknown> | undefined }) => {
       const data = snapshot.data() as WorkspaceData | undefined;
       const nextSellers = data?.sellers ?? seedSellers;
       const nextCatalog = data?.catalog ?? seedCatalog;
@@ -70,13 +71,31 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
       catalogRef.current = nextCatalog;
       setSellers(nextSellers);
       setCatalog(nextCatalog);
-      if (!snapshot.exists()) void setDoc(ref, { sellers: nextSellers, catalog: nextCatalog, updatedAt: Date.now() }).catch((error) => { console.error("[sharedWorkspace] initial write error", error); setSyncError("Não foi possível criar o espaço compartilhado. Verifique as regras do Firebase."); });
-      setReady(true);
-    }, (error) => {
+    };
+    const initialize = async () => {
+      try {
+        const snapshot = await getDoc(ref);
+        if (!active) return;
+        if (snapshot.exists()) {
+          applySnapshot(snapshot);
+        } else {
+          const initialSellers = sellersRef.current.length ? sellersRef.current : seedSellers;
+          const initialCatalog = catalogRef.current.length ? catalogRef.current : seedCatalog;
+          await setDoc(ref, { sellers: initialSellers, catalog: initialCatalog, updatedAt: Date.now() });
+          if (active) { sellersRef.current = initialSellers; catalogRef.current = initialCatalog; setSellers(initialSellers); setCatalog(initialCatalog); }
+        }
+        if (active) setReady(true);
+      } catch (error) {
+        console.error("[sharedWorkspace] initialization error", error);
+        if (active) { setSyncError("Não foi possível inicializar o espaço compartilhado. Verifique as regras do Firebase."); setReady(true); }
+      }
+    };
+    const unsubscribe = onSnapshot(ref, (snapshot) => { if (active && snapshot.exists()) applySnapshot(snapshot); }, (error) => {
       console.error("[sharedWorkspace] listener error", error);
-      setSyncError("Não foi possível ler o espaço compartilhado. Verifique as regras do Firebase.");
-      setReady(true);
+      if (active) { setSyncError("Não foi possível ler o espaço compartilhado. Verifique as regras do Firebase."); setReady(true); }
     });
+    void initialize();
+    return () => { active = false; unsubscribe(); };
   }, [session.user, ref, seedSellers, seedCatalog]);
 
   const persist = useCallback(async (nextSellers: SharedSeller[], nextCatalog: SharedCatalogStore[]) => {

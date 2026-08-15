@@ -349,3 +349,20 @@
 - [x] Corrigir a persistência/listener do workspace compartilhado para todas as contas autorizadas com gravação explícita e erro visível.
 - [x] Migrar nome e foto do perfil para armazenamento por UID, sem usar chaves locais globais.
 - [ ] Validar alterações cruzadas entre conta principal e secundária no Pages após o commit `f08d226`; testes, typecheck, build e workflow `31860702851` passaram.
+
+## Investigação adicional: vínculo entre contas ainda ausente
+
+- [ ] Confirmar qual versão do frontend está sendo servida no Pages e se contém a persistência explícita.
+- [ ] Diagnosticar leitura/escrita real de `sharedWorkspaces/main` e o estado das regras publicadas.
+- [ ] Corrigir a causa definitiva do isolamento entre contas e expor confirmação/erro de sincronização.
+- [ ] Revalidar duas contas autorizadas e publicar a correção final.
+
+
+## Validação final Firebase — 15/08/2026
+
+- [x] Publicar no Firebase Console as regras da allowlist Google com bloqueio de Anonymous Auth.
+- [x] Confirmar no Cloud Firestore a criação de `sharedWorkspaces/main` após o login público.
+- [x] Validar o GitHub Pages com a conta administradora e painel premium carregado.
+- [ ] Validar manualmente, em duas sessões Google autorizadas, uma alteração propagada sem recarregar.
+- [ ] Validar manualmente uma conta fora da allowlist e confirmar bloqueio visual e no Firestore.
+- [ ] Fazer commit e push das alterações locais finais de `sharedWorkspace.ts`, `firestore.rules` e deste checklist.
