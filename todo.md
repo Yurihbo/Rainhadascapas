@@ -266,3 +266,4 @@
 - [x] Validar leitura em `sharedWorkspaces/main` com sessão anônima real no preview; escrita real entre dois clientes permanece pendente.
 - [x] Validar que acessos sem autenticação e outros caminhos do Firestore são negados.
 - [x] Publicar `firestore.rules` no Firebase Console e validar as permissões reais.
+- [ ] Enviar a migração Firebase, regras, documentação e workflow Pages ao repositório `Yurihbo/Rainhadascapas`.
