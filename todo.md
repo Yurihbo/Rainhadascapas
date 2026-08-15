@@ -370,9 +370,9 @@
 
 ## Nova falha reportada — sincronização entre contas
 
-- [ ] Reproduzir a ausência de atualização automática entre dois navegadores com contas Google autorizadas.
+- [x] Reproduzir a ausência de atualização automática entre dois navegadores com contas Google autorizadas.
 - [x] Diagnosticar escrita, listener, cache local e reconciliação do documento `sharedWorkspaces/main`.
-- [ ] Corrigir o fluxo para que alterações de revendedores, itens, catálogo e pagamentos sejam refletidas em todas as sessões sem recarregar.
+- [x] Corrigir o fluxo para que alterações de revendedores, itens, catálogo e pagamentos sejam refletidas em todas as sessões sem recarregar.
 - [x] Adicionar ou ajustar testes Vitest para persistência e propagação do estado compartilhado.
 - [x] Validar build, regras, listener e regressões no GitHub Pages.
-- [ ] Criar checkpoint e enviar a correção final ao GitHub.
+- [x] Criar checkpoint e enviar a correção final ao GitHub.
