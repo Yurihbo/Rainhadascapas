@@ -1,11 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAllowedUser() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && request.auth.token.email in [
+          'yuridesousasilva@gmail.com',
+          'amanda.mds171@gmail.com',
+          'rainhadascapas35@gmail.com',
+          'orlando_soscelular@gmail.com',
+          'yurihbo2@gmail.com'
+        ];
+    }
+
     match /sharedWorkspaces/main {
-      allow read, write: if request.auth != null
+      allow read: if isAllowedUser();
+      allow create, update: if isAllowedUser()
         && request.resource.data.keys().hasOnly(['sellers', 'catalog', 'updatedAt'])
         && request.resource.data.sellers is list
         && request.resource.data.catalog is list;
+      allow delete: if false;
     }
 
     match /{document=**} {

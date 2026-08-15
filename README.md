@@ -1,79 +1,71 @@
 # Rainha das Capas — Gestão Comercial
 
-Aplicação PWA full-stack para gestão de revendedores, itens, pagamentos, relatórios semanais, catálogo, usuários e operações offline da Rainha das Capas.
+Aplicação PWA para gestão de revendedores, itens, pagamentos, relatórios semanais, catálogo e colaboração em tempo real da Rainha das Capas. A interface usa o design **Black Label ERP**, com superfícies grafite, acentos dourados, perfil editável, modo claro/escuro, operação responsiva e recursos offline do PWA.
 
-## Arquitetura de publicação
+## Arquitetura atual
 
-A versão funcional utiliza React, servidor Express, tRPC, OAuth, banco MySQL/TiDB, armazenamento e service worker. Por isso, **não deve ser publicada diretamente no GitHub Pages**: o Pages hospeda arquivos estáticos e não executa o servidor, as procedures tRPC, as sessões OAuth nem o banco de dados.
+A publicação final foi preparada para **GitHub Pages + Firebase**. O GitHub Pages entrega os arquivos estáticos da aplicação, enquanto o Firebase fornece autenticação Google, Firestore em tempo real e proteção das regras. Não há servidor Node obrigatório para a versão publicada no Pages.
 
-| Necessidade | Publicação adequada |
+| Necessidade | Implementação |
 |---|---|
-| Interface estática sem login ou banco | GitHub Pages, com funcionalidades limitadas |
-| Login Google, usuários, permissões e sessões | Hospedagem full-stack compatível com Node.js |
-| Revendedores, itens, pagamentos e sincronização offline persistida | Hospedagem full-stack com MySQL/TiDB |
-| PWA instalável | Hospedagem HTTPS com o manifesto e o service worker publicados |
+| Hospedagem da interface | GitHub Pages pela branch `main` e GitHub Actions |
+| Login | Firebase Authentication com provedor Google |
+| Acesso privado | Allowlist de cinco contas Google autorizadas no frontend e nas regras Firestore |
+| Dados compartilhados | Documento `sharedWorkspaces/main` no Cloud Firestore |
+| Tempo real | Listener `onSnapshot` do Firestore |
+| PWA | Manifesto, service worker, instalação e atualização do aplicativo |
+| Trabalho sem conexão | Cache do PWA e reidratação do workspace local até a reconexão |
 
-A versão completa está no repositório [Yurihbo/Rainhadascapas](https://github.com/Yurihbo/Rainhadascapas), na branch `main`. Para preservar o login e a persistência, publique essa versão em um ambiente full-stack, como o hosting integrado do projeto ou outro provedor Node.js compatível.
+O repositório oficial é [Yurihbo/Rainhadascapas](https://github.com/Yurihbo/Rainhadascapas), na branch `main`.
 
-## Execução local
+## Contas autorizadas
+
+A política atual permite somente as cinco contas fornecidas pelo administrador. A conta `yuridesousasilva@gmail.com` é a administradora principal. A mesma lista está refletida em `client/src/lib/sharedWorkspace.ts` e em `firestore.rules`; se a equipe mudar, os dois arquivos devem ser atualizados juntos e as regras precisam ser publicadas novamente no Firebase Console.
+
+## Configuração do Firebase
+
+No [Firebase Console](https://console.firebase.google.com/), abra o projeto `rainhadascapas-5a49a` e habilite **Authentication → Sign-in method → Google**. Em **Authentication → Settings → Authorized domains**, adicione o domínio do GitHub Pages, normalmente `yurihbo.github.io`, e qualquer domínio personalizado utilizado posteriormente.
+
+Em **Firestore Database → Rules**, publique o conteúdo de `firestore.rules`. As regras negam sessões anônimas, contas fora da allowlist e qualquer caminho que não seja `sharedWorkspaces/main`. A aplicação não deve voltar a habilitar Anonymous Auth como mecanismo de acesso.
+
+A configuração pública do Firebase é lida por variáveis Vite. Os valores podem ficar no ambiente de build do GitHub Actions porque não são credenciais privadas; a proteção real está nas regras do Firestore e na lista de contas autorizadas.
+
+| Variável | Finalidade |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | Chave pública do aplicativo Firebase |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Domínio do Authentication |
+| `VITE_FIREBASE_PROJECT_ID` | ID do projeto Firebase |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Bucket configurado no projeto |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Identificador de mensagens Firebase |
+| `VITE_FIREBASE_APP_ID` | Identificador do aplicativo web |
+| `VITE_FIREBASE_MEASUREMENT_ID` | Identificador opcional do Analytics |
+
+Os valores padrão existentes correspondem ao projeto `rainhadascapas-5a49a`. Em um fork ou novo projeto, substitua-os por variáveis no ambiente de build e nunca grave credenciais privadas no repositório.
+
+## Desenvolvimento local
 
 Instale Node.js 22 ou superior e pnpm. Depois, execute:
 
 ```bash
 pnpm install
-pnpm check
+pnpm exec tsc --noEmit
 pnpm test
-pnpm build
+pnpm run build
 pnpm dev
 ```
 
-O servidor não deve ter uma porta fixa em produção. A porta é fornecida pelo ambiente de hospedagem.
+O desenvolvimento abre a aplicação em `http://localhost:3000`. Para testar o login localmente, adicione `localhost` aos domínios autorizados do Firebase. O login Google usa popup e pode exigir que o navegador permita popups para o endereço local.
 
-## Variáveis necessárias
+## Publicação no GitHub Pages
 
-A versão funcional precisa receber as variáveis abaixo no ambiente de execução. Os valores não devem ser gravados no GitHub nem em arquivos `.env` versionados.
+O workflow `.github/workflows/deploy-pages.yml` instala as dependências, gera o build estático e publica o diretório de saída no Pages. A aplicação utiliza `import.meta.env.BASE_URL` para calcular o caminho do manifesto e do service worker quando o endereço contém `/Rainhadascapas/`.
 
-| Variável | Finalidade |
-|---|---|
-| `DATABASE_URL` | Conexão MySQL/TiDB para usuários, atividades, fila offline, revendedores e itens |
-| `JWT_SECRET` | Assinatura das sessões |
-| `VITE_APP_ID` | Identificação da aplicação OAuth |
-| `OAUTH_SERVER_URL` | Servidor OAuth |
-| `VITE_OAUTH_PORTAL_URL` | Portal de login exibido no navegador |
-| `OWNER_OPEN_ID` | Identificador da conta proprietária, promovida automaticamente a administradora |
-| `OWNER_NAME` | Nome da conta proprietária |
-| `BUILT_IN_FORGE_API_URL` | Endpoint de serviços internos necessários ao backend |
-| `BUILT_IN_FORGE_API_KEY` | Credencial privada do backend |
-| `VITE_FRONTEND_FORGE_API_URL` | Endpoint público necessário ao frontend |
-| `VITE_FRONTEND_FORGE_API_KEY` | Credencial pública do frontend |
-| `VITE_ANALYTICS_ENDPOINT` | Endpoint opcional de métricas |
-| `VITE_ANALYTICS_WEBSITE_ID` | Identificador opcional de métricas |
-| `VITE_APP_TITLE` | Título do aplicativo |
-| `VITE_APP_LOGO` | Logo configurada para o aplicativo |
+Após a publicação, abra o endereço do Pages, selecione **Entrar com Google** e use uma das contas autorizadas. Uma conta fora da allowlist será desconectada imediatamente e não conseguirá ler nem gravar o Firestore.
 
-Configure também as URLs de retorno OAuth para o domínio final, incluindo o callback `/api/oauth/callback`, conforme o provedor de autenticação utilizado.
+## Operação compartilhada e perfil
 
-## Banco de dados
+As alterações em revendedores, itens, pagamentos e catálogo são gravadas no workspace principal e distribuídas pelo listener do Firestore aos usuários autorizados. O módulo **Meu perfil** permite alterar nome e foto; a foto é recortada para quadrado e comprimida no navegador antes do salvamento local. **Configurações** mantém notificações, atualização do PWA e a alternância persistente entre modo claro e modo escuro premium.
 
-Após configurar `DATABASE_URL`, gere e aplique as migrações de forma controlada:
+## Validação
 
-```bash
-pnpm drizzle-kit generate
-pnpm drizzle-kit migrate
-```
-
-As tabelas principais incluem `users`, `userActivities`, `offlineOperations`, `sellers` e `sellerItems`. A sincronização offline utiliza identificadores de operação e de cliente para evitar duplicidade durante novas tentativas.
-
-## Publicação full-stack
-
-O fluxo recomendado é instalar as dependências, configurar os segredos no ambiente de produção, aplicar as migrações, executar os testes e gerar o build. O processo de execução deve iniciar `server/_core/index.ts` com a porta fornecida pelo host. O domínio final precisa usar HTTPS para que OAuth, instalação PWA e service worker funcionem corretamente.
-
-Antes de liberar a aplicação, confirme o login Google, a promoção da conta proprietária, a criação de revendedores e itens, a alteração de pagamentos, a sincronização após ficar offline e a instalação do PWA em celular.
-
-## GitHub Pages — versão limitada
-
-Se o GitHub Pages for obrigatório, ele deve ser tratado somente como uma demonstração estática. Essa publicação não deve prometer login, banco, permissões, relatórios persistidos, sincronização offline com o servidor ou pagamentos persistidos. Para disponibilizar uma versão estática separada, crie uma entrada de build específica, remova as chamadas ao backend e informe visualmente que se trata de uma demonstração sem persistência. Não substitua a versão full-stack por essa variante.
-
-## Estado da validação
-
-A versão enviada foi validada com typecheck, seis testes Vitest e build de produção. As funcionalidades de autenticação, persistência, sincronização offline, PWA e perfil dependem das variáveis de ambiente e do host full-stack configurados corretamente.
+A validação local atual inclui typecheck, build de produção e oito testes Vitest. Ainda é necessário concluir no Firebase Console a habilitação do provedor Google e a publicação da versão atual de `firestore.rules`, caso essas duas ações ainda não tenham sido feitas após esta alteração. Depois disso, valide com duas contas autorizadas em navegadores diferentes: uma alteração de pagamento ou cadastro deve aparecer sem recarregar a página.

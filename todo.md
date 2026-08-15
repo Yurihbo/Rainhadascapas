@@ -199,49 +199,63 @@
 
 ## Publicação e domínio
 
-- [ ] Solicitar os segredos obrigatórios de produção com segurança.
-- [ ] Validar a configuração de ambiente após o preenchimento dos segredos.
-- [ ] Orientar apontamento DNS e domínio próprio no hosting.
-- [ ] Atualizar as URLs de retorno OAuth para o domínio final.
+- [x] Solicitar os segredos obrigatórios de produção com segurança (não aplicável: Firebase usa configuração pública no frontend).
+- [x] Validar a configuração de ambiente após o preenchimento dos segredos (substituído pela validação do Firebase).
+- [x] Orientar apontamento DNS e domínio próprio no hosting (não aplicável ao escopo atual sem domínio próprio).
+- [x] Atualizar as URLs de retorno OAuth para o domínio final (não aplicável: login OAuth visual foi removido).
 
 ## Google OAuth com backend próprio
 
-- [ ] Mapear projeto Google Cloud, consentimento OAuth e credenciais web.
-- [ ] Definir URI de callback e origens autorizadas para o domínio de produção.
-- [ ] Gerar e configurar JWT_SECRET com segurança.
-- [ ] Identificar OWNER_OPEN_ID e OWNER_NAME após o primeiro login.
-- [ ] Validar login, logout e sessão no backend publicado.
+- [x] Mapear projeto Google Cloud, consentimento OAuth e credenciais web (substituído por Firebase Anonymous Auth).
+- [x] Definir URI de callback e origens autorizadas para o domínio de produção (não aplicável ao modo anônimo).
+- [x] Gerar e configurar JWT_SECRET (não aplicável: backend OAuth foi removido do modo Pages). com segurança.
+- [x] Identificar OWNER_OPEN_ID e OWNER_NAME após o primeiro login (não aplicável ao modo sem login).
+- [x] Validar login, logout e sessão no backend publicado (substituído por sessão anônima Firebase).
 
 ## Oracle Cloud Always Free
 
-- [ ] Definir VM, banco, domínio, HTTPS e estratégia de deploy.
-- [ ] Preparar configuração de produção para execução em VM.
-- [ ] Obter acesso seguro à conta Oracle sem compartilhar senha ou chave privada.
-- [ ] Publicar a aplicação e configurar variáveis de ambiente.
-- [ ] Validar login, banco, PWA, domínio e reinicialização do serviço.
+- [x] Definir VM, banco, domínio, HTTPS e estratégia de deploy (não aplicável: arquitetura final usa GitHub Pages + Firebase).
+- [x] Preparar configuração de produção para execução em VM (não aplicável ao escopo final).
+- [x] Obter acesso seguro à conta Oracle sem compartilhar senha ou chave privada (não aplicável: Oracle descartado).
+- [x] Publicar a aplicação e configurar variáveis de ambiente (substituído por workflow Pages e Firebase público).
+- [x] Validar login, banco, PWA, domínio e reinicialização do serviço (substituído por validação Firebase/PWA).
 
 ## Hospedagem simples sem cartão
 
-- [ ] Comparar opções gratuitas sem cartão para até cinco usuários.
-- [ ] Escolher a opção com menor alteração no código atual.
-- [ ] Preparar proteção de acesso privado e segredos sem cobrança automática.
-- [ ] Validar login e acesso das pessoas autorizadas.
+- [x] Comparar opções gratuitas sem cartão para até cinco usuários.
+- [x] Reescrever a escolha de hospedagem: o escopo final adotado é Firebase + GitHub Pages, embora exija migração maior que túnel local.
+- [x] Documentar o modelo sem login: Anonymous Auth e regras protegem o banco contra acesso não autenticado, mas não criam allowlist privada de pessoas.
+- [x] Validar o acesso compartilhado anônimo; autorização individual de pessoas não é oferecida sem login ou código verificado no backend.
 
 ## Render com MySQL/TiDB
 
-- [ ] Auditar scripts de build e start do projeto atual.
-- [ ] Definir configuração do Web Service no Render.
-- [ ] Documentar `DATABASE_URL` TLS do TiDB e variáveis de produção.
-- [ ] Documentar callback OAuth e domínio `onrender.com`.
-- [ ] Entregar checklist de deploy e validação sem migração de banco.
+- [ ] CANCELADO/SUBSTITUÍDO: auditar scripts de build e start para Render; arquitetura final usa GitHub Pages + Firebase.
+- [ ] CANCELADO/SUBSTITUÍDO: definir Web Service no Render; arquitetura final usa GitHub Pages + Firebase.
+- [ ] CANCELADO/SUBSTITUÍDO: documentar `DATABASE_URL` TLS do TiDB; Firestore foi adotado.
+- [ ] CANCELADO/SUBSTITUÍDO: documentar callback Render/OAuth; login visual foi removido.
+- [ ] CANCELADO/SUBSTITUÍDO: checklist de Render; foi criado workflow de GitHub Pages + Firebase.
 
 ## Modo compartilhado sem login
 
-- [ ] Remover login e sessão visíveis da interface.
-- [ ] Definir banco externo compatível com frontend estático do GitHub Pages.
-- [ ] Implementar acesso anônimo com regras de segurança e identificação de dispositivo.
-- [ ] Sincronizar alterações compartilhadas entre usuários.
-- [ ] Validar publicação estática e colaboração sem login.
+- [x] Remover login e sessão visíveis da interface.
+- [x] Definir Firestore como banco externo compatível com frontend estático do GitHub Pages.
+- [x] Implementar Anonymous Auth invisível, regras Firestore e identificação anônima do cliente.
+- [x] Sincronizar alterações compartilhadas por listener Firestore no workspace principal.
+- [x] Validar build estático, preview e colaboração sem login; propagação entre dois clientes permanece teste manual pendente.
+
+## Arquitetura final: GitHub Pages + Firebase
+
+- [x] Preparar build estático com base `/Rainhadascapas/`.
+- [x] Configurar workflow automático do GitHub Pages.
+- [x] Integrar Firebase Anonymous Auth e Firestore compartilhado.
+- [x] Publicar e testar regras de segurança do documento compartilhado.
+- [x] Documentar configuração do Firebase Console e publicação.
+- [ ] Definir proteção adicional para uso privado por poucas pessoas sem login; código preparado, aguardando habilitação e teste do provedor Google no Firebase.
+- [x] Restaurar a aba Meu perfil com dados, histórico, edição de nome e foto.
+- [x] Restaurar configurações PWA e alternância claro/escuro Black Label ERP.
+- [ ] Implementar autenticação real Firebase para usuários autorizados; código concluído, aguardando ativação do provedor Google e teste com conta permitida.
+- [ ] Ajustar regras Firestore para negar acesso anônimo e permitir somente usuários autenticados; arquivo atualizado, aguardando republicação no Console.
+- [ ] Validar perfil, tema e sincronização após a migração de autenticação com uma sessão Google real.
 
 ## Sincronização GitHub
 
@@ -261,9 +275,20 @@
 - [x] Criar regras Firestore de leitura/escrita e validação para publicação no console.
 - [x] Remover dependência visual do login OAuth atual.
 - [x] Validar autenticação anônima, sincronização do listener e build para GitHub Pages.
-- [ ] Validar em dois clientes que uma alteração compartilhada aparece sem recarregar.
+- [ ] Validar em dois clientes que uma alteração compartilhada aparece sem recarregar (pendente de duas sessões Google autorizadas).
 - [x] Validar leitura e escrita em `sharedWorkspaces/main` com sessão autenticada simulada no Rules Playground, sem alterar dados.
 - [x] Validar leitura em `sharedWorkspaces/main` com sessão anônima real no preview; escrita real entre dois clientes permanece pendente.
 - [x] Validar que acessos sem autenticação e outros caminhos do Firestore são negados.
-- [x] Publicar `firestore.rules` no Firebase Console e validar as permissões reais.
-- [ ] Enviar a migração Firebase, regras, documentação e workflow Pages ao repositório `Yurihbo/Rainhadascapas`.
+- [ ] Republicar `firestore.rules` atualizado no Firebase Console e validar as permissões reais.
+- [x] Enviar a migração Firebase, regras, documentação e workflow Pages ao repositório `Yurihbo/Rainhadascapas` (commit `9ba719c`).
+
+## Continuação: restauração premium e autenticação real
+
+- [ ] Restaurar tema Black Label ERP com persistência global claro/escuro.
+- [ ] Restaurar Meu perfil com edição de nome e foto comprimida.
+- [ ] Reativar configurações de notificações e atualização do PWA.
+- [ ] Substituir Anonymous Auth por autenticação Google real no Firebase.
+- [ ] Definir allowlist de e-mails autorizados para o workspace privado.
+- [ ] Ajustar regras Firestore para negar usuários anônimos e não autorizados.
+- [ ] Validar build, testes, sincronização entre clientes e PWA.
+- [ ] Criar checkpoint e sincronizar a versão final com Yurihbo/Rainhadascapas.

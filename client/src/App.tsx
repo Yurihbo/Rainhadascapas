@@ -8,7 +8,7 @@ import Home from "@/pages/Home";
 export default function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark" switchable>
         <TooltipProvider>
           <Toaster position="bottom-right" />
           <Home />
