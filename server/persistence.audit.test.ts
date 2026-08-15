@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { stripUndefined } from "../client/src/lib/sharedWorkspace";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -10,6 +11,10 @@ describe("shared persistence safeguards", () => {
     expect(serviceWorker).toContain('cache: "no-store"');
     expect(serviceWorker).toContain('const STATIC_DESTINATIONS = new Set(["image", "font", "audio", "video"])');
     expect(serviceWorker).not.toContain('cache.put(new Request(request');
+  });
+
+  it("removes undefined values from nested Firestore payloads", () => {
+    expect(stripUndefined({ sellers: [{ name: "João", avatar: undefined, items: [{ note: undefined, item: "Capa" }] }] })).toEqual({ sellers: [{ name: "João", items: [{ item: "Capa" }] }] });
   });
 
   it("serializes Firestore writes and reports the authenticated writer", () => {

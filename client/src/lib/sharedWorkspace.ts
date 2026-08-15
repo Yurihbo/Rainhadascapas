@@ -11,6 +11,14 @@ export type SharedCatalogStore = { id: string; name: string; categories: Array<{
 export type SharedReport = { id: string; title: string; type: string; week: string; createdAt: number };
 export type WorkspaceData = { sellers?: SharedSeller[]; catalog?: SharedCatalogStore[]; reports?: SharedReport[] };
 
+export function stripUndefined<T>(value: T): T {
+  if (Array.isArray(value)) return value.map((item) => stripUndefined(item)).filter((item) => item !== undefined) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined).map(([key, item]) => [key, stripUndefined(item)])) as T;
+  }
+  return value;
+}
+
 export function reconcileWorkspaceData(data: WorkspaceData | undefined, current: WorkspaceData): WorkspaceData {
   return {
     sellers: Array.isArray(data?.sellers) ? data.sellers : current.sellers ?? [],
@@ -121,7 +129,7 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
 
   const persist = useCallback((nextSellers: SharedSeller[], nextCatalog: SharedCatalogStore[], nextReports = reportsRef.current) => {
     if (!session.user) return;
-    const payload = { sellers: nextSellers, catalog: nextCatalog, reports: nextReports, updatedAt: Date.now(), updatedBy: session.user.email ?? session.user.uid };
+    const payload = stripUndefined({ sellers: nextSellers, catalog: nextCatalog, reports: nextReports, updatedAt: Date.now(), updatedBy: session.user.email ?? session.user.uid });
     writeQueueRef.current = writeQueueRef.current
       .catch(() => undefined)
       .then(async () => {

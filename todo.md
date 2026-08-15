@@ -388,3 +388,12 @@
 - [x] Garantir sincronização Firestore em tempo real entre todas as sessões autorizadas.
 - [x] Criar testes de persistência, reidratação e sincronização para os fluxos principais.
 - [x] Validar o bundle publicado em produção e criar checkpoint final.
+
+
+## Falha persistente de gravação — nova investigação
+
+- [ ] Confirmar se a ação de interface chama o setter compartilhado e inicia uma escrita Firestore.
+- [ ] Capturar o código e a mensagem exata de qualquer erro de `setDoc` ou regra Firestore.
+- [ ] Confirmar no Console do Firestore se o documento muda após uma ação e se é sobrescrito por outro snapshot.
+- [ ] Corrigir a causa raiz efetiva da perda após recarregar.
+- [ ] Validar novamente persistência na mesma conta e propagação entre contas.
