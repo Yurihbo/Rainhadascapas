@@ -9,5 +9,18 @@
   "background_color": "#0d0d0d",
   "theme_color": "#0d0d0d",
   "orientation": "any",
-  "icons": []
+  "icons": [
+    {
+      "src": "./assets/logo.webp",
+      "sizes": "720x720",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/crown-mark.webp",
+      "sizes": "640x640",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
 }

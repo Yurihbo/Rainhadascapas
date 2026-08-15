@@ -51,9 +51,10 @@ import {
 
 type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: "accepted" | "dismissed" }> };
 
-const logo = "/manus-storage/LogoTemaescuro_8c9fab9b.png";
-const texture = "/manus-storage/rainha-dashboard-texture_f5713e94.png";
-const productStill = "/manus-storage/rainha-product-still-life_09453806.png";
+const publicAsset = (name: string) => `${import.meta.env.BASE_URL}assets/${name}`;
+const logo = publicAsset("logo.webp");
+const texture = publicAsset("dashboard-texture.webp");
+const productStill = publicAsset("product-still-life.webp");
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },

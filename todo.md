@@ -327,3 +327,11 @@
 - [x] Remover a duplicidade de versões do pnpm no workflow `deploy-pages.yml`; a Action agora usa somente `packageManager` do projeto.
 - [x] Validar YAML, instalação congelada, 10 testes Vitest, typecheck e build do workflow após a correção.
 - [x] Enviar a correção ao branch `main` e confirmar uma execução Pages bem-sucedida; commit `29990b4`, run `31858875904`.
+
+## Correção dos ativos visuais no GitHub Pages
+
+- [x] Auditar referências `/manus-storage/` e arquivos de logo, favicon, fundo e imagens decorativas.
+- [x] Colocar os ativos WebP necessários em `client/public/assets`.
+- [x] Ajustar referências para `import.meta.env.BASE_URL` e URLs `%BASE_URL%` relativas do Pages.
+- [x] Validar logo, favicon, manifesto PWA, ativos no `dist/public/assets`, 10 testes, typecheck e build público.
+- [ ] Enviar a correção ao GitHub e confirmar publicação visual no Pages.
