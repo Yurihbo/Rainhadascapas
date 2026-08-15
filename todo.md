@@ -255,7 +255,7 @@
 - [x] Restaurar configurações PWA e alternância claro/escuro Black Label ERP.
 - [x] Implementar autenticação real Firebase para usuários autorizados; Google habilitado e Anonymous desativado.
 - [x] Ajustar regras Firestore para negar acesso anônimo e permitir somente usuários autenticados; regras publicadas no Console.
-- [ ] Validar perfil, tema e sincronização após a migração de autenticação com uma sessão Google real; aguardando senha/2FA da conta administradora.
+- [x] Validar perfil e tema após a migração de autenticação com sessão Google real; sincronização entre clientes permanece pendente.
 
 ## Sincronização GitHub
 
@@ -290,13 +290,13 @@
 - [x] Substituir Anonymous Auth por autenticação Google real no Firebase; provedor Google ativo e Anonymous desativado.
 - [x] Definir allowlist de e-mails autorizados para o workspace privado.
 - [x] Ajustar regras Firestore para negar usuários anônimos e não autorizados; regras publicadas.
-- [ ] Validar login Google real, sincronização entre duas sessões autorizadas e PWA; build e testes locais já passaram.
-- [ ] Criar checkpoint e sincronizar a versão final com Yurihbo/Rainhadascapas.
+- [x] Validar login Google real, acesso ao painel, Meu perfil, tema premium, configurações PWA, build e testes locais; sincronização entre duas sessões permanece pendente.
+- [x] Criar checkpoint `9f318adc` e sincronizar a política de acesso no repositório `Yurihbo/Rainhadascapas` no commit `95efe44`.
 
 ## Pendências de validação externa após a migração Google
 
-- [ ] Concluir o login Google real com a conta administradora após senha/2FA.
-- [ ] Confirmar no aplicativo o acesso ao workspace, Meu perfil, tema e configurações PWA com uma sessão Google real.
+- [x] Concluir o login Google real com a conta administradora após senha/2FA.
+- [x] Confirmar no aplicativo o acesso ao workspace, Meu perfil, tema e configurações PWA com uma sessão Google real.
 - [ ] Testar uma conta Google não autorizada e uma sessão anônima no aplicativo para confirmar o bloqueio real do Firestore.
 - [ ] Validar em duas sessões Google autorizadas que as alterações em sharedWorkspaces/main propagam sem recarregar.
 - [ ] Republicar a variante das regras com rejeição explícita de sign_in_provider anônimo, caso o Console permita após nova autenticação.
