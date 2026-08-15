@@ -365,7 +365,7 @@
 - [x] Validar o GitHub Pages com a conta administradora e painel premium carregado.
 - [ ] Validar manualmente, em duas sessões Google autorizadas, uma alteração propagada sem recarregar.
 - [ ] Validar manualmente uma conta fora da allowlist e confirmar bloqueio visual e no Firestore.
-- [ ] Fazer commit e push das alterações locais finais de `sharedWorkspace.ts`, `firestore.rules` e deste checklist.
+- [x] Fazer commit e push das alterações locais finais de `sharedWorkspace.ts`, `firestore.rules` e deste checklist.
 
 
 ## Nova falha reportada — sincronização entre contas
@@ -380,9 +380,9 @@
 
 ## Auditoria integral de persistência e integração — nova falha
 
-- [ ] Mapear todas as ações de criação, edição, remoção e alteração de status em todas as páginas.
-- [ ] Identificar por que alterações feitas na própria conta desaparecem após recarregar.
-- [ ] Identificar por que as alterações não chegam a outras contas autorizadas.
+- [x] Mapear todas as ações de criação, edição, remoção e alteração de status em todas as páginas.
+- [x] Identificar por que alterações feitas na própria conta desaparecem após recarregar.
+- [x] Identificar por que as alterações não chegam a outras contas autorizadas.
 - [x] Corrigir a fonte canônica de estado para revendedores, itens, pagamentos, catálogo e relatórios.
 - [x] Garantir persistência e reidratação após reload em todas as páginas.
 - [x] Garantir sincronização Firestore em tempo real entre todas as sessões autorizadas.
