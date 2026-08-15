@@ -10,9 +10,13 @@ export type SharedSeller = { clientId?: string; name: string; initials: string; 
 export type SharedCatalogStore = { id: string; name: string; categories: Array<{ id: string; name: string; subcategories: Array<{ id: string; name: string; items: Array<{ id: string; name: string }> }> }> };
 type WorkspaceData = { sellers?: SharedSeller[]; catalog?: SharedCatalogStore[] };
 
-function isAllowedUser(user: User | null) {
+export function isAllowedSession(user: Pick<User, "email" | "isAnonymous"> | null | undefined) {
   const email = user?.email?.toLowerCase();
-  return Boolean(email && !user?.isAnonymous && ALLOWED_EMAILS.includes(email as (typeof ALLOWED_EMAILS)[number]));
+  return Boolean(email && user?.isAnonymous !== true && ALLOWED_EMAILS.includes(email as (typeof ALLOWED_EMAILS)[number]));
+}
+
+function isAllowedUser(user: User | null) {
+  return isAllowedSession(user);
 }
 
 export function useGoogleSession() {
