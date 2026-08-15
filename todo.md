@@ -341,4 +341,4 @@
 - [x] Corrigir a impressão/PDF da lista de mercadorias com modo isolado de impressão, texto visível e fundo branco.
 - [x] Tornar Registrar pagamento funcional com seleção de revendedor, status e confirmação.
 - [x] Persistir o status do pagamento pelo workspace compartilhado e atualizar dashboard, pagamentos e revendedores imediatamente.
-- [ ] Validar desktop, mobile, testes, build e publicar esta correção no GitHub Pages.
+- [x] Validar responsividade do preview, 10 testes, typecheck, build e publicar a correção no GitHub Pages; workflow `31860118137` concluído com sucesso.
