@@ -269,3 +269,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
   body.printing-catalog .catalog-print-sheet .catalog-category,
   body.printing-catalog .catalog-print-sheet .subcategory-card { background: #fff !important; border-color: #ddd !important; }
 }
+
+.sync-error-banner { margin: 12px 38px 0; padding: 10px 14px; border: 1px solid #b95e5745; border-radius: 9px; color: #a54842; background: #fae8e566; font-size: 11px; }
+@media (max-width: 760px) { .sync-error-banner { margin: 10px 15px 0; } }

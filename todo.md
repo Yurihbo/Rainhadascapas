@@ -342,3 +342,10 @@
 - [x] Tornar Registrar pagamento funcional com seleção de revendedor, status e confirmação.
 - [x] Persistir o status do pagamento pelo workspace compartilhado e atualizar dashboard, pagamentos e revendedores imediatamente.
 - [x] Validar responsividade do preview, 10 testes, typecheck, build e publicar a correção no GitHub Pages; workflow `31860118137` concluído com sucesso.
+
+## Correção de sincronização entre contas e perfis
+
+- [x] Auditar por que mutações feitas por uma conta não chegavam às demais; a persistência dependia de efeito indireto e ocultava erros.
+- [x] Corrigir a persistência/listener do workspace compartilhado para todas as contas autorizadas com gravação explícita e erro visível.
+- [x] Migrar nome e foto do perfil para armazenamento por UID, sem usar chaves locais globais.
+- [ ] Validar alterações cruzadas entre conta principal e secundária; testes, typecheck e build já passaram, aguardando confirmação real no Pages.

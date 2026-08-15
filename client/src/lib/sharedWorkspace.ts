@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, type User } from "firebase/auth";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { firebaseAuth, firestore } from "./firebase";
 
 export const ALLOWED_EMAILS = ["yuridesousasilva@gmail.com", "amanda.mds171@gmail.com", "rainhadascapas35@gmail.com", "orlando_soscelular@gmail.com", "yurihbo2@gmail.com"] as const;
@@ -50,24 +50,58 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
   const [sellers, setSellers] = useState(seedSellers);
   const [catalog, setCatalog] = useState(seedCatalog);
   const [ready, setReady] = useState(false);
+  const [syncError, setSyncError] = useState<string | null>(null);
   const session = useGoogleSession();
   const ref = useMemo(() => doc(firestore, "sharedWorkspaces", "main"), []);
+  const sellersRef = useRef(sellers);
+  const catalogRef = useRef(catalog);
+  useEffect(() => { sellersRef.current = sellers; }, [sellers]);
+  useEffect(() => { catalogRef.current = catalog; }, [catalog]);
+
   useEffect(() => {
     setReady(false);
+    setSyncError(null);
     if (!session.user) return;
     return onSnapshot(ref, (snapshot) => {
       const data = snapshot.data() as WorkspaceData | undefined;
       const nextSellers = data?.sellers ?? seedSellers;
       const nextCatalog = data?.catalog ?? seedCatalog;
-      setSellers(nextSellers); setCatalog(nextCatalog);
-      if (!snapshot.exists()) void setDoc(ref, { sellers: nextSellers, catalog: nextCatalog, updatedAt: Date.now() });
+      sellersRef.current = nextSellers;
+      catalogRef.current = nextCatalog;
+      setSellers(nextSellers);
+      setCatalog(nextCatalog);
+      if (!snapshot.exists()) void setDoc(ref, { sellers: nextSellers, catalog: nextCatalog, updatedAt: Date.now() }).catch((error) => { console.error("[sharedWorkspace] initial write error", error); setSyncError("Não foi possível criar o espaço compartilhado. Verifique as regras do Firebase."); });
       setReady(true);
-    }, () => setReady(true));
+    }, (error) => {
+      console.error("[sharedWorkspace] listener error", error);
+      setSyncError("Não foi possível ler o espaço compartilhado. Verifique as regras do Firebase.");
+      setReady(true);
+    });
   }, [session.user, ref, seedSellers, seedCatalog]);
+
   const persist = useCallback(async (nextSellers: SharedSeller[], nextCatalog: SharedCatalogStore[]) => {
     if (!session.user) return;
-    await setDoc(ref, { sellers: nextSellers, catalog: nextCatalog, updatedAt: Date.now() }, { merge: true });
+    try {
+      await setDoc(ref, { sellers: nextSellers, catalog: nextCatalog, updatedAt: Date.now() }, { merge: true });
+      setSyncError(null);
+    } catch (error) {
+      console.error("[sharedWorkspace] write error", error);
+      setSyncError("A alteração ficou local e não foi enviada ao espaço compartilhado.");
+    }
   }, [ref, session.user]);
-  useEffect(() => { if (ready && session.user) void persist(sellers, catalog); }, [ready, session.user, sellers, catalog, persist]);
-  return { sellers, setSellers, catalog, setCatalog, ready, session };
+
+  const updateSellers = useCallback((updater: SharedSeller[] | ((current: SharedSeller[]) => SharedSeller[])) => {
+    const next = typeof updater === "function" ? (updater as (current: SharedSeller[]) => SharedSeller[])(sellersRef.current) : updater;
+    sellersRef.current = next;
+    setSellers(next);
+    void persist(next, catalogRef.current);
+  }, [persist]);
+  const updateCatalog = useCallback((updater: SharedCatalogStore[] | ((current: SharedCatalogStore[]) => SharedCatalogStore[])) => {
+    const next = typeof updater === "function" ? (updater as (current: SharedCatalogStore[]) => SharedCatalogStore[])(catalogRef.current) : updater;
+    catalogRef.current = next;
+    setCatalog(next);
+    void persist(sellersRef.current, next);
+  }, [persist]);
+
+  return { sellers, setSellers: updateSellers, catalog, setCatalog: updateCatalog, ready, syncError, session };
 }
