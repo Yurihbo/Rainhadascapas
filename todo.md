@@ -334,4 +334,4 @@
 - [x] Colocar os ativos WebP necessários em `client/public/assets`.
 - [x] Ajustar referências para `import.meta.env.BASE_URL` e URLs `%BASE_URL%` relativas do Pages.
 - [x] Validar logo, favicon, manifesto PWA, ativos no `dist/public/assets`, 10 testes, typecheck e build público.
-- [ ] Enviar a correção ao GitHub e confirmar publicação visual no Pages.
+- [x] Enviar a correção ao GitHub e confirmar publicação visual no Pages; commit `7e199cd`, workflow `31859157332` concluído com sucesso e ativos públicos retornando HTTP 200.
