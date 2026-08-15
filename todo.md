@@ -250,12 +250,12 @@
 - [x] Integrar Firebase Anonymous Auth e Firestore compartilhado.
 - [x] Publicar e testar regras de segurança do documento compartilhado.
 - [x] Documentar configuração do Firebase Console e publicação.
-- [ ] Definir proteção adicional para uso privado por poucas pessoas sem login; código preparado, aguardando habilitação e teste do provedor Google no Firebase.
+- [x] Definir proteção privada por allowlist de cinco contas; Google habilitado, Anonymous desativado e domínios autorizados configurados.
 - [x] Restaurar a aba Meu perfil com dados, histórico, edição de nome e foto.
 - [x] Restaurar configurações PWA e alternância claro/escuro Black Label ERP.
-- [ ] Implementar autenticação real Firebase para usuários autorizados; código concluído, aguardando ativação do provedor Google e teste com conta permitida.
-- [ ] Ajustar regras Firestore para negar acesso anônimo e permitir somente usuários autenticados; arquivo atualizado, aguardando republicação no Console.
-- [ ] Validar perfil, tema e sincronização após a migração de autenticação com uma sessão Google real.
+- [x] Implementar autenticação real Firebase para usuários autorizados; Google habilitado e Anonymous desativado.
+- [x] Ajustar regras Firestore para negar acesso anônimo e permitir somente usuários autenticados; regras publicadas no Console.
+- [ ] Validar perfil, tema e sincronização após a migração de autenticação com uma sessão Google real; aguardando senha/2FA da conta administradora.
 
 ## Sincronização GitHub
 
@@ -279,16 +279,24 @@
 - [x] Validar leitura e escrita em `sharedWorkspaces/main` com sessão autenticada simulada no Rules Playground, sem alterar dados.
 - [x] Validar leitura em `sharedWorkspaces/main` com sessão anônima real no preview; escrita real entre dois clientes permanece pendente.
 - [x] Validar que acessos sem autenticação e outros caminhos do Firestore são negados.
-- [ ] Republicar `firestore.rules` atualizado no Firebase Console e validar as permissões reais.
+- [x] Republicar `firestore.rules` atualizado no Firebase Console e validar as permissões reais.
 - [x] Enviar a migração Firebase, regras, documentação e workflow Pages ao repositório `Yurihbo/Rainhadascapas` (commit `9ba719c`).
 
 ## Continuação: restauração premium e autenticação real
 
-- [ ] Restaurar tema Black Label ERP com persistência global claro/escuro.
-- [ ] Restaurar Meu perfil com edição de nome e foto comprimida.
-- [ ] Reativar configurações de notificações e atualização do PWA.
-- [ ] Substituir Anonymous Auth por autenticação Google real no Firebase.
-- [ ] Definir allowlist de e-mails autorizados para o workspace privado.
-- [ ] Ajustar regras Firestore para negar usuários anônimos e não autorizados.
-- [ ] Validar build, testes, sincronização entre clientes e PWA.
+- [x] Restaurar tema Black Label ERP com persistência global claro/escuro.
+- [x] Restaurar Meu perfil com edição de nome e foto comprimida.
+- [x] Reativar configurações de notificações e atualização do PWA.
+- [x] Substituir Anonymous Auth por autenticação Google real no Firebase; provedor Google ativo e Anonymous desativado.
+- [x] Definir allowlist de e-mails autorizados para o workspace privado.
+- [x] Ajustar regras Firestore para negar usuários anônimos e não autorizados; regras publicadas.
+- [ ] Validar login Google real, sincronização entre duas sessões autorizadas e PWA; build e testes locais já passaram.
 - [ ] Criar checkpoint e sincronizar a versão final com Yurihbo/Rainhadascapas.
+
+## Pendências de validação externa após a migração Google
+
+- [ ] Concluir o login Google real com a conta administradora após senha/2FA.
+- [ ] Confirmar no aplicativo o acesso ao workspace, Meu perfil, tema e configurações PWA com uma sessão Google real.
+- [ ] Testar uma conta Google não autorizada e uma sessão anônima no aplicativo para confirmar o bloqueio real do Firestore.
+- [ ] Validar em duas sessões Google autorizadas que as alterações em sharedWorkspaces/main propagam sem recarregar.
+- [ ] Republicar a variante das regras com rejeição explícita de sign_in_provider anônimo, caso o Console permita após nova autenticação.
