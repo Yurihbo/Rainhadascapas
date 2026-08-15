@@ -262,4 +262,7 @@
 - [x] Remover dependência visual do login OAuth atual.
 - [x] Validar autenticação anônima, sincronização do listener e build para GitHub Pages.
 - [ ] Validar em dois clientes que uma alteração compartilhada aparece sem recarregar.
-- [ ] Publicar `firestore.rules` no Firebase Console e validar as permissões reais.
+- [x] Validar leitura e escrita em `sharedWorkspaces/main` com sessão autenticada simulada no Rules Playground, sem alterar dados.
+- [x] Validar leitura em `sharedWorkspaces/main` com sessão anônima real no preview; escrita real entre dois clientes permanece pendente.
+- [x] Validar que acessos sem autenticação e outros caminhos do Firestore são negados.
+- [x] Publicar `firestore.rules` no Firebase Console e validar as permissões reais.
