@@ -182,6 +182,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outl
 .auth-card h1 { margin: 12px 0 10px; color: #e8c76a; font-family: "Playfair Display", serif; font-size: clamp(32px, 7vw, 44px); line-height: 1.05; }
 .auth-card p { margin: 0 auto 25px; max-width: 330px; color: #b6b0a5; line-height: 1.6; }
 .auth-card small { display: block; margin-top: 18px; color: #777269; font-size: 11px; }
+.auth-recovery-card p { margin-bottom: 20px; }
+.auth-browser-link { text-decoration: none; justify-content: center; width: 100%; }
+.auth-copy-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; width: 100%; margin-top: 10px; padding: 10px 14px; border: 1px solid #5f5127; border-radius: 8px; background: #211f19; color: #e8c76a; font-size: 11px; font-weight: 700; }
+.auth-copy-button:hover { background: #2c281d; }
+.auth-browser-url { display: block; width: 100%; margin-top: 14px; padding: 9px 10px; overflow-wrap: anywhere; border: 1px solid #332e23; border-radius: 7px; background: #0c0c0c; color: #aaa394; font-size: 9px; line-height: 1.45; text-align: left; }
+.auth-hint { line-height: 1.55; }
 .auth-login { justify-content: center; width: 100%; }
 .auth-loading { display: flex; align-items: center; justify-content: center; gap: 10px; color: #e8c76a; }
 .spin { animation: spin 1s linear infinite; }
