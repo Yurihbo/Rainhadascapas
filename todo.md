@@ -476,3 +476,12 @@
 - [x] Evitar que a tela de login seja renderizada novamente enquanto a sessão pós-Google ainda está sendo recuperada.
 - [x] Preservar o fluxo normal do Safari móvel e das contas autorizadas.
 - [x] Validar no PWA instalado e publicar checkpoint da correção; validação automatizada e deploy concluídos, confirmação física no aparelho permanece necessária.
+
+
+## Nova tentativa após limpeza sem efeito
+
+- [ ] Auditar manifesto, service worker, base path, origem e fluxo de callback usados pelo PWA instalado.
+- [ ] Implementar handoff controlado para autenticação fora do contexto standalone, sem reset silencioso.
+- [ ] Exibir diagnóstico de recuperação quando a sessão não for restaurada.
+- [ ] Validar Safari, PWA instalado e preservação do login no desktop.
+- [ ] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
