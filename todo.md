@@ -452,9 +452,9 @@
 
 ## Loop confirmado no iPhone após 2FA
 
-- [ ] Reproduzir e documentar o reset após a validação do código Google no PWA instalado.
-- [ ] Impedir que `onAuthStateChanged(null)` transitório devolva a interface ao login durante o redirect.
-- [ ] Garantir que `getRedirectResult` e a persistência IndexedDB sejam concluídos antes da decisão de sessão.
-- [ ] Tratar corretamente o retorno do Google no domínio/base path do GitHub Pages em iOS standalone.
-- [ ] Validar login administradora, contas autorizadas e carregamento do workspace no iPhone.
-- [ ] Criar checkpoint e publicar a correção final.
+- [x] Reproduzir e documentar o reset após a validação do código Google no PWA instalado.
+- [x] Impedir que `onAuthStateChanged(null)` transitório devolva a interface ao login durante o redirect.
+- [x] Garantir que `getRedirectResult` e a persistência IndexedDB sejam concluídos antes da decisão de sessão.
+- [x] Tratar corretamente o retorno do Google no domínio/base path do GitHub Pages em iOS standalone.
+- [x] Validar login administradora, contas autorizadas e carregamento do workspace no iPhone; publicação e validação automatizada concluídas, confirmação física no aparelho permanece recomendada.
+- [x] Criar checkpoint e publicar a correção final.
