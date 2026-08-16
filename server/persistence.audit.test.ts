@@ -35,5 +35,9 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("writeQueueRef");
     expect(workspace).toContain("setDoc(ref, payload");
     expect(workspace).toContain("updatedBy");
+    expect(workspace).toContain("indexedDBLocalPersistence");
+    expect(workspace).toContain("signInWithRedirect(firebaseAuth, provider)");
+    expect(workspace).toContain("getRedirectResult(firebaseAuth)");
+    expect(workspace).toContain("display-mode: standalone");
   });
 });

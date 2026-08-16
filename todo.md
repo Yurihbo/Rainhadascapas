@@ -438,3 +438,13 @@
 - [x] Exibir loading durante a preparação e encerrar em sucesso, erro ou pop-up bloqueado.
 - [x] Validar impressão/PDF, responsividade e regressões.
 - [x] Criar checkpoint e publicar a correção.
+
+
+## Loop de login no PWA instalado
+
+- [ ] Auditar persistência do Firebase Auth e retorno do Google em modo standalone no celular.
+- [ ] Corrigir a restauração da sessão antes de renderizar novamente a tela de login.
+- [ ] Corrigir o redirecionamento/callback do Google para o caminho base do GitHub Pages.
+- [ ] Validar service worker, manifest, login administradora e contas autorizadas no fluxo PWA.
+- [ ] Adicionar ou ajustar testes contra o loop de login.
+- [ ] Criar checkpoint e publicar a correção.
