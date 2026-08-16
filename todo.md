@@ -442,9 +442,9 @@
 
 ## Loop de login no PWA instalado
 
-- [ ] Auditar persistência do Firebase Auth e retorno do Google em modo standalone no celular.
-- [ ] Corrigir a restauração da sessão antes de renderizar novamente a tela de login.
-- [ ] Corrigir o redirecionamento/callback do Google para o caminho base do GitHub Pages.
-- [ ] Validar service worker, manifest, login administradora e contas autorizadas no fluxo PWA.
-- [ ] Adicionar ou ajustar testes contra o loop de login.
-- [ ] Criar checkpoint e publicar a correção.
+- [x] Auditar persistência do Firebase Auth e retorno do Google em modo standalone no celular.
+- [x] Corrigir a restauração da sessão antes de renderizar novamente a tela de login.
+- [x] Corrigir o redirecionamento/callback do Google para o caminho base do GitHub Pages.
+- [x] Validar service worker, manifest, login administradora e contas autorizadas no fluxo PWA; teste final em aparelho instalado permanece recomendado.
+- [x] Adicionar ou ajustar testes contra o loop de login.
+- [x] Criar checkpoint e publicar a correção.
