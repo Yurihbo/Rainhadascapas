@@ -49,5 +49,8 @@ describe("shared persistence safeguards", () => {
     expect(home).toContain("Entre pelo Safari");
     expect(home).toContain("Abrir no Safari para entrar");
     expect(home).toContain("target=\"_blank\"");
+    const manifest = readFileSync(resolve(process.cwd(), "client/public/manifest.json"), "utf8");
+    expect(manifest).toContain('"display": "browser"');
+    expect(manifest).toContain('"display_override": ["browser"]');
   });
 });

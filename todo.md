@@ -494,3 +494,12 @@
 - [x] Adicionar botão para abrir a mesma aplicação no Safari e continuar o login.
 - [x] Preservar o login normal no Safari móvel, desktop e Android.
 - [x] Testar, publicar e criar checkpoint da alteração; testes automatizados e deploy concluídos, confirmação física no iPhone permanece recomendada.
+
+
+## Solução final: atalho iOS em modo navegador
+
+- [x] Auditar manifesto, service worker, base path, origem e fluxo de callback usados pelo PWA instalado.
+- [x] Implementar handoff controlado para autenticação fora do contexto standalone, sem reset silencioso.
+- [x] Exibir diagnóstico de recuperação quando a sessão não for restaurada.
+- [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
+- [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
