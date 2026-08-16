@@ -432,9 +432,9 @@
 
 ## PDF do relatório semanal
 
-- [ ] Auditar por que a impressão atual do relatório semanal gera página em branco.
-- [ ] Criar geração isolada do relatório semanal com logo personalizado ou fallback oficial.
-- [ ] Adicionar cabeçalho com data/hora, semana, tipo, totais e linhas reais do relatório.
-- [ ] Exibir loading durante a preparação e encerrar em sucesso, erro ou pop-up bloqueado.
-- [ ] Validar impressão/PDF, responsividade e regressões.
-- [ ] Criar checkpoint e publicar a correção.
+- [x] Auditar por que a impressão atual do relatório semanal gera página em branco.
+- [x] Criar geração isolada do relatório semanal com logo personalizado ou fallback oficial.
+- [x] Adicionar cabeçalho com data/hora, semana, tipo, totais e linhas reais do relatório.
+- [x] Exibir loading durante a preparação e encerrar em sucesso, erro ou pop-up bloqueado.
+- [x] Validar impressão/PDF, responsividade e regressões.
+- [x] Criar checkpoint e publicar a correção.
