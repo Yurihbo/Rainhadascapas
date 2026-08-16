@@ -417,3 +417,14 @@
 - [x] Garantir que o loading seja encerrado em sucesso, bloqueio de pop-up ou erro.
 - [x] Validar PDF, responsividade e regressões com a sincronização compartilhada.
 - [x] Criar checkpoint e publicar a atualização no GitHub Pages.
+
+
+## Logo personalizado e exportação resumida
+
+- [ ] Adicionar upload de logotipo personalizado na aba Configurações.
+- [ ] Recortar/comprimir o logo e persistir a escolha por conta autorizada.
+- [ ] Usar o logo personalizado nos PDFs individual e geral, com fallback para o logo oficial.
+- [ ] Simplificar o PDF geral de Revendedores para exibir somente revendedor e total.
+- [ ] Manter o PDF individual com o detalhamento completo dos itens.
+- [ ] Validar testes, build, responsividade, sincronização e publicação.
+- [ ] Criar checkpoint da atualização.

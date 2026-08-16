@@ -21,7 +21,10 @@ describe("shared persistence safeguards", () => {
     const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
     expect(home).toContain("function printSellerItems(seller: Seller, onFinished?");
     expect(home).toContain("printWindow.document.write");
-    expect(home).toContain("printSellerItems(seller, () => setPrinting(false))");
+    expect(home).toContain("printSellerItems(seller, () => setPrinting(false), pdfLogo)");
+    expect(home).toContain("compressPdfLogo");
+    expect(home).toContain("IDENTIDADE DOS PDFs");
+    expect(home).toContain("<th>Revendedor</th><th>Total</th>");
   });
 
   it("serializes Firestore writes and reports the authenticated writer", () => {
