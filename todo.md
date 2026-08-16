@@ -428,3 +428,13 @@
 - [x] Manter o PDF individual com o detalhamento completo dos itens.
 - [x] Validar testes, build, responsividade, sincronização e publicação.
 - [x] Criar checkpoint da atualização.
+
+
+## PDF do relatório semanal
+
+- [ ] Auditar por que a impressão atual do relatório semanal gera página em branco.
+- [ ] Criar geração isolada do relatório semanal com logo personalizado ou fallback oficial.
+- [ ] Adicionar cabeçalho com data/hora, semana, tipo, totais e linhas reais do relatório.
+- [ ] Exibir loading durante a preparação e encerrar em sucesso, erro ou pop-up bloqueado.
+- [ ] Validar impressão/PDF, responsividade e regressões.
+- [ ] Criar checkpoint e publicar a correção.

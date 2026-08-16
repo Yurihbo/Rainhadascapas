@@ -25,6 +25,9 @@ describe("shared persistence safeguards", () => {
     expect(home).toContain("compressPdfLogo");
     expect(home).toContain("IDENTIDADE DOS PDFs");
     expect(home).toContain("<th>Revendedor</th><th>Total</th>");
+    expect(home).toContain("function printWeeklyReport");
+    expect(home).toContain("printWeeklyReport({ title: report.title");
+    expect(home).toContain("onClick={generateWeeklyPdf}");
   });
 
   it("serializes Firestore writes and reports the authenticated writer", () => {
