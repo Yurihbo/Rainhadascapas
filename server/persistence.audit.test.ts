@@ -30,7 +30,7 @@ describe("shared persistence safeguards", () => {
     expect(home).toContain("onClick={generateWeeklyPdf}");
   });
 
-  it("serializes Firestore writes and reports the authenticated writer", () => {
+  it("serializes Firestore writes and keeps the standalone iOS screen stable", () => {
     const workspace = readFileSync(resolve(process.cwd(), "client/src/lib/sharedWorkspace.ts"), "utf8");
     expect(workspace).toContain("writeQueueRef");
     expect(workspace).toContain("setDoc(ref, payload");
@@ -44,5 +44,12 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("getRedirectResult(firebaseAuth)");
     expect(workspace).toContain("else if (redirectResolved) acceptUser(null)");
     expect(workspace).toContain("display-mode: standalone");
+    const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
+    expect(home).toContain("const iosStandalone");
+    expect(home).toContain("Use o Safari para entrar");
+    expect(home).toContain("Não toque em um botão de login nesta tela");
+    expect(home).toContain("https://yurihbo.github.io/Rainhadascapas/");
+    expect(home).not.toContain("auth=browser");
+    expect(home).not.toContain("Copiar link para o Safari");
   });
 });

@@ -36,13 +36,6 @@ function isAllowedUser(user: User | null) {
   return isAllowedSession(user);
 }
 
-export function isIosStandaloneContext() {
-  if (typeof window === "undefined") return false;
-  const ios = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const standalone = window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
-  return ios && standalone;
-}
-
 export function useGoogleSession() {
   const [user, setUser] = useState<User | null>(firebaseAuth.currentUser);
   const [loading, setLoading] = useState(true);
@@ -124,7 +117,7 @@ export function useGoogleSession() {
     } catch (err: unknown) { setError(err instanceof Error ? err.message : "Não foi possível concluir o login Google."); setLoading(false); }
   }, [provider]);
   const logout = useCallback(() => signOut(firebaseAuth), []);
-  return { user, loading, error, signIn, logout, isAdmin: user?.email?.toLowerCase() === ADMIN_EMAIL, isIosStandalone: isIosStandaloneContext() };
+  return { user, loading, error, signIn, logout, isAdmin: user?.email?.toLowerCase() === ADMIN_EMAIL };
 }
 
 export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: SharedCatalogStore[]) {
