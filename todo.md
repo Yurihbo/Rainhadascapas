@@ -503,3 +503,13 @@
 - [x] Exibir diagnóstico de recuperação quando a sessão não for restaurada.
 - [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
 - [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
+
+
+## Nova tentativa após limpeza sem efeito
+
+- [x] Auditar manifesto, service worker, base path, origem e fluxo de callback usados pelo PWA instalado.
+- [x] Implementar handoff controlado para autenticação fora do contexto standalone, sem reset silencioso.
+- [x] Exibir diagnóstico de recuperação quando a sessão não for restaurada.
+- [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
+- [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
+
