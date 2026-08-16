@@ -411,9 +411,9 @@
 
 ## Personalização do PDF e feedback de geração
 
-- [ ] Adicionar espaço para o logotipo da empresa no cabeçalho do PDF individual e da lista geral.
-- [ ] Adicionar cabeçalho com data e hora de emissão no PDF.
-- [ ] Exibir indicador visual de carregamento durante a preparação do PDF.
-- [ ] Garantir que o loading seja encerrado em sucesso, bloqueio de pop-up ou erro.
-- [ ] Validar PDF, responsividade e regressões com a sincronização compartilhada.
-- [ ] Criar checkpoint e publicar a atualização no GitHub Pages.
+- [x] Adicionar espaço para o logotipo da empresa no cabeçalho do PDF individual e da lista geral.
+- [x] Adicionar cabeçalho com data e hora de emissão no PDF.
+- [x] Exibir indicador visual de carregamento durante a preparação do PDF.
+- [x] Garantir que o loading seja encerrado em sucesso, bloqueio de pop-up ou erro.
+- [x] Validar PDF, responsividade e regressões com a sincronização compartilhada.
+- [x] Criar checkpoint e publicar a atualização no GitHub Pages.
