@@ -55,29 +55,36 @@ export function useGoogleSession() {
   }, []);
   useEffect(() => {
     let active = true;
+    let authStateResolved = false;
+    let redirectResolved = false;
     let unsubscribe: (() => void) | undefined;
+    const finishIfReady = () => {
+      if (active && authStateResolved && redirectResolved) {
+        redirectChecked.current = true;
+        setLoading(false);
+      }
+    };
+    unsubscribe = onAuthStateChanged(firebaseAuth, (next) => {
+      if (!active) return;
+      // The first null can be transient on iOS while OAuth storage is restored.
+      // Keep the loading screen until both Firebase state and redirect result are complete.
+      if (next) acceptUser(next);
+      else if (redirectResolved) acceptUser(null);
+      authStateResolved = true;
+      finishIfReady();
+    });
     const restore = async () => {
       try {
         try { await setPersistence(firebaseAuth, indexedDBLocalPersistence); }
         catch { await setPersistence(firebaseAuth, browserLocalPersistence); }
         const redirectResult = await getRedirectResult(firebaseAuth);
         if (redirectResult?.user) acceptUser(redirectResult.user);
-        unsubscribe = onAuthStateChanged(firebaseAuth, (next) => {
-          if (!active) return;
-          // iOS can emit a transient null while the redirect result is being restored.
-          // Do not clear an already-restored session or render the login screen during that window.
-          if (next) acceptUser(next);
-          else if (redirectChecked.current) acceptUser(null);
-          if (redirectChecked.current) setLoading(false);
-        });
       } catch (err: unknown) {
         if (active) setError(err instanceof Error ? err.message : "Não foi possível restaurar a sessão Google.");
       } finally {
-        if (active) {
-          redirectChecked.current = true;
-          if (!firebaseAuth.currentUser) setUser(null);
-          setLoading(false);
-        }
+        redirectResolved = true;
+        if (active && !firebaseAuth.currentUser && authStateResolved) setUser(null);
+        finishIfReady();
       }
     };
     void restore();

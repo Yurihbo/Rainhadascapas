@@ -467,3 +467,12 @@
 - [x] Garantir uma mensagem de erro observável quando a sessão não puder ser restaurada.
 - [x] Validar login administradora e conta autorizada no Safari/PWA após limpar o estado anterior; testes automatizados e deploy concluídos, confirmação física permanece pendente.
 - [x] Criar checkpoint e publicar a correção final.
+
+
+## PWA iOS: Safari funciona, standalone entra em loop
+
+- [ ] Reproduzir a diferença entre login no Safari móvel e retorno após 2FA no PWA instalado.
+- [ ] Implementar um fluxo específico de restauração da sessão para o contexto standalone do iPhone.
+- [ ] Evitar que a tela de login seja renderizada novamente enquanto a sessão pós-Google ainda está sendo recuperada.
+- [ ] Preservar o fluxo normal do Safari móvel e das contas autorizadas.
+- [ ] Validar no PWA instalado e publicar checkpoint da correção.

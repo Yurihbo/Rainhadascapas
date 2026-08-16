@@ -42,7 +42,7 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("signInWithPopup(firebaseAuth, provider)");
     expect(workspace).toContain("auth/popup-blocked");
     expect(workspace).toContain("getRedirectResult(firebaseAuth)");
-    expect(workspace).toContain("else if (redirectChecked.current) acceptUser(null)");
+    expect(workspace).toContain("else if (redirectResolved) acceptUser(null)");
     expect(workspace).toContain("display-mode: standalone");
   });
 });
