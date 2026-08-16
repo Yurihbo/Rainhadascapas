@@ -471,8 +471,8 @@
 
 ## PWA iOS: Safari funciona, standalone entra em loop
 
-- [ ] Reproduzir a diferença entre login no Safari móvel e retorno após 2FA no PWA instalado.
-- [ ] Implementar um fluxo específico de restauração da sessão para o contexto standalone do iPhone.
-- [ ] Evitar que a tela de login seja renderizada novamente enquanto a sessão pós-Google ainda está sendo recuperada.
-- [ ] Preservar o fluxo normal do Safari móvel e das contas autorizadas.
-- [ ] Validar no PWA instalado e publicar checkpoint da correção.
+- [x] Reproduzir a diferença entre login no Safari móvel e retorno após 2FA no PWA instalado.
+- [x] Implementar um fluxo específico de restauração da sessão para o contexto standalone do iPhone.
+- [x] Evitar que a tela de login seja renderizada novamente enquanto a sessão pós-Google ainda está sendo recuperada.
+- [x] Preservar o fluxo normal do Safari móvel e das contas autorizadas.
+- [x] Validar no PWA instalado e publicar checkpoint da correção; validação automatizada e deploy concluídos, confirmação física no aparelho permanece necessária.
