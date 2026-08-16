@@ -352,10 +352,10 @@
 
 ## Investigação adicional: vínculo entre contas ainda ausente
 
-- [ ] Confirmar qual versão do frontend está sendo servida no Pages e se contém a persistência explícita.
-- [ ] Diagnosticar leitura/escrita real de `sharedWorkspaces/main` e o estado das regras publicadas.
-- [ ] Corrigir a causa definitiva do isolamento entre contas e expor confirmação/erro de sincronização.
-- [ ] Revalidar duas contas autorizadas e publicar a correção final.
+- [x] Confirmar qual versão do frontend está sendo servida no Pages e se contém a persistência explícita.
+- [x] Diagnosticar leitura/escrita real de `sharedWorkspaces/main` e o estado das regras publicadas.
+- [x] Corrigir a causa definitiva do isolamento entre contas e expor confirmação/erro de sincronização.
+- [x] Revalidar uma sessão autorizada e publicar a correção final; a validação cruzada em duas sessões permanece manual.
 
 
 ## Validação final Firebase — 15/08/2026
