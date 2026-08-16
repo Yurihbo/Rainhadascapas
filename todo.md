@@ -513,13 +513,9 @@
 - [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
 - [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
 
-
-
 ## Correção do botão Abrir no Safari no iPhone
-
 - [x] Auditar o handler do botão de recuperação e a URL usada no contexto PWA iOS.
 - [x] Substituir a abertura que pisca tela branca por handoff compatível com Safari, sem depender de popup bloqueado.
 - [x] Adicionar fallback visível para copiar/abrir o endereço quando o iOS não permitir a troca automática.
 - [x] Cobrir a nova lógica com teste de auditoria e validar build; a validação física no iPhone ainda depende do teste do usuário.
 - [ ] Publicar checkpoint da correção e orientar novo teste físico.
-
