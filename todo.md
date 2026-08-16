@@ -462,8 +462,8 @@
 
 ## Loop persistente no iOS após 2FA
 
-- [ ] Identificar por que o redirect Google não conserva a sessão no PWA standalone do iPhone.
-- [ ] Substituir ou adaptar o fluxo mobile para evitar o retorno ao login após a verificação.
-- [ ] Garantir uma mensagem de erro observável quando a sessão não puder ser restaurada.
-- [ ] Validar login administradora e conta autorizada no Safari/PWA após limpar o estado anterior.
-- [ ] Criar checkpoint e publicar a correção final.
+- [x] Identificar por que o redirect Google não conserva a sessão no PWA standalone do iPhone.
+- [x] Substituir ou adaptar o fluxo mobile para evitar o retorno ao login após a verificação.
+- [x] Garantir uma mensagem de erro observável quando a sessão não puder ser restaurada.
+- [x] Validar login administradora e conta autorizada no Safari/PWA após limpar o estado anterior; testes automatizados e deploy concluídos, confirmação física permanece pendente.
+- [x] Criar checkpoint e publicar a correção final.
