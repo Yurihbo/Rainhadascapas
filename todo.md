@@ -448,3 +448,13 @@
 - [x] Validar service worker, manifest, login administradora e contas autorizadas no fluxo PWA; teste final em aparelho instalado permanece recomendado.
 - [x] Adicionar ou ajustar testes contra o loop de login.
 - [x] Criar checkpoint e publicar a correção.
+
+
+## Loop confirmado no iPhone após 2FA
+
+- [ ] Reproduzir e documentar o reset após a validação do código Google no PWA instalado.
+- [ ] Impedir que `onAuthStateChanged(null)` transitório devolva a interface ao login durante o redirect.
+- [ ] Garantir que `getRedirectResult` e a persistência IndexedDB sejam concluídos antes da decisão de sessão.
+- [ ] Tratar corretamente o retorno do Google no domínio/base path do GitHub Pages em iOS standalone.
+- [ ] Validar login administradora, contas autorizadas e carregamento do workspace no iPhone.
+- [ ] Criar checkpoint e publicar a correção final.

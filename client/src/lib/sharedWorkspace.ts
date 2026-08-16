@@ -1,5 +1,5 @@
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
-import { getRedirectResult, GoogleAuthProvider, indexedDBLocalPersistence, onAuthStateChanged, setPersistence, signInWithPopup, signInWithRedirect, signOut, type User } from "firebase/auth";
+import { browserLocalPersistence, getRedirectResult, GoogleAuthProvider, indexedDBLocalPersistence, onAuthStateChanged, setPersistence, signInWithPopup, signInWithRedirect, signOut, type User } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { firebaseAuth, firestore } from "./firebase";
 
@@ -54,18 +54,38 @@ export function useGoogleSession() {
   }, []);
   useEffect(() => {
     let active = true;
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (next) => { if (!active) return; acceptUser(next); if (redirectChecked.current) setLoading(false); });
-    void setPersistence(firebaseAuth, indexedDBLocalPersistence)
-      .then(() => getRedirectResult(firebaseAuth))
-      .then((result) => { if (result?.user) acceptUser(result.user); })
-      .catch((err: unknown) => { if (active) setError(err instanceof Error ? err.message : "Não foi possível restaurar a sessão Google."); })
-      .finally(() => { if (active) { redirectChecked.current = true; setLoading(false); } });
-    return () => { active = false; unsubscribe(); };
+    let unsubscribe: (() => void) | undefined;
+    const restore = async () => {
+      try {
+        try { await setPersistence(firebaseAuth, indexedDBLocalPersistence); }
+        catch { await setPersistence(firebaseAuth, browserLocalPersistence); }
+        const redirectResult = await getRedirectResult(firebaseAuth);
+        if (redirectResult?.user) acceptUser(redirectResult.user);
+        unsubscribe = onAuthStateChanged(firebaseAuth, (next) => {
+          if (!active) return;
+          // iOS can emit a transient null while the redirect result is being restored.
+          // Do not clear an already-restored session or render the login screen during that window.
+          if (next) acceptUser(next);
+          else if (redirectChecked.current) acceptUser(null);
+          if (redirectChecked.current) setLoading(false);
+        });
+      } catch (err: unknown) {
+        if (active) setError(err instanceof Error ? err.message : "Não foi possível restaurar a sessão Google.");
+      } finally {
+        if (active) {
+          redirectChecked.current = true;
+          if (!firebaseAuth.currentUser) setUser(null);
+          setLoading(false);
+        }
+      }
+    };
+    void restore();
+    return () => { active = false; unsubscribe?.(); };
   }, [acceptUser]);
   const signIn = useCallback(async () => {
     setError(null); setLoading(true);
     try {
-      await setPersistence(firebaseAuth, indexedDBLocalPersistence);
+      try { await setPersistence(firebaseAuth, indexedDBLocalPersistence); } catch { await setPersistence(firebaseAuth, browserLocalPersistence); }
       if (isInstalledOrMobile()) { await signInWithRedirect(firebaseAuth, provider); return; }
       const result = await signInWithPopup(firebaseAuth, provider);
       if (!isAllowedUser(result.user)) { await signOut(firebaseAuth); throw new Error(`A conta ${result.user.email ?? "informada"} não está autorizada neste workspace.`); }
