@@ -17,6 +17,13 @@ describe("shared persistence safeguards", () => {
     expect(stripUndefined({ sellers: [{ name: "João", avatar: undefined, items: [{ note: undefined, item: "Capa" }] }] })).toEqual({ sellers: [{ name: "João", items: [{ item: "Capa" }] }] });
   });
 
+  it("keeps seller PDF export wired to a real printable document", () => {
+    const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
+    expect(home).toContain("function printSellerItems(seller: Seller)");
+    expect(home).toContain("printWindow.document.write");
+    expect(home).toContain("onClick={() => printSellerItems(seller)}");
+  });
+
   it("serializes Firestore writes and reports the authenticated writer", () => {
     const workspace = readFileSync(resolve(process.cwd(), "client/src/lib/sharedWorkspace.ts"), "utf8");
     expect(workspace).toContain("writeQueueRef");

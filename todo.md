@@ -397,3 +397,13 @@
 - [ ] Confirmar no Console do Firestore se o documento muda após uma ação e se é sobrescrito por outro snapshot.
 - [ ] Corrigir a causa raiz efetiva da perda após recarregar.
 - [ ] Validar novamente persistência na mesma conta e propagação entre contas.
+
+
+## Nova falha — PDF de revendedores e itens
+
+- [ ] Auditar os botões Emitir PDF e Compartilhar na lista de revendedores e no detalhe individual.
+- [ ] Corrigir a montagem do conteúdo de impressão para incluir nome, características e itens selecionados.
+- [ ] Garantir que a janela de impressão/PDF seja aberta com conteúdo visível e fundo branco.
+- [ ] Validar a emissão da lista na aba Revendedores e na página individual do revendedor.
+- [ ] Validar desktop, tablet, celular e regressões da sincronização compartilhada.
+- [ ] Criar checkpoint e publicar a correção no GitHub Pages.
