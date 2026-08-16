@@ -19,9 +19,9 @@ describe("shared persistence safeguards", () => {
 
   it("keeps seller PDF export wired to a real printable document", () => {
     const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
-    expect(home).toContain("function printSellerItems(seller: Seller)");
+    expect(home).toContain("function printSellerItems(seller: Seller, onFinished?");
     expect(home).toContain("printWindow.document.write");
-    expect(home).toContain("onClick={() => printSellerItems(seller)}");
+    expect(home).toContain("printSellerItems(seller, () => setPrinting(false))");
   });
 
   it("serializes Firestore writes and reports the authenticated writer", () => {

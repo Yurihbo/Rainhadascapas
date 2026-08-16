@@ -407,3 +407,13 @@
 - [x] Validar a emissão da lista na aba Revendedores e na página individual do revendedor.
 - [x] Validar desktop, tablet, celular e regressões da sincronização compartilhada.
 - [x] Criar checkpoint e publicar a correção no GitHub Pages.
+
+
+## Personalização do PDF e feedback de geração
+
+- [ ] Adicionar espaço para o logotipo da empresa no cabeçalho do PDF individual e da lista geral.
+- [ ] Adicionar cabeçalho com data e hora de emissão no PDF.
+- [ ] Exibir indicador visual de carregamento durante a preparação do PDF.
+- [ ] Garantir que o loading seja encerrado em sucesso, bloqueio de pop-up ou erro.
+- [ ] Validar PDF, responsividade e regressões com a sincronização compartilhada.
+- [ ] Criar checkpoint e publicar a atualização no GitHub Pages.
