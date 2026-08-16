@@ -522,8 +522,15 @@
 
 
 ## Regressão do handoff iOS publicado
-- [ ] Remover a URL artificial `?auth=browser` que está levando o retorno do Google a uma tela branca com código.
-- [ ] Corrigir a composição da tela de recuperação para eliminar botões e conteúdo sobrepostos.
-- [ ] Restaurar um fluxo de autenticação compatível com a rota base real do GitHub Pages.
-- [ ] Atualizar os testes de auditoria, validar typecheck, testes e build.
-- [ ] Publicar a correção e validar o bundle público antes de orientar novo teste no iPhone.
+- [x] Remover a URL artificial `?auth=browser` que estava levando o retorno do Google a uma tela branca com código.
+- [x] Corrigir a composição da tela de recuperação para eliminar botões e conteúdo sobrepostos.
+- [x] Restaurar um fluxo de autenticação compatível com a rota base real do GitHub Pages.
+- [x] Atualizar os testes de auditoria, validar typecheck, testes e build.
+- [x] Publicar a correção e validar o bundle público antes de orientar novo teste no iPhone; deploy 31935074311 concluído e bundle público sem `auth=browser`.
+
+
+## Loop reproduzido no atalho da Tela de Início do iPhone
+- [x] Impedir que o ícone instalado tente autenticar Google dentro do contexto standalone.
+- [x] Exibir uma tela estável no atalho, sem popup, redirect ou retorno ao botão de login.
+- [x] Manter o login funcional quando o endereço é aberto diretamente no Safari; o fluxo normal permanece inalterado fora do standalone.
+- [x] Atualizar testes, validar build e publicar a separação entre atalho e Safari.
