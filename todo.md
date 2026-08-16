@@ -478,25 +478,7 @@
 - [x] Validar no PWA instalado e publicar checkpoint da correção; validação automatizada e deploy concluídos, confirmação física no aparelho permanece necessária.
 
 
-## Falha persistente: autenticação no PWA iOS continua em loop
-
-- [x] Registrar um estado de recuperação visível quando o retorno Google não restaurar a sessão no PWA.
-- [x] Implementar fluxo iOS com autenticação no Safari e retorno explícito ao PWA, evitando depender de storage compartilhado entre contextos.
-- [x] Impedir que falha de restauração silenciosamente renderize novamente o botão de login sem diagnóstico.
-- [x] Preservar login normal no Safari móvel e no desktop.
-- [x] Testar, publicar e criar checkpoint da correção final; testes automatizados e deploy concluídos, confirmação física no iPhone permanece recomendada.
-
-
-## Estratégia escolhida: autenticação do PWA iOS via Safari
-
-- [x] Detectar o PWA standalone no iPhone antes de iniciar o fluxo Google.
-- [x] Substituir o loop por uma tela de recuperação com instruções claras.
-- [x] Adicionar botão para abrir a mesma aplicação no Safari e continuar o login.
-- [x] Preservar o login normal no Safari móvel, desktop e Android.
-- [x] Testar, publicar e criar checkpoint da alteração; testes automatizados e deploy concluídos, confirmação física no iPhone permanece recomendada.
-
-
-## Solução final: atalho iOS em modo navegador
+## Nova tentativa após limpeza sem efeito
 
 - [x] Auditar manifesto, service worker, base path, origem e fluxo de callback usados pelo PWA instalado.
 - [x] Implementar handoff controlado para autenticação fora do contexto standalone, sem reset silencioso.

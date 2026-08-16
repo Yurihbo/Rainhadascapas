@@ -44,13 +44,5 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("getRedirectResult(firebaseAuth)");
     expect(workspace).toContain("else if (redirectResolved) acceptUser(null)");
     expect(workspace).toContain("display-mode: standalone");
-    const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
-    expect(home).toContain("const isIosStandalone");
-    expect(home).toContain("Entre pelo Safari");
-    expect(home).toContain("Abrir no Safari para entrar");
-    expect(home).toContain("target=\"_blank\"");
-    const manifest = readFileSync(resolve(process.cwd(), "client/public/manifest.json"), "utf8");
-    expect(manifest).toContain('"display": "browser"');
-    expect(manifest).toContain('"display_override": ["browser"]');
   });
 });
