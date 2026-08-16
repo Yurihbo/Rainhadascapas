@@ -421,10 +421,10 @@
 
 ## Logo personalizado e exportação resumida
 
-- [ ] Adicionar upload de logotipo personalizado na aba Configurações.
-- [ ] Recortar/comprimir o logo e persistir a escolha por conta autorizada.
-- [ ] Usar o logo personalizado nos PDFs individual e geral, com fallback para o logo oficial.
-- [ ] Simplificar o PDF geral de Revendedores para exibir somente revendedor e total.
-- [ ] Manter o PDF individual com o detalhamento completo dos itens.
-- [ ] Validar testes, build, responsividade, sincronização e publicação.
-- [ ] Criar checkpoint da atualização.
+- [x] Adicionar upload de logotipo personalizado na aba Configurações.
+- [x] Recortar/comprimir o logo e persistir a escolha por conta autorizada.
+- [x] Usar o logo personalizado nos PDFs individual e geral, com fallback para o logo oficial.
+- [x] Simplificar o PDF geral de Revendedores para exibir somente revendedor e total.
+- [x] Manter o PDF individual com o detalhamento completo dos itens.
+- [x] Validar testes, build, responsividade, sincronização e publicação.
+- [x] Criar checkpoint da atualização.
