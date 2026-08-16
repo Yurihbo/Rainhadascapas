@@ -401,9 +401,9 @@
 
 ## Nova falha — PDF de revendedores e itens
 
-- [ ] Auditar os botões Emitir PDF e Compartilhar na lista de revendedores e no detalhe individual.
-- [ ] Corrigir a montagem do conteúdo de impressão para incluir nome, características e itens selecionados.
-- [ ] Garantir que a janela de impressão/PDF seja aberta com conteúdo visível e fundo branco.
-- [ ] Validar a emissão da lista na aba Revendedores e na página individual do revendedor.
-- [ ] Validar desktop, tablet, celular e regressões da sincronização compartilhada.
-- [ ] Criar checkpoint e publicar a correção no GitHub Pages.
+- [x] Auditar os botões Emitir PDF e Compartilhar na lista de revendedores e no detalhe individual.
+- [x] Corrigir a montagem do conteúdo de impressão para incluir nome, características e itens selecionados.
+- [x] Garantir que a janela de impressão/PDF seja aberta com conteúdo visível e fundo branco.
+- [x] Validar a emissão da lista na aba Revendedores e na página individual do revendedor.
+- [x] Validar desktop, tablet, celular e regressões da sincronização compartilhada.
+- [x] Criar checkpoint e publicar a correção no GitHub Pages.
