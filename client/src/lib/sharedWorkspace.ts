@@ -42,6 +42,7 @@ export function useGoogleSession() {
   const [error, setError] = useState<string | null>(null);
   const provider = useMemo(() => new GoogleAuthProvider(), []);
   const redirectChecked = useRef(false);
+  const isIos = () => typeof window !== "undefined" && /iPhone|iPad|iPod/i.test(navigator.userAgent);
   const isInstalledOrMobile = () => typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
   const acceptUser = useCallback((next: User | null) => {
     if (next && !isAllowedUser(next)) {
@@ -86,8 +87,24 @@ export function useGoogleSession() {
     setError(null); setLoading(true);
     try {
       try { await setPersistence(firebaseAuth, indexedDBLocalPersistence); } catch { await setPersistence(firebaseAuth, browserLocalPersistence); }
-      if (isInstalledOrMobile()) { await signInWithRedirect(firebaseAuth, provider); return; }
-      const result = await signInWithPopup(firebaseAuth, provider);
+      // iOS standalone loses the Firebase redirect storage context after 2FA.
+      // A popup keeps the OAuth result in the same user gesture/session; redirect remains the fallback.
+      let result;
+      if (isIos()) {
+        try { result = await signInWithPopup(firebaseAuth, provider); }
+        catch (popupError: unknown) {
+          const code = popupError && typeof popupError === "object" && "code" in popupError ? String((popupError as { code?: string }).code) : "";
+          if (!["auth/popup-blocked", "auth/operation-not-supported-in-this-environment"].includes(code)) throw popupError;
+          await signInWithRedirect(firebaseAuth, provider);
+          return;
+        }
+      } else if (isInstalledOrMobile()) {
+        await signInWithRedirect(firebaseAuth, provider);
+        return;
+      } else {
+        result = await signInWithPopup(firebaseAuth, provider);
+      }
+      if (!result?.user) throw new Error("O Google não retornou uma sessão válida. Tente novamente pelo Safari, não pelo atalho instalado.");
       if (!isAllowedUser(result.user)) { await signOut(firebaseAuth); throw new Error(`A conta ${result.user.email ?? "informada"} não está autorizada neste workspace.`); }
       setUser(result.user);
     } catch (err: unknown) { setError(err instanceof Error ? err.message : "Não foi possível concluir o login Google."); setLoading(false); }

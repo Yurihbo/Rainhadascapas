@@ -458,3 +458,12 @@
 - [x] Tratar corretamente o retorno do Google no domínio/base path do GitHub Pages em iOS standalone.
 - [x] Validar login administradora, contas autorizadas e carregamento do workspace no iPhone; publicação e validação automatizada concluídas, confirmação física no aparelho permanece recomendada.
 - [x] Criar checkpoint e publicar a correção final.
+
+
+## Loop persistente no iOS após 2FA
+
+- [ ] Identificar por que o redirect Google não conserva a sessão no PWA standalone do iPhone.
+- [ ] Substituir ou adaptar o fluxo mobile para evitar o retorno ao login após a verificação.
+- [ ] Garantir uma mensagem de erro observável quando a sessão não puder ser restaurada.
+- [ ] Validar login administradora e conta autorizada no Safari/PWA após limpar o estado anterior.
+- [ ] Criar checkpoint e publicar a correção final.
