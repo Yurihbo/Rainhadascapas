@@ -554,4 +554,4 @@
 - [x] Reorganizar o enquadramento da folha no padrão visual dos Revendedores.
 - [x] Incluir o ícone/logo da loja no cabeçalho da impressão.
 - [x] Alinhar mercadoria, categoria, subcategoria e preço em colunas legíveis; preços não cadastrados aparecem como “—”, sem inventar valores.
-- [x] Atualizar testes, typecheck e build; publicação será realizada após o checkpoint desta versão.
+- [x] Atualizar testes, typecheck e build e publicar; workflow 32064034663 concluído e bundle público validado.
