@@ -540,4 +540,4 @@
 - [x] Exibir notificação visual de sucesso ao criar uma categoria.
 - [x] Permitir editar o nome de qualquer categoria existente.
 - [x] Permitir excluir uma categoria existente com confirmação.
-- [x] Atualizar testes, validar sincronização e publicar no GitHub Pages; typecheck, 16 testes e build passaram, publicação será sincronizada no próximo deploy.
+- [x] Atualizar testes, validar sincronização e publicar no GitHub Pages; typecheck, 16 testes e build passaram, workflow 32061714910 concluído e bundle público validado.
