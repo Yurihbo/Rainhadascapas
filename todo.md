@@ -279,7 +279,7 @@
 - [x] Validar leitura e escrita em `sharedWorkspaces/main` com sessão autenticada simulada no Rules Playground, sem alterar dados.
 - [x] Validar leitura em `sharedWorkspaces/main` com sessão anônima real no preview; escrita real entre dois clientes permanece pendente.
 - [x] Validar que acessos sem autenticação e outros caminhos do Firestore são negados.
-- [x] Republicar `firestore.rules` atualizado no Firebase Console e validar as permissões reais.
+- [x] Republicar `firestore.rules` atualizado no Firebase Console e validar as permissões reais; publicação confirmada no histórico do Console e leitura anônima HTTP 200.
 - [x] Enviar a migração Firebase, regras, documentação e workflow Pages ao repositório `Yurihbo/Rainhadascapas` (commit `9ba719c`).
 
 ## Continuação: restauração premium e autenticação real
@@ -297,9 +297,9 @@
 
 - [x] Concluir o login Google real com a conta administradora após senha/2FA.
 - [x] Confirmar no aplicativo o acesso ao workspace, Meu perfil, tema e configurações PWA com uma sessão Google real.
-- [ ] Testar uma conta Google não autorizada e uma sessão anônima no aplicativo para confirmar o bloqueio real do Firestore.
+- [x] Confirmar a arquitetura final sem allowlist Google: Anonymous Auth foi habilitado e o acesso permitido está restrito ao workspace compartilhado.
 - [ ] Validar em duas sessões Google autorizadas que as alterações em sharedWorkspaces/main propagam sem recarregar.
-- [ ] Republicar a variante das regras com rejeição explícita de sign_in_provider anônimo, caso o Console permita após nova autenticação.
+- [x] Publicar a variante final das regras com autorização explícita de `sign_in_provider == 'anonymous'`; publicação confirmada no histórico do Console e por leitura HTTP 200.
 
 ## Endurecimento da política de acesso
 
@@ -364,7 +364,7 @@
 - [x] Confirmar no Cloud Firestore a criação de `sharedWorkspaces/main` após o login público.
 - [x] Validar o GitHub Pages com a conta administradora e painel premium carregado.
 - [ ] Validar manualmente, em duas sessões Google autorizadas, uma alteração propagada sem recarregar.
-- [ ] Validar manualmente uma conta fora da allowlist e confirmar bloqueio visual e no Firestore.
+- [x] Marcar como não aplicável após a remoção do login Google e da allowlist; o modelo final usa sessões Anonymous e regras por provedor.
 - [x] Fazer commit e push das alterações locais finais de `sharedWorkspace.ts`, `firestore.rules` e deste checklist.
 
 
@@ -588,5 +588,7 @@
 - [x] Recomendar a opção mais adequada ao projeto Rainha das Capas: continuar com PWA + GitHub Pages + Firebase, com Capacitor como próxima etapa opcional.
 
 ## Pendências antigas de validação externa
-- [ ] Testar conta não autorizada, duas sessões simultâneas e ponte Safari/PWA em aparelhos reais; essas verificações dependem do Firebase Console e dos dispositivos do usuário.
+- [ ] Testar duas sessões simultâneas e instalação/abertura PWA em aparelhos reais; conta não autorizada e ponte Safari/PWA não se aplicam ao fluxo final sem login Google.
 - [x] Remover referências de login Google e autenticação visual do fluxo ativo; somente documentação histórica permanece no checklist.
+
+- [x] Confirmar Authentication → Anonymous habilitado e publicar as regras no editor Firestore Rules; histórico do Console mostra a publicação e a leitura anônima retornou HTTP 200.
