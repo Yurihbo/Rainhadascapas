@@ -547,4 +547,4 @@
 - [x] Garantir que a janela de impressão receba os dados da loja selecionada.
 - [x] Aguardar o carregamento do conteúdo antes de imprimir e impedir chamadas duplicadas.
 - [x] Adicionar fallback visual informando a necessidade de permitir janelas pop-up quando a janela não puder abrir.
-- [x] Atualizar testes e validar typecheck, 16 testes e build; publicação de Loja 01 e Loja 02 será conferida no bundle público.
+- [x] Atualizar testes, validar Loja 01 e Loja 02 no fluxo comum e publicar; typecheck, 16 testes, build e bundle público confirmados no workflow 32063540190.
