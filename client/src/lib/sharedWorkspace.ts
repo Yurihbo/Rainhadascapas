@@ -1,5 +1,5 @@
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
-import { browserLocalPersistence, getRedirectResult, GoogleAuthProvider, indexedDBLocalPersistence, onAuthStateChanged, setPersistence, signInWithPopup, signInWithRedirect, signOut, type User } from "firebase/auth";
+import { browserLocalPersistence, indexedDBLocalPersistence, onAuthStateChanged, setPersistence, signInAnonymously, signOut, type User } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { firebaseAuth, firestore } from "./firebase";
 
@@ -28,12 +28,11 @@ export function reconcileWorkspaceData(data: WorkspaceData | undefined, current:
 }
 
 export function isAllowedSession(user: Pick<User, "email" | "isAnonymous"> | null | undefined) {
-  const email = user?.email?.toLowerCase();
-  return Boolean(email && user?.isAnonymous !== true && ALLOWED_EMAILS.includes(email as (typeof ALLOWED_EMAILS)[number]));
+  return Boolean(user?.isAnonymous);
 }
 
 function isAllowedUser(user: User | null) {
-  return isAllowedSession(user);
+  return Boolean(user?.isAnonymous);
 }
 
 export function isIosStandaloneContext() {
@@ -43,88 +42,43 @@ export function isIosStandaloneContext() {
   return ios && standalone;
 }
 
-export function useGoogleSession() {
+export function useAnonymousSession() {
   const [user, setUser] = useState<User | null>(firebaseAuth.currentUser);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const provider = useMemo(() => new GoogleAuthProvider(), []);
-  const redirectChecked = useRef(false);
-  const isIos = () => typeof window !== "undefined" && /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const isInstalledOrMobile = () => typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
-  const acceptUser = useCallback((next: User | null) => {
-    if (next && !isAllowedUser(next)) {
-      setUser(null);
-      setError(next.isAnonymous ? "O acesso anônimo foi desativado. Entre com uma conta Google autorizada." : `A conta ${next.email ?? "informada"} não está autorizada neste workspace.`);
-      void signOut(firebaseAuth);
-      return;
-    }
-    setUser(next); setError(null);
+  const ensureAnonymousUser = useCallback(async () => {
+    if (firebaseAuth.currentUser?.isAnonymous) return firebaseAuth.currentUser;
+    if (firebaseAuth.currentUser && !firebaseAuth.currentUser.isAnonymous) await signOut(firebaseAuth);
+    return (await signInAnonymously(firebaseAuth)).user;
   }, []);
   useEffect(() => {
     let active = true;
-    let authStateResolved = false;
-    let redirectResolved = false;
     let unsubscribe: (() => void) | undefined;
-    const finishIfReady = () => {
-      if (active && authStateResolved && redirectResolved) {
-        redirectChecked.current = true;
-        setLoading(false);
-      }
-    };
-    unsubscribe = onAuthStateChanged(firebaseAuth, (next) => {
-      if (!active) return;
-      // The first null can be transient on iOS while OAuth storage is restored.
-      // Keep the loading screen until both Firebase state and redirect result are complete.
-      if (next) acceptUser(next);
-      else if (redirectResolved) acceptUser(null);
-      authStateResolved = true;
-      finishIfReady();
-    });
     const restore = async () => {
       try {
         try { await setPersistence(firebaseAuth, indexedDBLocalPersistence); }
         catch { await setPersistence(firebaseAuth, browserLocalPersistence); }
-        const redirectResult = await getRedirectResult(firebaseAuth);
-        if (redirectResult?.user) acceptUser(redirectResult.user);
+        const next = await ensureAnonymousUser();
+        if (active) { setUser(next); setError(null); }
       } catch (err: unknown) {
-        if (active) setError(err instanceof Error ? err.message : "Não foi possível restaurar a sessão Google.");
+        if (active) { setUser(null); setError(err instanceof Error ? err.message : "Não foi possível iniciar o acesso automático."); }
       } finally {
-        redirectResolved = true;
-        if (active && !firebaseAuth.currentUser && authStateResolved) setUser(null);
-        finishIfReady();
+        if (active) setLoading(false);
       }
     };
+    unsubscribe = onAuthStateChanged(firebaseAuth, (next) => {
+      if (!active) return;
+      if (next?.isAnonymous) setUser(next);
+    });
     void restore();
     return () => { active = false; unsubscribe?.(); };
-  }, [acceptUser]);
-  const signIn = useCallback(async () => {
-    setError(null); setLoading(true);
-    try {
-      try { await setPersistence(firebaseAuth, indexedDBLocalPersistence); } catch { await setPersistence(firebaseAuth, browserLocalPersistence); }
-      // iOS standalone loses the Firebase redirect storage context after 2FA.
-      // A popup keeps the OAuth result in the same user gesture/session; redirect remains the fallback.
-      let result;
-      if (isIos()) {
-        try { result = await signInWithPopup(firebaseAuth, provider); }
-        catch (popupError: unknown) {
-          const code = popupError && typeof popupError === "object" && "code" in popupError ? String((popupError as { code?: string }).code) : "";
-          if (!["auth/popup-blocked", "auth/operation-not-supported-in-this-environment"].includes(code)) throw popupError;
-          await signInWithRedirect(firebaseAuth, provider);
-          return;
-        }
-      } else if (isInstalledOrMobile()) {
-        await signInWithRedirect(firebaseAuth, provider);
-        return;
-      } else {
-        result = await signInWithPopup(firebaseAuth, provider);
-      }
-      if (!result?.user) throw new Error("O Google não retornou uma sessão válida. Tente novamente pelo Safari, não pelo atalho instalado.");
-      if (!isAllowedUser(result.user)) { await signOut(firebaseAuth); throw new Error(`A conta ${result.user.email ?? "informada"} não está autorizada neste workspace.`); }
-      setUser(result.user);
-    } catch (err: unknown) { setError(err instanceof Error ? err.message : "Não foi possível concluir o login Google."); setLoading(false); }
-  }, [provider]);
-  const logout = useCallback(() => signOut(firebaseAuth), []);
-  return { user, loading, error, signIn, logout, isAdmin: user?.email?.toLowerCase() === ADMIN_EMAIL, isIosStandalone: isIosStandaloneContext() };
+  }, [ensureAnonymousUser]);
+  const logout = useCallback(async () => {
+    await signOut(firebaseAuth);
+    setUser(null);
+    await ensureAnonymousUser().then(setUser).catch((err: unknown) => setError(err instanceof Error ? err.message : "Não foi possível restaurar o acesso automático."));
+  }, [ensureAnonymousUser]);
+  return { user, loading, error, signIn: ensureAnonymousUser, logout, isAdmin: false, isIosStandalone: isIosStandaloneContext() };
 }
 
 export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: SharedCatalogStore[]) {
@@ -133,7 +87,7 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
   const [reports, setReports] = useState<SharedReport[]>([]);
   const [ready, setReady] = useState(false);
   const [syncError, setSyncError] = useState<string | null>(null);
-  const session = useGoogleSession();
+  const session = useAnonymousSession();
   const ref = useMemo(() => doc(firestore, "sharedWorkspaces", "main"), []);
   const sellersRef = useRef(sellers);
   const catalogRef = useRef(catalog);
@@ -156,7 +110,7 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
         const initialSellers = sellersRef.current.length ? sellersRef.current : seedSellers;
         const initialCatalog = catalogRef.current.length ? catalogRef.current : seedCatalog;
         const initialReports = reportsRef.current;
-        void setDoc(ref, { sellers: initialSellers, catalog: initialCatalog, reports: initialReports, updatedAt: Date.now(), updatedBy: session.user?.email ?? session.user?.uid }, { merge: true })
+        void setDoc(ref, { sellers: initialSellers, catalog: initialCatalog, reports: initialReports, updatedAt: Date.now(), updatedBy: session.user?.uid ?? "anonymous" }, { merge: true })
           .then(() => { if (active) setReady(true); })
           .catch((error) => {
             console.error("[sharedWorkspace] creation error", error);

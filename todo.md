@@ -555,3 +555,21 @@
 - [x] Incluir o ícone/logo da loja no cabeçalho da impressão.
 - [x] Alinhar mercadoria, categoria, subcategoria e preço em colunas legíveis; preços não cadastrados aparecem como “—”, sem inventar valores.
 - [x] Atualizar testes, typecheck e build e publicar; workflow 32064034663 concluído e bundle público validado.
+
+
+## Reavaliação: PWA sem login e dados compartilhados
+- [x] Auditar o fluxo atual de autenticação, Firestore e listener compartilhado.
+- [x] Comparar remoção do login com Firebase compartilhado, incluindo limitações de segurança.
+- [x] Definir a arquitetura recomendada: PWA no GitHub Pages + Firebase Anonymous Auth invisível + Firestore compartilhado.
+- [x] Planejar a migração sem perder os dados e o PWA instalável; implementação aguarda confirmação sobre remover histórico/perfil individual e aceitar acesso por endereço.
+
+
+## Migração para PWA sem login visível e Firestore compartilhado
+- [x] Remover a tela e o fluxo de login Google da interface.
+- [x] Inicializar Firebase Anonymous Auth automaticamente em cada dispositivo.
+- [x] Manter `sharedWorkspaces/main`, listener em tempo real e fila de escrita.
+- [x] Converter perfil, foto, logo de PDF e histórico para armazenamento local do dispositivo; o UID anônimo é usado como chave local do aparelho.
+- [x] Atualizar o arquivo `firestore.rules` para aceitar somente usuários anônimos no workspace compartilhado; publicação no Firebase Console permanece necessária.
+- [x] Preservar PWA, modo offline e instalação na Tela de Início; cache persistente do Firestore foi ativado.
+- [x] Validar 15 testes, typecheck e build; sincronização entre clientes depende da ativação do Anonymous Auth e das regras no Firebase Console.
+- [ ] Publicar no repositório e no GitHub Pages e salvar checkpoint.

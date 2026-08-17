@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+const path = 'client/src/pages/Home.tsx';
+let source = fs.readFileSync(path, 'utf8');
+source = source.replace('Verificando sessão…', 'Iniciando acesso automático…');
+const loginBlock = /\n  if \(!session\.user\) \{[\s\S]*?\n  \}\n  return <div className=\{`app-shell/;
+if (!loginBlock.test(source)) throw new Error('Google login render block not found');
+source = source.replace(loginBlock, '\n  return <div className={`app-shell');
+source = source.replace('<small>{session.user?.email ?? "Conta autorizada"}</small>', '<small>Dispositivo conectado</small>');
+source = source.replace('<button onClick={() => void session.logout()}><LogOut size={15} /> Sair da conta</button>', '');
+fs.writeFileSync(path, source);
+console.log('Google login UI removed.');

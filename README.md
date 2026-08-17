@@ -4,13 +4,14 @@ Aplicação PWA para gestão de revendedores, itens, pagamentos, relatórios sem
 
 ## Arquitetura atual
 
-A publicação final foi preparada para **GitHub Pages + Firebase**. O GitHub Pages entrega os arquivos estáticos da aplicação, enquanto o Firebase fornece autenticação Google, Firestore em tempo real e proteção das regras. Não há servidor Node obrigatório para a versão publicada no Pages.
+A publicação final foi preparada para **GitHub Pages + Firebase**. O GitHub Pages entrega os arquivos estáticos da aplicação, enquanto o Firebase fornece Anonymous Auth automático, Firestore em tempo real e cache offline. Não há servidor Node obrigatório para a versão publicada no Pages.
 
 | Necessidade | Implementação |
 |---|---|
 | Hospedagem da interface | GitHub Pages pela branch `main` e GitHub Actions |
-| Login | Firebase Authentication com provedor Google |
-| Acesso privado | Allowlist de cinco contas Google autorizadas no frontend e nas regras Firestore |
+| Acesso técnico | Firebase Anonymous Auth iniciado automaticamente em cada dispositivo |
+| Interface de login | Não existe tela de login; o acesso é iniciado pelo aplicativo |
+| Privacidade | O endereço funciona como chave operacional; qualquer pessoa que descubra o link poderá tentar acessar o workspace |
 | Dados compartilhados | Documento `sharedWorkspaces/main` no Cloud Firestore |
 | Tempo real | Listener `onSnapshot` do Firestore |
 | PWA | Manifesto, service worker, instalação e atualização do aplicativo |
@@ -18,17 +19,17 @@ A publicação final foi preparada para **GitHub Pages + Firebase**. O GitHub Pa
 
 O repositório oficial é [Yurihbo/Rainhadascapas](https://github.com/Yurihbo/Rainhadascapas), na branch `main`.
 
-## Contas autorizadas
+## Acesso automático
 
-A política atual permite somente as cinco contas fornecidas pelo administrador. A conta `yuridesousasilva@gmail.com` é a administradora principal. A mesma lista está refletida em `client/src/lib/sharedWorkspace.ts` e em `firestore.rules`; se a equipe mudar, os dois arquivos devem ser atualizados juntos e as regras precisam ser publicadas novamente no Firebase Console.
+Cada dispositivo inicia uma identidade técnica anônima automaticamente. Os dispositivos não compartilham o mesmo UID; o vínculo entre eles ocorre porque todos leem e gravam o documento compartilhado `sharedWorkspaces/main`. Como não há allowlist nem login visível, o projeto deve ser tratado como uma operação privada por endereço. Não compartilhe o link publicamente.
 
 ## Configuração do Firebase
 
-No [Firebase Console](https://console.firebase.google.com/), abra o projeto `rainhadascapas-5a49a` e habilite **Authentication → Sign-in method → Google**. Em **Authentication → Settings → Authorized domains**, adicione o domínio do GitHub Pages, normalmente `yurihbo.github.io`, e qualquer domínio personalizado utilizado posteriormente.
+No [Firebase Console](https://console.firebase.google.com/), abra o projeto `rainhadascapas-5a49a` e habilite **Authentication → Sign-in method → Anonymous**. Em **Authentication → Settings → Authorized domains**, mantenha o domínio do GitHub Pages, normalmente `yurihbo.github.io`, e qualquer domínio personalizado utilizado posteriormente.
 
-Em **Firestore Database → Rules**, publique o conteúdo de `firestore.rules`. As regras negam sessões anônimas, contas fora da allowlist e qualquer caminho que não seja `sharedWorkspaces/main`. A aplicação não deve voltar a habilitar Anonymous Auth como mecanismo de acesso.
+Em **Firestore Database → Rules**, publique o conteúdo de `firestore.rules`. As regras aceitam apenas sessões anônimas no documento `sharedWorkspaces/main` e negam qualquer outro caminho. O Firestore deve continuar habilitado para o documento compartilhado.
 
-A configuração pública do Firebase é lida por variáveis Vite. Os valores podem ficar no ambiente de build do GitHub Actions porque não são credenciais privadas; a proteção real está nas regras do Firestore e na lista de contas autorizadas.
+A configuração pública do Firebase é lida por variáveis Vite. Os valores podem ficar no ambiente de build do GitHub Actions porque não são credenciais privadas; a proteção operacional está nas regras do Firestore e no caráter privado do endereço.
 
 | Variável | Finalidade |
 |---|---|
@@ -54,18 +55,18 @@ pnpm run build
 pnpm dev
 ```
 
-O desenvolvimento abre a aplicação em `http://localhost:3000`. Para testar o login localmente, adicione `localhost` aos domínios autorizados do Firebase. O login Google usa popup e pode exigir que o navegador permita popups para o endereço local.
+O desenvolvimento abre a aplicação em `http://localhost:3000`. Para testar o acesso localmente, adicione `localhost` aos domínios autorizados do Firebase. O aplicativo inicia Anonymous Auth automaticamente, sem popup ou ação de login.
 
 ## Publicação no GitHub Pages
 
 O workflow `.github/workflows/deploy-pages.yml` instala as dependências, gera o build estático e publica o diretório de saída no Pages. A aplicação utiliza `import.meta.env.BASE_URL` para calcular o caminho do manifesto e do service worker quando o endereço contém `/Rainhadascapas/`.
 
-Após a publicação, abra o endereço do Pages, selecione **Entrar com Google** e use uma das contas autorizadas. Uma conta fora da allowlist será desconectada imediatamente e não conseguirá ler nem gravar o Firestore.
+Após a publicação, abra o endereço do Pages. O acesso será iniciado automaticamente, sem botão de login. Em dois dispositivos, faça uma alteração em um deles e confirme que ela aparece no outro pelo listener do Firestore.
 
 ## Operação compartilhada e perfil
 
-As alterações em revendedores, itens, pagamentos e catálogo são gravadas no workspace principal e distribuídas pelo listener do Firestore aos usuários autorizados. O módulo **Meu perfil** permite alterar nome e foto; a foto é recortada para quadrado e comprimida no navegador antes do salvamento local. **Configurações** mantém notificações, atualização do PWA e a alternância persistente entre modo claro e modo escuro premium.
+As alterações em revendedores, itens, pagamentos e catálogo são gravadas no workspace principal e distribuídas pelo listener do Firestore aos dispositivos conectados. O perfil, a foto e o logo de PDF são configurações locais do aparelho. O módulo **Meu perfil** permite alterar nome e foto; a foto é recortada para quadrado e comprimida no navegador antes do salvamento local. **Configurações** mantém notificações, atualização do PWA e a alternância persistente entre modo claro e modo escuro premium.
 
 ## Validação
 
-A validação local atual inclui typecheck, build de produção e oito testes Vitest. Ainda é necessário concluir no Firebase Console a habilitação do provedor Google e a publicação da versão atual de `firestore.rules`, caso essas duas ações ainda não tenham sido feitas após esta alteração. Depois disso, valide com duas contas autorizadas em navegadores diferentes: uma alteração de pagamento ou cadastro deve aparecer sem recarregar a página.
+A validação local inclui typecheck, build de produção e testes Vitest. No Firebase Console, confirme a habilitação de Anonymous Auth e publique `firestore.rules`. Depois, abra o mesmo endereço em dois dispositivos: uma alteração de pagamento, cadastro ou mercadoria deve aparecer no outro sem recarregar a página.

@@ -47,7 +47,7 @@ describe("shared persistence safeguards", () => {
     expect(home).toContain('removido com sucesso');
   });
 
-  it("serializes Firestore writes and keeps the standalone iOS screen stable", () => {
+  it("serializes Firestore writes and starts anonymous access automatically", () => {
     const workspace = readFileSync(resolve(process.cwd(), "client/src/lib/sharedWorkspace.ts"), "utf8");
     const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
     expect(workspace).toContain("writeQueueRef");
@@ -55,18 +55,13 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("updatedBy");
     expect(workspace).toContain("indexedDBLocalPersistence");
     expect(workspace).toContain("browserLocalPersistence");
-    expect(workspace).toContain("signInWithRedirect(firebaseAuth, provider)");
-    expect(workspace).toContain("if (isIos())");
-    expect(workspace).toContain("signInWithPopup(firebaseAuth, provider)");
-    expect(workspace).toContain("auth/popup-blocked");
-    expect(workspace).toContain("getRedirectResult(firebaseAuth)");
-    expect(workspace).toContain("else if (redirectResolved) acceptUser(null)");
-    expect(workspace).toContain("display-mode: standalone");
-    expect(home).toContain("const iosStandalone");
-    expect(home).toContain("Use o Safari para entrar");
-    expect(home).toContain("Não toque em um botão de login nesta tela");
-    expect(home).toContain("https://yurihbo.github.io/Rainhadascapas/");
+    expect(workspace).toContain("signInAnonymously(firebaseAuth)");
+    expect(workspace).toContain("export function useAnonymousSession");
+    expect(workspace).not.toContain("GoogleAuthProvider");
+    expect(workspace).not.toContain("signInWithPopup");
+    expect(workspace).not.toContain("signInWithRedirect");
+    expect(home).not.toContain("Entrar com Google");
+    expect(home).not.toContain("Use o Safari para entrar");
     expect(home).not.toContain("auth=browser");
-    expect(home).not.toContain("Copiar link para o Safari");
   });
 });

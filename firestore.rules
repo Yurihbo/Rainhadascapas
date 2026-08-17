@@ -1,21 +1,15 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isAllowedUser() {
+    function isAnonymousClient() {
       return request.auth != null
-        && request.auth.token.firebase.sign_in_provider != 'anonymous'
-        && request.auth.token.email in [
-          'yuridesousasilva@gmail.com',
-          'amanda.mds171@gmail.com',
-          'rainhadascapas35@gmail.com',
-          'orlando_soscelular@gmail.com',
-          'yurihbo2@gmail.com'
-        ];
+        && request.auth.token.firebase.sign_in_provider == 'anonymous';
     }
 
     match /sharedWorkspaces/main {
-      // O workspace é privado por e-mail; a validação estrutural fica no cliente para não bloquear a criação e a reconciliação offline.
-      allow read, create, update: if isAllowedUser();
+      // Operação privada por link: o app autentica cada dispositivo anonimamente.
+      // A identidade anônima autoriza o cliente sem expor tela de login.
+      allow read, create, update: if isAnonymousClient();
       allow delete: if false;
     }
 
