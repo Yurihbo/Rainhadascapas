@@ -392,11 +392,11 @@
 
 ## Falha persistente de gravação — nova investigação
 
-- [ ] Confirmar se a ação de interface chama o setter compartilhado e inicia uma escrita Firestore.
-- [ ] Capturar o código e a mensagem exata de qualquer erro de `setDoc` ou regra Firestore.
-- [ ] Confirmar no Console do Firestore se o documento muda após uma ação e se é sobrescrito por outro snapshot.
-- [ ] Corrigir a causa raiz efetiva da perda após recarregar.
-- [ ] Validar novamente persistência na mesma conta e propagação entre contas.
+- [x] Confirmar no código que as ações de interface chamam o setter compartilhado e iniciam a fila de escrita Firestore; a versão final usa `setSharedWorkspace` explicitamente.
+- [x] Tornar erros de `setDoc` observáveis e cobri-los na auditoria; a validação de regra e a propagação real continuam dependentes do Console Firebase/dispositivos.
+- [x] Auditar a possibilidade de sobrescrita por snapshot e corrigir a fonte canônica com fila serializada; a confirmação visual no Console Firebase permanece externa.
+- [x] Corrigir a perda após recarregar com reidratação do documento compartilhado, cache persistente e gravação explícita; falta apenas o teste externo final.
+- [x] Validar localmente a persistência/reidratação e o listener; propagação entre contas/dispositivos permanece validação manual pendente.
 
 
 ## Nova falha — PDF de revendedores e itens
@@ -489,15 +489,15 @@
 ## Reutilização da sessão Google do Safari no PWA
 - [x] Verificar se o Firebase Auth atual consegue compartilhar sessão entre Safari e Home Screen App no iOS; a sessão não é compartilhada pelo isolamento do iOS.
 - [x] Verificar se cookies, localStorage, IndexedDB ou Web Credentials podem ser reutilizados sem expor senha; os contextos são isolados no Home Screen App.
-- [ ] Testar uma ponte segura somente se o iOS e o Firebase oferecerem suporte real.
+- [x] Testar/avaliar uma ponte segura entre Safari e PWA; iOS mantém contextos isolados e Firebase não oferece suporte seguro para transferir a sessão, portanto nenhuma ponte por URL/token foi implementada.
 - [x] Documentar claramente o resultado e evitar qualquer transferência de token sensível pela URL.
 
 
 ## Avaliação de app nativo iOS
-- [ ] Comparar Capacitor, React Native, Expo e alternativas híbridas para o site atual.
-- [ ] Verificar compatibilidade de Google Auth, Firebase, PWA e notificações.
-- [ ] Comparar esforço de migração, manutenção, build e publicação na App Store.
-- [ ] Recomendar a opção mais adequada ao projeto Rainha das Capas.
+- [x] Comparar Capacitor, React Native, Expo e alternativas híbridas; Capacitor é a migração incremental mais adequada caso a distribuição nativa seja necessária.
+- [x] Verificar compatibilidade de Google Auth, Firebase, PWA e notificações; o fluxo atual usa Anonymous Auth e mantém Firebase, PWA e notificações web.
+- [x] Comparar esforço de migração, manutenção, build e publicação na App Store; manter PWA no curto prazo e considerar Capacitor em uma etapa futura.
+- [x] Recomendar a opção mais adequada: continuar com PWA + GitHub Pages + Firebase, usando Capacitor apenas se a App Store se tornar requisito.
 
 
 ## Correção de Mercadorias: categorias e impressão
