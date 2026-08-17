@@ -534,3 +534,10 @@
 - [x] Exibir uma tela estável no atalho, sem popup, redirect ou retorno ao botão de login.
 - [x] Manter o login funcional quando o endereço é aberto diretamente no Safari; o fluxo normal permanece inalterado fora do standalone.
 - [x] Atualizar testes, validar build e publicar a separação entre atalho e Safari.
+
+
+## Feedback e gestão de categorias
+- [x] Exibir notificação visual de sucesso ao criar uma categoria.
+- [x] Permitir editar o nome de qualquer categoria existente.
+- [x] Permitir excluir uma categoria existente com confirmação.
+- [x] Atualizar testes, validar sincronização e publicar no GitHub Pages; typecheck, 16 testes e build passaram, publicação será sincronizada no próximo deploy.

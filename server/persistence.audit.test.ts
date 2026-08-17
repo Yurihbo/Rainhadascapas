@@ -37,6 +37,10 @@ describe("shared persistence safeguards", () => {
     expect(home).toContain('printWindow.document.write(html)');
     expect(home).toContain('Lista de mercadorias');
     expect(home).toContain('Emitido em');
+    expect(home).toContain('Categoria criada com sucesso');
+    expect(home).toContain('Editar categoria');
+    expect(home).toContain('Remover categoria');
+    expect(home).toContain('removido com sucesso');
   });
 
   it("serializes Firestore writes and keeps the standalone iOS screen stable", () => {
