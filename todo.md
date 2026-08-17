@@ -573,3 +573,20 @@
 - [x] Preservar PWA, modo offline e instalação na Tela de Início; cache persistente do Firestore foi ativado.
 - [x] Validar 15 testes, typecheck e build; sincronização entre clientes depende da ativação do Anonymous Auth e das regras no Firebase Console.
 - [x] Publicar no repositório e no GitHub Pages e salvar checkpoint; commit 3bf3eb9 e workflow 32068002493 concluídos. A ativação do Anonymous Auth e a publicação efetiva das regras no Firebase Console ainda dependem do console.
+
+## Limpeza final após migração Anonymous Auth
+- [x] Remover scripts temporários de migração, correção e diagnóstico sem uso no build.
+- [x] Reexecutar Vitest (15), typecheck e build após a limpeza.
+- [ ] Validar manualmente o fluxo compartilhado em dois dispositivos e a instalação/abertura PWA no aparelho do usuário.
+- [ ] Confirmar no Firebase Console a ativação de Anonymous Auth e a publicação efetiva de `firestore.rules`.
+- [x] Publicar a limpeza no repositório e no GitHub Pages após validação local.
+
+## Avaliação registrada de app nativo iOS
+- [x] Comparar Capacitor, React Native, Expo e alternativas híbridas para o site atual; Capacitor é a migração incremental mais adequada.
+- [x] Verificar compatibilidade de Firebase, PWA e notificações; Google Auth não faz mais parte do fluxo atual e Anonymous Auth funciona no contexto web/PWA.
+- [x] Comparar esforço de migração, manutenção, build e publicação na App Store; manter PWA no curto prazo e considerar Capacitor apenas se a distribuição nativa for necessária.
+- [x] Recomendar a opção mais adequada ao projeto Rainha das Capas: continuar com PWA + GitHub Pages + Firebase, com Capacitor como próxima etapa opcional.
+
+## Pendências antigas de validação externa
+- [ ] Testar conta não autorizada, duas sessões simultâneas e ponte Safari/PWA em aparelhos reais; essas verificações dependem do Firebase Console e dos dispositivos do usuário.
+- [x] Remover referências de login Google e autenticação visual do fluxo ativo; somente documentação histórica permanece no checklist.
