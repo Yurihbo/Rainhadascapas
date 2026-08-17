@@ -509,10 +509,10 @@
 
 
 ## Sincronização da correção de Mercadorias no GitHub Pages
-- [ ] Confirmar estado local e remoto de `Yurihbo/Rainhadascapas`.
-- [ ] Enviar a correção de categorias e impressão ao branch publicado.
-- [ ] Acompanhar o workflow do GitHub Pages.
-- [ ] Validar no bundle público a nova categoria e a impressão da loja.
+- [x] Confirmar estado local e remoto de `Yurihbo/Rainhadascapas`.
+- [x] Enviar a correção de categorias e impressão ao branch publicado; commit 6838cf1.
+- [x] Acompanhar o workflow do GitHub Pages; workflow 32060953437 concluído com sucesso.
+- [x] Validar no bundle público a nova categoria e a impressão da loja; bundle assets/index-CQcXAdSQ.js confirmado.
 ## Correção do botão Abrir no Safari no iPhone
 - [x] Auditar o handler do botão de recuperação e a URL usada no contexto PWA iOS.
 - [x] Substituir a abertura que pisca tela branca por handoff compatível com Safari, sem depender de popup bloqueado.
