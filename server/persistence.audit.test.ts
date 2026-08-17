@@ -33,8 +33,12 @@ describe("shared persistence safeguards", () => {
   it("keeps merchandise category creation and store printing wired", () => {
     const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
     expect(home).toContain('onClick={addCategory}><Plus size={14} /> Nova categoria');
-    expect(home).toContain('const printWindow = window.open("", "_blank", "noopener,noreferrer,width=900,height=700")');
+    expect(home).toContain('const printWindow = window.open("", "_blank", "width=900,height=700")');
     expect(home).toContain('printWindow.document.write(html)');
+    expect(home).toContain('printWindow.document.open()');
+    expect(home).toContain('printWindow.addEventListener("load", () => setTimeout(printReadyDocument, 250), { once: true })');
+    expect(home).toContain('setTimeout(printReadyDocument, 1200)');
+    expect(home).toContain('Permita janelas pop-up para imprimir a lista');
     expect(home).toContain('Lista de mercadorias');
     expect(home).toContain('Emitido em');
     expect(home).toContain('Categoria criada com sucesso');

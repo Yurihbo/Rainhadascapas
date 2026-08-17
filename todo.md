@@ -541,3 +541,10 @@
 - [x] Permitir editar o nome de qualquer categoria existente.
 - [x] Permitir excluir uma categoria existente com confirmação.
 - [x] Atualizar testes, validar sincronização e publicar no GitHub Pages; typecheck, 16 testes e build passaram, workflow 32061714910 concluído e bundle público validado.
+
+
+## Correção da impressão branca de Mercadorias
+- [x] Garantir que a janela de impressão receba os dados da loja selecionada.
+- [x] Aguardar o carregamento do conteúdo antes de imprimir e impedir chamadas duplicadas.
+- [x] Adicionar fallback visual informando a necessidade de permitir janelas pop-up quando a janela não puder abrir.
+- [x] Atualizar testes e validar typecheck, 16 testes e build; publicação de Loja 01 e Loja 02 será conferida no bundle público.
