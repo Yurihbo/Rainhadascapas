@@ -592,3 +592,9 @@
 - [x] Remover referências de login Google e autenticação visual do fluxo ativo; somente documentação histórica permanece no checklist.
 
 - [x] Confirmar Authentication → Anonymous habilitado e publicar as regras no editor Firestore Rules; histórico do Console mostra a publicação e a leitura anônima retornou HTTP 200.
+
+## Correção solicitada — semana administrativa unificada
+- [x] Auditar e corrigir a semana exibida na seleção/detalhe de Revendedores para usar o mesmo cálculo da aba Semanas; o detalhe agora exibe a mesma etiqueta administrativa do calendário.
+- [x] Garantir que a aba Semanas gere automaticamente a semana atual e mantenha as semanas anteriores consultáveis conforme o calendário avance; o histórico usa a mesma fonte e atualiza a cada minuto.
+- [x] Cobrir a numeração esperada para 17/08/2026: mês 08 · semana 03, além de validar dia 22 como semana 04 e 01/09 como mês 09 · semana 01.
+- [ ] Executar testes, typecheck e build concluídos (18 testes passando); publicar a correção no GitHub Pages após salvar o checkpoint.
