@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+const home = 'client/src/pages/Home.tsx';
+fs.writeFileSync(home, fs.readFileSync(home, 'utf8').replace(/\n>>>>>>> github\/main\n/g, '\n'));
+const testPath = 'server/persistence.audit.test.ts';
+let test = fs.readFileSync(testPath, 'utf8');
+test = test.replace(/<<<<<<< HEAD\n=======\n([\s\S]*?)>>>>>>> github\/main\n/, '$1');
+fs.writeFileSync(testPath, test);
+const todoPath = 'todo.md';
+let todo = fs.readFileSync(todoPath, 'utf8');
+todo = todo.replace(/\n>>>>>>> github\/main\n/g, '\n');
+fs.writeFileSync(todoPath, todo);
+console.log('Remaining merge markers repaired.');

@@ -486,7 +486,6 @@
 - [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
 - [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
 
-
 ## Reutilização da sessão Google do Safari no PWA
 - [x] Verificar se o Firebase Auth atual consegue compartilhar sessão entre Safari e Home Screen App no iOS; a sessão não é compartilhada pelo isolamento do iOS.
 - [x] Verificar se cookies, localStorage, IndexedDB ou Web Credentials podem ser reutilizados sem expor senha; os contextos são isolados no Home Screen App.
@@ -514,3 +513,24 @@
 - [ ] Enviar a correção de categorias e impressão ao branch publicado.
 - [ ] Acompanhar o workflow do GitHub Pages.
 - [ ] Validar no bundle público a nova categoria e a impressão da loja.
+## Correção do botão Abrir no Safari no iPhone
+- [x] Auditar o handler do botão de recuperação e a URL usada no contexto PWA iOS.
+- [x] Substituir a abertura que pisca tela branca por handoff compatível com Safari, sem depender de popup bloqueado.
+- [x] Adicionar fallback visível para copiar/abrir o endereço quando o iOS não permitir a troca automática.
+- [x] Cobrir a nova lógica com teste de auditoria e validar build; a validação física no iPhone ainda depende do teste do usuário.
+- [x] Publicar checkpoint da correção e orientar novo teste físico; deploy 31934194399 concluído e bundle público validado, aguardando apenas o teste físico.
+
+
+## Regressão do handoff iOS publicado
+- [x] Remover a URL artificial `?auth=browser` que estava levando o retorno do Google a uma tela branca com código.
+- [x] Corrigir a composição da tela de recuperação para eliminar botões e conteúdo sobrepostos.
+- [x] Restaurar um fluxo de autenticação compatível com a rota base real do GitHub Pages.
+- [x] Atualizar os testes de auditoria, validar typecheck, testes e build.
+- [x] Publicar a correção e validar o bundle público antes de orientar novo teste no iPhone; deploy 31935074311 concluído e bundle público sem `auth=browser`.
+
+
+## Loop reproduzido no atalho da Tela de Início do iPhone
+- [x] Impedir que o ícone instalado tente autenticar Google dentro do contexto standalone.
+- [x] Exibir uma tela estável no atalho, sem popup, redirect ou retorno ao botão de login.
+- [x] Manter o login funcional quando o endereço é aberto diretamente no Safari; o fluxo normal permanece inalterado fora do standalone.
+- [x] Atualizar testes, validar build e publicar a separação entre atalho e Safari.
