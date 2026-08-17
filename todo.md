@@ -572,4 +572,4 @@
 - [x] Atualizar o arquivo `firestore.rules` para aceitar somente usuários anônimos no workspace compartilhado; publicação no Firebase Console permanece necessária.
 - [x] Preservar PWA, modo offline e instalação na Tela de Início; cache persistente do Firestore foi ativado.
 - [x] Validar 15 testes, typecheck e build; sincronização entre clientes depende da ativação do Anonymous Auth e das regras no Firebase Console.
-- [ ] Publicar no repositório e no GitHub Pages e salvar checkpoint.
+- [x] Publicar no repositório e no GitHub Pages e salvar checkpoint; commit 3bf3eb9 e workflow 32068002493 concluídos. A ativação do Anonymous Auth e a publicação efetiva das regras no Firebase Console ainda dependem do console.
