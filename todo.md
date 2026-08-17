@@ -507,3 +507,10 @@
 - [x] Corrigir o botão de impressão para gerar a lista da loja selecionada em janela isolada.
 - [x] Padronizar a lista impressa com layout objetivo, compacto e legível.
 - [x] Validar typecheck, 16 testes e build; a conferência manual dos dois botões de loja permanece recomendada.
+
+
+## Sincronização da correção de Mercadorias no GitHub Pages
+- [ ] Confirmar estado local e remoto de `Yurihbo/Rainhadascapas`.
+- [ ] Enviar a correção de categorias e impressão ao branch publicado.
+- [ ] Acompanhar o workflow do GitHub Pages.
+- [ ] Validar no bundle público a nova categoria e a impressão da loja.
