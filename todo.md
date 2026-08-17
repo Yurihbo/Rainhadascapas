@@ -478,33 +478,6 @@
 - [x] Validar no PWA instalado e publicar checkpoint da correção; validação automatizada e deploy concluídos, confirmação física no aparelho permanece necessária.
 
 
-## Falha persistente: autenticação no PWA iOS continua em loop
-
-- [x] Registrar um estado de recuperação visível quando o retorno Google não restaurar a sessão no PWA.
-- [x] Implementar fluxo iOS com autenticação no Safari e retorno explícito ao PWA, evitando depender de storage compartilhado entre contextos.
-- [x] Impedir que falha de restauração silenciosamente renderize novamente o botão de login sem diagnóstico.
-- [x] Preservar login normal no Safari móvel e no desktop.
-- [x] Testar, publicar e criar checkpoint da correção final; testes automatizados e deploy concluídos, confirmação física no iPhone permanece recomendada.
-
-
-## Estratégia escolhida: autenticação do PWA iOS via Safari
-
-- [x] Detectar o PWA standalone no iPhone antes de iniciar o fluxo Google.
-- [x] Substituir o loop por uma tela de recuperação com instruções claras.
-- [x] Adicionar botão para abrir a mesma aplicação no Safari e continuar o login.
-- [x] Preservar o login normal no Safari móvel, desktop e Android.
-- [x] Testar, publicar e criar checkpoint da alteração; testes automatizados e deploy concluídos, confirmação física no iPhone permanece recomendada.
-
-
-## Solução final: atalho iOS em modo navegador
-
-- [x] Auditar manifesto, service worker, base path, origem e fluxo de callback usados pelo PWA instalado.
-- [x] Implementar handoff controlado para autenticação fora do contexto standalone, sem reset silencioso.
-- [x] Exibir diagnóstico de recuperação quando a sessão não for restaurada.
-- [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
-- [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
-
-
 ## Nova tentativa após limpeza sem efeito
 
 - [x] Auditar manifesto, service worker, base path, origem e fluxo de callback usados pelo PWA instalado.
@@ -513,24 +486,24 @@
 - [x] Validar Safari, PWA instalado e preservação do login no desktop; testes automatizados e deploy concluídos, reinstalação física do atalho permanece necessária.
 - [x] Publicar a tentativa e criar checkpoint para novo teste no iPhone.
 
-## Correção do botão Abrir no Safari no iPhone
-- [x] Auditar o handler do botão de recuperação e a URL usada no contexto PWA iOS.
-- [x] Substituir a abertura que pisca tela branca por handoff compatível com Safari, sem depender de popup bloqueado.
-- [x] Adicionar fallback visível para copiar/abrir o endereço quando o iOS não permitir a troca automática.
-- [x] Cobrir a nova lógica com teste de auditoria e validar build; a validação física no iPhone ainda depende do teste do usuário.
-- [x] Publicar checkpoint da correção e orientar novo teste físico; deploy 31934194399 concluído e bundle público validado, aguardando apenas o teste físico.
+
+## Reutilização da sessão Google do Safari no PWA
+- [x] Verificar se o Firebase Auth atual consegue compartilhar sessão entre Safari e Home Screen App no iOS; a sessão não é compartilhada pelo isolamento do iOS.
+- [x] Verificar se cookies, localStorage, IndexedDB ou Web Credentials podem ser reutilizados sem expor senha; os contextos são isolados no Home Screen App.
+- [ ] Testar uma ponte segura somente se o iOS e o Firebase oferecerem suporte real.
+- [x] Documentar claramente o resultado e evitar qualquer transferência de token sensível pela URL.
 
 
-## Regressão do handoff iOS publicado
-- [x] Remover a URL artificial `?auth=browser` que estava levando o retorno do Google a uma tela branca com código.
-- [x] Corrigir a composição da tela de recuperação para eliminar botões e conteúdo sobrepostos.
-- [x] Restaurar um fluxo de autenticação compatível com a rota base real do GitHub Pages.
-- [x] Atualizar os testes de auditoria, validar typecheck, testes e build.
-- [x] Publicar a correção e validar o bundle público antes de orientar novo teste no iPhone; deploy 31935074311 concluído e bundle público sem `auth=browser`.
+## Avaliação de app nativo iOS
+- [ ] Comparar Capacitor, React Native, Expo e alternativas híbridas para o site atual.
+- [ ] Verificar compatibilidade de Google Auth, Firebase, PWA e notificações.
+- [ ] Comparar esforço de migração, manutenção, build e publicação na App Store.
+- [ ] Recomendar a opção mais adequada ao projeto Rainha das Capas.
 
 
-## Loop reproduzido no atalho da Tela de Início do iPhone
-- [x] Impedir que o ícone instalado tente autenticar Google dentro do contexto standalone.
-- [x] Exibir uma tela estável no atalho, sem popup, redirect ou retorno ao botão de login.
-- [x] Manter o login funcional quando o endereço é aberto diretamente no Safari; o fluxo normal permanece inalterado fora do standalone.
-- [x] Atualizar testes, validar build e publicar a separação entre atalho e Safari.
+## Correção de Mercadorias: categorias e impressão
+- [x] Corrigir criação de categorias, incluindo nomes como “iPhone”, para Loja 01 e Loja 02.
+- [x] Simplificar o fluxo de cadastro de categoria, subcategoria e item; o botão Nova categoria agora fica sempre visível na loja selecionada.
+- [x] Corrigir o botão de impressão para gerar a lista da loja selecionada em janela isolada.
+- [x] Padronizar a lista impressa com layout objetivo, compacto e legível.
+- [x] Validar typecheck, 16 testes e build; a conferência manual dos dois botões de loja permanece recomendada.

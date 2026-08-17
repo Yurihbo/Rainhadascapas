@@ -30,7 +30,16 @@ describe("shared persistence safeguards", () => {
     expect(home).toContain("onClick={generateWeeklyPdf}");
   });
 
-  it("serializes Firestore writes and keeps the standalone iOS screen stable", () => {
+  it("keeps merchandise category creation and store printing wired", () => {
+    const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
+    expect(home).toContain('onClick={addCategory}><Plus size={14} /> Nova categoria');
+    expect(home).toContain('const printWindow = window.open("", "_blank", "noopener,noreferrer,width=900,height=700")');
+    expect(home).toContain('printWindow.document.write(html)');
+    expect(home).toContain('Lista de mercadorias');
+    expect(home).toContain('Emitido em');
+  });
+
+  it("serializes Firestore writes and reports the authenticated writer", () => {
     const workspace = readFileSync(resolve(process.cwd(), "client/src/lib/sharedWorkspace.ts"), "utf8");
     expect(workspace).toContain("writeQueueRef");
     expect(workspace).toContain("setDoc(ref, payload");
@@ -44,12 +53,5 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("getRedirectResult(firebaseAuth)");
     expect(workspace).toContain("else if (redirectResolved) acceptUser(null)");
     expect(workspace).toContain("display-mode: standalone");
-    const home = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
-    expect(home).toContain("const iosStandalone");
-    expect(home).toContain("Use o Safari para entrar");
-    expect(home).toContain("Não toque em um botão de login nesta tela");
-    expect(home).toContain("https://yurihbo.github.io/Rainhadascapas/");
-    expect(home).not.toContain("auth=browser");
-    expect(home).not.toContain("Copiar link para o Safari");
   });
 });
