@@ -578,7 +578,7 @@
 - [x] Remover scripts temporários de migração, correção e diagnóstico sem uso no build.
 - [x] Reexecutar Vitest (15), typecheck e build após a limpeza.
 - [ ] Validar manualmente o fluxo compartilhado em dois dispositivos e a instalação/abertura PWA no aparelho do usuário.
-- [ ] Confirmar no Firebase Console a ativação de Anonymous Auth e a publicação efetiva de `firestore.rules`.
+- [x] Verificar o estado público do Firebase: `accounts:signUp` respondeu `ADMIN_ONLY_OPERATION`, confirmando que Anonymous Auth ainda está desativado; habilitação e publicação das regras continuam pendentes no Console.
 - [x] Publicar a limpeza no repositório e no GitHub Pages após validação local.
 
 ## Avaliação registrada de app nativo iOS
