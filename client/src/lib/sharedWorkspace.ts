@@ -1,4 +1,4 @@
-import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getDocFromCache, onSnapshot, setDoc } from "firebase/firestore";
 import { browserLocalPersistence, indexedDBLocalPersistence, onAuthStateChanged, setPersistence, signInAnonymously, signOut, type User } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { firebaseAuth, firestore } from "./firebase";
@@ -17,6 +17,16 @@ export function stripUndefined<T>(value: T): T {
     return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined).map(([key, item]) => [key, stripUndefined(item)])) as T;
   }
   return value;
+}
+
+export async function readCachedWorkspace(): Promise<WorkspaceData | null> {
+  try {
+    const snapshot = await getDocFromCache(doc(firestore, "sharedWorkspaces", "main"));
+    return snapshot.exists() ? snapshot.data() as WorkspaceData : null;
+  } catch (error) {
+    console.warn("[sharedWorkspace] cache read unavailable", error);
+    return null;
+  }
 }
 
 export function reconcileWorkspaceData(data: WorkspaceData | undefined, current: WorkspaceData): WorkspaceData {
