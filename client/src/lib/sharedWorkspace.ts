@@ -10,6 +10,14 @@ export type SharedSeller = { clientId?: string; name: string; initials: string; 
 export type SharedCatalogStore = { id: string; name: string; categories: Array<{ id: string; name: string; subcategories: Array<{ id: string; name: string; items: Array<{ id: string; name: string }> }> }> };
 export type SharedReport = { id: string; title: string; type: string; week: string; createdAt: number };
 export type WorkspaceData = { sellers?: SharedSeller[]; catalog?: SharedCatalogStore[]; reports?: SharedReport[] };
+export type LocalWorkspaceChange = { savedAt: string; previous: WorkspaceData; next: WorkspaceData };
+
+export function readLocalWorkspaceHistory(userId: string): LocalWorkspaceChange[] {
+  try {
+    const raw = localStorage.getItem(`rainha-workspace-history-${userId}`);
+    return raw ? JSON.parse(raw) as LocalWorkspaceChange[] : [];
+  } catch { return []; }
+}
 
 export function stripUndefined<T>(value: T): T {
   if (Array.isArray(value)) return value.map((item) => stripUndefined(item)).filter((item) => item !== undefined) as T;
@@ -157,8 +165,19 @@ export function useSharedWorkspace(_seedSellers: SharedSeller[], _seedCatalog: S
     return () => { active = false; unsubscribe(); };
   }, [session.user, ref]);
 
-  const persist = useCallback((nextSellers: SharedSeller[], nextCatalog: SharedCatalogStore[], nextReports = reportsRef.current) => {
+  const persist = useCallback((nextSellers: SharedSeller[], nextCatalog: SharedCatalogStore[], nextReports = reportsRef.current, previous: WorkspaceData = { sellers: sellersRef.current, catalog: catalogRef.current, reports: reportsRef.current }) => {
     if (!session.user || !ready) return;
+    if (previous.sellers && previous.sellers.length > 0 && nextSellers.length === 0) {
+      setSyncError("Gravação bloqueada: a lista inteira seria apagada. Confirme a remoção individual antes de continuar.");
+      return;
+    }
+    const nextWorkspace: WorkspaceData = { sellers: nextSellers, catalog: nextCatalog, reports: nextReports };
+    try {
+      const key = `rainha-workspace-history-${session.user.uid}`;
+      const existing = readLocalWorkspaceHistory(session.user.uid);
+      const history = [{ savedAt: new Date().toISOString(), previous: stripUndefined(previous), next: stripUndefined(nextWorkspace) }, ...existing].slice(0, 50);
+      localStorage.setItem(key, JSON.stringify(history));
+    } catch (error) { console.warn("[sharedWorkspace] local snapshot unavailable", error); }
     const payload = stripUndefined({ sellers: nextSellers, catalog: nextCatalog, reports: nextReports, updatedAt: Date.now(), updatedBy: session.user.uid });
     writeQueueRef.current = writeQueueRef.current
       .catch(() => undefined)
@@ -175,24 +194,27 @@ export function useSharedWorkspace(_seedSellers: SharedSeller[], _seedCatalog: S
 
   const updateSellers = useCallback((updater: SharedSeller[] | ((current: SharedSeller[]) => SharedSeller[])) => {
     if (!ready) return;
+    const previous: WorkspaceData = { sellers: sellersRef.current, catalog: catalogRef.current, reports: reportsRef.current };
     const next = typeof updater === "function" ? (updater as (current: SharedSeller[]) => SharedSeller[])(sellersRef.current) : updater;
     sellersRef.current = next;
     setSellers(next);
-    persist(next, catalogRef.current);
+    persist(next, catalogRef.current, reportsRef.current, previous);
   }, [persist, ready]);
   const updateCatalog = useCallback((updater: SharedCatalogStore[] | ((current: SharedCatalogStore[]) => SharedCatalogStore[])) => {
     if (!ready) return;
+    const previous: WorkspaceData = { sellers: sellersRef.current, catalog: catalogRef.current, reports: reportsRef.current };
     const next = typeof updater === "function" ? (updater as (current: SharedCatalogStore[]) => SharedCatalogStore[])(catalogRef.current) : updater;
     catalogRef.current = next;
     setCatalog(next);
-    persist(sellersRef.current, next, reportsRef.current);
+    persist(sellersRef.current, next, reportsRef.current, previous);
   }, [persist, ready]);
   const updateReports = useCallback((updater: SharedReport[] | ((current: SharedReport[]) => SharedReport[])) => {
     if (!ready) return;
+    const previous: WorkspaceData = { sellers: sellersRef.current, catalog: catalogRef.current, reports: reportsRef.current };
     const next = typeof updater === "function" ? (updater as (current: SharedReport[]) => SharedReport[])(reportsRef.current) : updater;
     reportsRef.current = next;
     setReports(next);
-    persist(sellersRef.current, catalogRef.current, next);
+    persist(sellersRef.current, catalogRef.current, next, previous);
   }, [persist, ready]);
 
   return { sellers, setSellers: updateSellers, catalog, setCatalog: updateCatalog, reports, setReports: updateReports, ready, syncError, session };

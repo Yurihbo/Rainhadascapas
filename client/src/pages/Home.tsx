@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useTheme } from "@/contexts/ThemeContext";
 import { cropAndCompressProfileImage } from "@/lib/profileImage";
 import { getAdministrativeWeeks, getCurrentAdministrativePeriod, type AdministrativeWeek } from "@/lib/calendar";
-import { readCachedWorkspace, useSharedWorkspace, type SharedSeller, type SharedCatalogStore, type SharedReport } from "@/lib/sharedWorkspace";
+import { readCachedWorkspace, readLocalWorkspaceHistory, useSharedWorkspace, type SharedSeller, type SharedCatalogStore, type SharedReport } from "@/lib/sharedWorkspace";
 import {
   Activity,
   Archive,
@@ -359,7 +359,7 @@ export default function Home() {
   const savePdfLogo = (photo?: string) => { setPdfLogo(photo); if (session.user) { const key = `rainha-pdf-logo-${session.user.uid}`; if (photo) localStorage.setItem(key, photo); else localStorage.removeItem(key); } };
   const exportLocalBackup = async () => {
     const cachedWorkspace = await readCachedWorkspace();
-    const payload = { exportedAt: new Date().toISOString(), source: "Rainha das Capas · cópia local", visibleState: { sellers: sellerList, catalog: catalogStores, reports }, firestoreLocalCache: cachedWorkspace, activityHistory: activities };
+    const payload = { exportedAt: new Date().toISOString(), source: "Rainha das Capas · cópia local", visibleState: { sellers: sellerList, catalog: catalogStores, reports }, firestoreLocalCache: cachedWorkspace, activityHistory: activities, localWorkspaceHistory: session.user ? readLocalWorkspaceHistory(session.user.uid) : [] };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
     const url = URL.createObjectURL(blob); const anchor = document.createElement("a");
     anchor.href = url; anchor.download = `rainha-das-capas-backup-${new Date().toISOString().slice(0, 10)}.json`; anchor.click();
