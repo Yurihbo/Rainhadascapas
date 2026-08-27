@@ -24,7 +24,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          if (response.ok) void caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
+          if (response.ok) {
+            const copy = response.clone();
+            void caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => undefined);
+          }
           return response;
         })
         .catch(() => caches.match(request).then((cached) => cached || caches.match(INDEX_URL).then((index) => index || Response.error()))),

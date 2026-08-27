@@ -13,6 +13,12 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /sharedWorkspaces/main/{document=**} {
+      // Subcoleções do modelo individual: sem delete para evitar perdas irreversíveis.
+      allow read, create, update: if isAnonymousClient();
+      allow delete: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
