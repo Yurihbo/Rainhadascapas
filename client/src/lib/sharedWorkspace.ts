@@ -81,9 +81,11 @@ export function useAnonymousSession() {
   return { user, loading, error, signIn: ensureAnonymousUser, logout, isAdmin: false, isIosStandalone: isIosStandaloneContext() };
 }
 
-export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: SharedCatalogStore[]) {
-  const [sellers, setSellers] = useState(seedSellers);
-  const [catalog, setCatalog] = useState(seedCatalog);
+export function useSharedWorkspace(_seedSellers: SharedSeller[], _seedCatalog: SharedCatalogStore[]) {
+  // Nunca inicializar o estado persistido com dados demonstrativos. Um snapshot
+  // ausente deve permanecer vazio até uma ação explícita do usuário.
+  const [sellers, setSellers] = useState<SharedSeller[]>([]);
+  const [catalog, setCatalog] = useState<SharedCatalogStore[]>([]);
   const [reports, setReports] = useState<SharedReport[]>([]);
   const [ready, setReady] = useState(false);
   const [syncError, setSyncError] = useState<string | null>(null);
@@ -102,20 +104,20 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
     setSyncError(null);
     if (!session.user) return;
     let active = true;
-    let creating = false;
     const applySnapshot = (snapshot: { exists: () => boolean; data: () => Record<string, unknown> | undefined; metadata?: { fromCache?: boolean; hasPendingWrites?: boolean } }) => {
       if (!snapshot.exists()) {
-        if (creating) return;
-        creating = true;
-        const initialSellers = sellersRef.current.length ? sellersRef.current : seedSellers;
-        const initialCatalog = catalogRef.current.length ? catalogRef.current : seedCatalog;
-        const initialReports = reportsRef.current;
-        void setDoc(ref, { sellers: initialSellers, catalog: initialCatalog, reports: initialReports, updatedAt: Date.now(), updatedBy: session.user?.uid ?? "anonymous" }, { merge: true })
-          .then(() => { if (active) setReady(true); })
-          .catch((error) => {
-            console.error("[sharedWorkspace] creation error", error);
-            if (active) { setSyncError("Não foi possível criar o espaço compartilhado. Verifique as regras do Firebase."); setReady(true); }
-          });
+        // Ausência não é permissão para publicar seeds. Isso evita que uma
+        // sessão nova/offline substitua um workspace real com dados de teste.
+        if (active) {
+          sellersRef.current = [];
+          catalogRef.current = [];
+          reportsRef.current = [];
+          setSellers([]);
+          setCatalog([]);
+          setReports([]);
+          setSyncError("O espaço compartilhado ainda não existe. Nenhum dado de teste será gravado automaticamente.");
+          setReady(true);
+        }
         return;
       }
       const reconciled = reconcileWorkspaceData(snapshot.data() as WorkspaceData | undefined, { sellers: sellersRef.current, catalog: catalogRef.current });
@@ -143,11 +145,11 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
       if (active) { setSyncError("Não foi possível ler o espaço compartilhado. Verifique as regras do Firebase."); setReady(true); }
     });
     return () => { active = false; unsubscribe(); };
-  }, [session.user, ref, seedSellers, seedCatalog]);
+  }, [session.user, ref]);
 
   const persist = useCallback((nextSellers: SharedSeller[], nextCatalog: SharedCatalogStore[], nextReports = reportsRef.current) => {
-    if (!session.user) return;
-    const payload = stripUndefined({ sellers: nextSellers, catalog: nextCatalog, reports: nextReports, updatedAt: Date.now(), updatedBy: session.user.email ?? session.user.uid });
+    if (!session.user || !ready) return;
+    const payload = stripUndefined({ sellers: nextSellers, catalog: nextCatalog, reports: nextReports, updatedAt: Date.now(), updatedBy: session.user.uid });
     writeQueueRef.current = writeQueueRef.current
       .catch(() => undefined)
       .then(async () => {
@@ -159,26 +161,29 @@ export function useSharedWorkspace(seedSellers: SharedSeller[], seedCatalog: Sha
         console.error("[sharedWorkspace] write error", { code: error?.code, message: error?.message, user: session.user?.email });
         setSyncError("A alteração não foi salva no espaço compartilhado. Verifique sua conexão e as regras do Firebase.");
       });
-  }, [ref, session.user]);
+  }, [ready, ref, session.user]);
 
   const updateSellers = useCallback((updater: SharedSeller[] | ((current: SharedSeller[]) => SharedSeller[])) => {
+    if (!ready) return;
     const next = typeof updater === "function" ? (updater as (current: SharedSeller[]) => SharedSeller[])(sellersRef.current) : updater;
     sellersRef.current = next;
     setSellers(next);
     persist(next, catalogRef.current);
-  }, [persist]);
+  }, [persist, ready]);
   const updateCatalog = useCallback((updater: SharedCatalogStore[] | ((current: SharedCatalogStore[]) => SharedCatalogStore[])) => {
+    if (!ready) return;
     const next = typeof updater === "function" ? (updater as (current: SharedCatalogStore[]) => SharedCatalogStore[])(catalogRef.current) : updater;
     catalogRef.current = next;
     setCatalog(next);
     persist(sellersRef.current, next, reportsRef.current);
-  }, [persist]);
+  }, [persist, ready]);
   const updateReports = useCallback((updater: SharedReport[] | ((current: SharedReport[]) => SharedReport[])) => {
+    if (!ready) return;
     const next = typeof updater === "function" ? (updater as (current: SharedReport[]) => SharedReport[])(reportsRef.current) : updater;
     reportsRef.current = next;
     setReports(next);
     persist(sellersRef.current, catalogRef.current, next);
-  }, [persist]);
+  }, [persist, ready]);
 
   return { sellers, setSellers: updateSellers, catalog, setCatalog: updateCatalog, reports, setReports: updateReports, ready, syncError, session };
 }

@@ -4,13 +4,13 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 describe("shared persistence safeguards", () => {
-  it("does not cache document, script, or stylesheet responses in the service worker", () => {
+  it("caches the PWA shell and static assets for offline startup", () => {
     const serviceWorker = readFileSync(resolve(process.cwd(), "client/public/sw.js"), "utf8");
-    expect(serviceWorker).toContain('request.mode === "navigate"');
-    expect(serviceWorker).toContain('["document", "script", "style"].includes(request.destination)');
-    expect(serviceWorker).toContain('cache: "no-store"');
-    expect(serviceWorker).toContain('const STATIC_DESTINATIONS = new Set(["image", "font", "audio", "video"])');
-    expect(serviceWorker).not.toContain('cache.put(new Request(request');
+    expect(serviceWorker).toContain('const CACHE_NAME = "rainha-das-capas-v5"');
+    expect(serviceWorker).toContain('cache.add(INDEX_URL)');
+    expect(serviceWorker).toContain('const STATIC_DESTINATIONS = new Set(["document", "script", "style", "image", "font", "audio", "video"])');
+    expect(serviceWorker).toContain('cache.put(request, response.clone())');
+    expect(serviceWorker).toContain('caches.match(INDEX_URL)');
   });
 
   it("removes undefined values from nested Firestore payloads", () => {
@@ -53,6 +53,8 @@ describe("shared persistence safeguards", () => {
     expect(workspace).toContain("writeQueueRef");
     expect(workspace).toContain("setDoc(ref, payload");
     expect(workspace).toContain("updatedBy");
+    expect(workspace).toContain("Nenhum dado de teste será gravado automaticamente");
+    expect(workspace).toContain("if (!session.user || !ready) return;");
     expect(workspace).toContain("indexedDBLocalPersistence");
     expect(workspace).toContain("browserLocalPersistence");
     expect(workspace).toContain("signInAnonymously(firebaseAuth)");

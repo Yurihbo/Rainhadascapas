@@ -1,7 +1,7 @@
-const SCOPE = self.registration?.scope || new URL(".", self.location).href;
+const SCOPE = self.registration.scope;
 const INDEX_URL = new URL("index.html", SCOPE).href;
-const CACHE_NAME = "rainha-das-capas-v4";
-const STATIC_DESTINATIONS = new Set(["image", "font", "audio", "video"]);
+const CACHE_NAME = "rainha-das-capas-v5";
+const STATIC_DESTINATIONS = new Set(["document", "script", "style", "image", "font", "audio", "video"]);
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.add(INDEX_URL)).catch(() => undefined));
@@ -18,27 +18,28 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;
-  if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
-
-  // HTML, JavaScript and CSS must always come from the network after deploy.
-  // Hashed assets remain safe because Vite changes their URL on each build.
-  if (request.mode === "navigate" || ["document", "script", "style"].includes(request.destination)) {
+  const url = new URL(request.url);
+  if (request.method !== "GET" || url.origin !== self.location.origin) return;
+  if (request.mode === "navigate") {
     event.respondWith(
-      fetch(new Request(request, { cache: "no-store" }))
-        .then((response) => response)
-        .catch(() => caches.match(INDEX_URL).then((cached) => cached || Response.error())),
+      fetch(request)
+        .then((response) => {
+          if (response.ok) void caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
+          return response;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || caches.match(INDEX_URL).then((index) => index || Response.error()))),
     );
     return;
   }
-
   if (!STATIC_DESTINATIONS.has(request.destination)) return;
   event.respondWith(
-    fetch(request)
-      .then((response) => {
+    caches.match(request).then((cached) => {
+      if (cached) return cached;
+      return fetch(request).then((response) => {
         if (response.ok) void caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
         return response;
-      })
-      .catch(() => caches.match(request).then((cached) => cached || Response.error())),
+      }).catch(() => Response.error());
+    }),
   );
 });
 
